@@ -45,12 +45,12 @@ jobs:
       run: |
           dotnet test --verbosity normal --configuration Release --no-build
 
-    # - name: Archive Git2SemVer.Core NuGet package
-      # uses: actions/upload-artifact@v4
-      # with:
-      #   name: Git2SemVer.MSBuild.nupkg (github run ${{ github.run_number }}.${{ github.run_attempt }})
-      #   path: Git2SemVer.MSBuild/nupkg/*.nupkg
-      #   compression-level: 0
-      #   if-no-files-found: error
+    - name: Archive Git2SemVer.Core NuGet package
+      uses: actions/upload-artifact@v4
+      with:
+        name: Git2SemVer.Core.nupkg (github run ${{ github.run_number }}.${{ github.run_attempt }})
+        path: Git2SemVer.Core/nupkg/*.nupkg
+        compression-level: 0
+        if-no-files-found: error
 
 
