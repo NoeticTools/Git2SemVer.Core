@@ -1,0 +1,16 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+
+  <PropertyGroup>
+
+      <Version Condition=" '$(Version)' != '' ">1.0.0</Version>
+      <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">1.0.0</VersionPrefix>
+      <VersionSuffix Condition=" '$(VersionSuffix)' != '' "></VersionSuffix>
+      <PackageVersion Condition=" '$(PackageVersion)' != '' ">1.0.0</PackageVersion>
+      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">1.0.0+NUC1.1945.main.7e66c1be39fa0bb7c91cccb6f5d05dda4c094435</InformationalVersion>
+      <AssemblyVersion Condition=" '$(AssemblyVersion)' != '' ">1.0.0</AssemblyVersion>
+      <FileVersion Condition=" '$(FileVersion)' != '' ">1.0.0</FileVersion>
+
+  </PropertyGroup>
+
+</Project>
