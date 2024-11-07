@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Testing.Common", "TestingCommon\Testing.Common.csproj", "{94BE20A7-2746-4A31-8D14-D530E37D32F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2Semver.Common", "Git2Semver.Common\Git2Semver.Common.csproj", "{B549FC8E-1E2E-4065-92EE-E0D218FCBAFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.Common", "Git2SemVer.Common\Git2SemVer.Common.csproj", "{B549FC8E-1E2E-4065-92EE-E0D218FCBAFD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97D8-62B8-4C47-9AA3-C6A893117175}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTests", "CommonTests\CommonTests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2Semver.Core", "Git2Semver.Core\Git2Semver.Core.csproj", "{E09BE1EF-7FA9-4C22-9969-0296F5167294}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Core", "Git2Semver.Core\Git2SemVer.Core.csproj", "{E09BE1EF-7FA9-4C22-9969-0296F5167294}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
