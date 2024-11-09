@@ -1,25 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <Git2SemVer_UpdateHostBuildLabel>true</Git2SemVer_UpdateHostBuildLabel>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-  </PropertyGroup>
-
   <ItemGroup>
-    <None Remove="Git2SemVer.csx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Git2SemVer.csx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="NoeticTools.Git2SemVer.MSBuild" Version="1.0.0-alpha.327" />
+    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="1.1.0-alpha.340" />
   </ItemGroup>
 
 </Project>

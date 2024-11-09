@@ -1,32 +1,32 @@
 {
   "Rev": 1,
   "Git2SemVerVersionInfo": {
-    "AssemblyVersion": "1.0.0",
+    "AssemblyVersion": "0.1.0",
     "BuildContext": "NUC1",
-    "BuildNumber": "1945",
-    "BuildSystemVersion": "1.0.0",
-    "FileVersion": "1.0.0",
+    "BuildNumber": "2871",
+    "BuildSystemVersion": "0.1.0-alpha-InitialDev.NUC1.2871",
+    "FileVersion": "0.1.0",
     "Git": {
       "$type": "GitOutputs",
-      "BranchName": "main",
-      "CommitsSinceLastRelease": 7,
-      "HasLocalChanges": false,
+      "BranchName": "testing-solution-versioning",
+      "CommitsSinceLastRelease": 19,
+      "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "7e66c1be39fa0bb7c91cccb6f5d05dda4c094435",
+          "Id": "2383902d3f358a1e50fa73257a7df55ced6f0816",
           "ObfuscatedSha": "0002",
-          "ShortSha": "7e66c1b"
+          "ShortSha": "2383902"
         },
         "ReleasedVersion": null,
-        "Summary": "build: update Git2SemVer.MSBuild for self versioning",
+        "Summary": "build: made package one assembly with dependencies",
         "MessageBody": "",
-        "Refs": "HEAD -\u003E main, origin/main",
+        "Refs": "HEAD -\u003E testing-solution-versioning, origin/testing-solution-versioning",
         "Parents": [
           {
-            "Id": "c76cf24cfd744a34ff54dc68974de51066e86970",
+            "Id": "e9c4fe46decb026c40873857f151c2eb5ce0248b",
             "ObfuscatedSha": "0003",
-            "ShortSha": "c76cf24"
+            "ShortSha": "e9c4fe4"
           }
         ],
         "Metadata": {
@@ -36,71 +36,20 @@
             "FunctionalityChange": false
           },
           "Body": "",
-          "ChangeDescription": "update Git2SemVer.MSBuild for self versioning",
+          "ChangeDescription": "made package one assembly with dependencies",
           "ChangeType": 3,
           "FooterKeyValues": []
         }
       },
-      "LastReleaseCommit": {
-        "$type": "Commit",
-        "CommitId": {
-          "Id": "89ac5b4b5486e19802f52e1b2216e8442138abeb",
-          "ObfuscatedSha": "0008",
-          "ShortSha": "89ac5b4"
-        },
-        "ReleasedVersion": {
-          "Major": 0,
-          "Minor": 22,
-          "Patch": 0,
-          "Prerelease": "",
-          "PrereleaseIdentifiers": [],
-          "IsPrerelease": false,
-          "IsRelease": true,
-          "Build": "",
-          "Metadata": "",
-          "MetadataIdentifiers": []
-        },
-        "Summary": "feat: add GitTool to versioning context for C# script use",
-        "MessageBody": "",
-        "Refs": "tag: v0.22.0",
-        "Parents": [
-          {
-            "Id": "c9370e0107e61f7fa9db3a76a4c4d55e8da7cb2a",
-            "ObfuscatedSha": "0009",
-            "ShortSha": "c9370e0"
-          }
-        ],
-        "Metadata": {
-          "ApiChangeFlags": {
-            "BreakingChange": false,
-            "Fix": false,
-            "FunctionalityChange": true
-          },
-          "Body": "",
-          "ChangeDescription": "add GitTool to versioning context for C# script use",
-          "ChangeType": 1,
-          "FooterKeyValues": []
-        }
-      },
-      "LastReleaseVersion": {
-        "Major": 0,
-        "Minor": 22,
-        "Patch": 0,
-        "Prerelease": "",
-        "PrereleaseIdentifiers": [],
-        "IsPrerelease": false,
-        "IsRelease": true,
-        "Build": "",
-        "Metadata": "",
-        "MetadataIdentifiers": []
-      }
+      "LastReleaseCommit": null,
+      "LastReleaseVersion": null
     },
-    "InformationalVersion": "1.0.0\u002BNUC1.1945.main.7e66c1be39fa0bb7c91cccb6f5d05dda4c094435",
-    "IsInInitialDevelopment": false,
+    "InformationalVersion": "0.1.0-alpha-InitialDev.NUC1.2871\u002Btesting-solution-versioning.2383902d3f358a1e50fa73257a7df55ced6f0816",
+    "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "1.0.0",
-    "PrereleaseLabel": "",
-    "Version": "1.0.0"
+    "PackageVersion": "0.1.0-alpha-InitialDev.NUC1.2871",
+    "PrereleaseLabel": "alpha-InitialDev",
+    "Version": "0.1.0-alpha-InitialDev.NUC1.2871"
   }
 }

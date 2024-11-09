@@ -8,12 +8,6 @@
     <AssemblyName>NoeticTools.$(MSBuildProjectName)</AssemblyName>
   </PropertyGroup>
 
-  <Import Project="Directory.Versioning.Build.props" />
-
-  <PropertyGroup>
-    <Git2SemVer_TestSolutionsDirectory>$(MSBuildThisFileDirectory)TestSolutions/</Git2SemVer_TestSolutionsDirectory>
-  </PropertyGroup>
-
   <!-- NuGet package properties -->
   <PropertyGroup>
     <Authors>RobSmyth</Authors>
@@ -22,5 +16,7 @@
     <Copyright>Copyright (c) RobSmyth $([System.DateTime]::Now.Year)</Copyright>
     <NoWarn>NU5100;NU1803;NU5128</NoWarn>
   </PropertyGroup>
+
+  <Import Project="Directory.Versioning.Build.props"/>
 
 </Project>

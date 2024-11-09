@@ -9,7 +9,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
 {
     private const int ShortShaLength = 7;
 
-    internal CommitId(string sha)
+    public CommitId(string sha)
     {
         if (sha.Length == 0)
         {
