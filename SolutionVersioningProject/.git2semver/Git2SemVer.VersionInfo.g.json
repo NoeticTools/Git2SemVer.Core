@@ -3,30 +3,30 @@
   "Git2SemVerVersionInfo": {
     "AssemblyVersion": "0.1.0",
     "BuildContext": "NUC1",
-    "BuildNumber": "2871",
-    "BuildSystemVersion": "0.1.0-alpha-InitialDev.NUC1.2871",
+    "BuildNumber": "2944",
+    "BuildSystemVersion": "0.1.0-InitialDev.NUC1.2944",
     "FileVersion": "0.1.0",
     "Git": {
       "$type": "GitOutputs",
-      "BranchName": "testing-solution-versioning",
-      "CommitsSinceLastRelease": 19,
+      "BranchName": "main",
+      "CommitsSinceLastRelease": 10,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "2383902d3f358a1e50fa73257a7df55ced6f0816",
-          "ObfuscatedSha": "0002",
-          "ShortSha": "2383902"
+          "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
+          "ObfuscatedSha": "0001",
+          "ShortSha": "1ec7dfe"
         },
         "ReleasedVersion": null,
-        "Summary": "build: made package one assembly with dependencies",
+        "Summary": "Initial commit",
         "MessageBody": "",
-        "Refs": "HEAD -\u003E testing-solution-versioning, origin/testing-solution-versioning",
+        "Refs": "HEAD -\u003E main, origin/main, origin/HEAD",
         "Parents": [
           {
-            "Id": "e9c4fe46decb026c40873857f151c2eb5ce0248b",
-            "ObfuscatedSha": "0003",
-            "ShortSha": "e9c4fe4"
+            "Id": "c06634b116dc7f36cb45ec6acb02af16b76e12b3",
+            "ObfuscatedSha": "0002",
+            "ShortSha": "c06634b"
           }
         ],
         "Metadata": {
@@ -36,20 +36,20 @@
             "FunctionalityChange": false
           },
           "Body": "",
-          "ChangeDescription": "made package one assembly with dependencies",
-          "ChangeType": 3,
+          "ChangeDescription": "",
+          "ChangeType": 0,
           "FooterKeyValues": []
         }
       },
       "LastReleaseCommit": null,
       "LastReleaseVersion": null
     },
-    "InformationalVersion": "0.1.0-alpha-InitialDev.NUC1.2871\u002Btesting-solution-versioning.2383902d3f358a1e50fa73257a7df55ced6f0816",
+    "InformationalVersion": "0.1.0-InitialDev.NUC1.2944\u002Bmain.1ec7dfeeba9c6864bece59d3e7e672558916faf6",
     "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "0.1.0-alpha-InitialDev.NUC1.2871",
-    "PrereleaseLabel": "alpha-InitialDev",
-    "Version": "0.1.0-alpha-InitialDev.NUC1.2871"
+    "PackageVersion": "0.1.0-InitialDev.NUC1.2944",
+    "PrereleaseLabel": "InitialDev",
+    "Version": "0.1.0-InitialDev.NUC1.2944"
   }
 }
