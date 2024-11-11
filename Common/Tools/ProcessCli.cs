@@ -69,10 +69,10 @@ public sealed class ProcessCli : IProcessCli
         process.BeginErrorReadLine();
 
         var completed = process.WaitForExit(TimeLimitMilliseconds);
-        if (completed)
-        {
-            process.WaitForExit();
-        }
+        //if (completed)
+        //{
+        //    process.WaitForExit(); >>>
+        //}
 
         if (!completed)
         {

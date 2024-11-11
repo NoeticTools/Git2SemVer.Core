@@ -23,7 +23,9 @@
     <RepositoryUrl>https://github.com/NoeticTools/Common</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DefineConstants>$(DefineConstants);preprocess</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\Documentation\Images\Git2SemVer_icon_32x32.png" Link="Git2SemVer_icon_32x32.png" Pack="True" PackagePath="\" />
@@ -32,12 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JsonPeek" Version="1.2.0" />
     <PackageReference Include="Semver" Version="[2.3.0]" />
     <PackageReference Include="Injectio" Version="3.3.0" />
     <PackageReference Include="Spectre.Console" Version="0.49.1" />
     <PackageReference Include="System.Text.Json" Version="8.0.5" />
-    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="1.1.0-alpha.349" />
   </ItemGroup>
+  <!--
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
@@ -45,19 +48,35 @@
     </AssemblyAttribute>
   </ItemGroup>
 
-  <Target Name="xxxxxxxxxxxx" BeforeTargets="Build;CoreCompile;">
+  <ItemGroup>
+    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="1.1.0-alpha.340">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  -->
+
+   <Target Name="OuterPreBuild" BeforeTargets="DispatchToInnerBuilds">
+    <Message Importance="high" Text="========================================Outer before build" />
+  </Target>
+
+  <Target Name="OuterPreBuild" AfterTargets="DispatchToInnerBuilds">
+    <Message Importance="high" Text="========================================Outer after build: $(PackageVersion) | $(Git2SemVer_SharedVersioningJsonFile)" />
+
+    <!-- ReSharper disable once UnknownTask -->
+    <JsonPeek ContentPath="$(Git2SemVer_SharedVersioningJsonFile)" Query="$.Git2SemVerVersionInfo">
+      <Output TaskParameter="Result" ItemName="Git2SemVerVersionInfo" />
+    </JsonPeek>
 
     <PropertyGroup>
-
-      <CrossTargetingOuterBuild>$(IsCrossTargetingBuild)</CrossTargetingOuterBuild>
-      <CrossTargetingOuterBuild Condition="'$(CrossTargetingOuterBuild)' == ''">false</CrossTargetingOuterBuild>
-
-      <CrossTargetingInnerBuild Condition="'$(IsCrossTargetingBuild)' == 'false' And '$(TargetFramework)' != '$(TargetFrameworks)' ">true</CrossTargetingInnerBuild>
-      <CrossTargetingInnerBuild Condition="'$(CrossTargetingInnerBuild)' == '' ">true</CrossTargetingInnerBuild>
-
+      <Version>@(Git2SemVerVersionInfo -> '%(Version)')</Version>
+      <VersionPrefix>@(Git2SemVerVersionInfo -> '%(VersionPrefix)')</VersionPrefix>
+      <VersionSuffix>@(Git2SemVerVersionInfo -> '%(VersionSuffix)')</VersionSuffix>
+      <PackageVersion>@(Git2SemVerVersionInfo -> '%(PackageVersion)')</PackageVersion>
+      <InformationalVersion>@(Git2SemVerVersionInfo -> '%(InformationalVersion)')</InformationalVersion>
+      <AssemblyVersion>@(Git2SemVerVersionInfo -> '%(AssemblyVersion)')</AssemblyVersion>
+      <FileVersion>@(Git2SemVerVersionInfo -> '%(FileVersion)')</FileVersion>
     </PropertyGroup>
 
-    <Message Importance="high" Text="CrossTargetingInnerBuild = $(CrossTargetingInnerBuild) | CrossTargetingOuterBuild = $(CrossTargetingOuterBuild) | TargetFramework = $(TargetFramework) | TargetFrameworks = $(TargetFrameworks) | IsCrossTargetingBuild = $(IsCrossTargetingBuild)"/>
   </Target>
 
 </Project>
