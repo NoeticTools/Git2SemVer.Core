@@ -10,11 +10,13 @@ on:
     branches:
       - 'main'
       - 'releases/**'
+      - 'feature/**'
   pull_request:
     types:
       - opened
     branches:
       - 'releases/**'
+      - 'feature/**'
 
 jobs:
   build:
