@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Injectio.Attributes;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
@@ -52,6 +54,7 @@ public sealed class ProcessCli : IProcessCli
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
+
         if (WorkingDirectory.Length > 0)
         {
             process.StartInfo.WorkingDirectory = WorkingDirectory;
@@ -71,13 +74,17 @@ public sealed class ProcessCli : IProcessCli
         var completed = process.WaitForExit(TimeLimitMilliseconds);
         if (completed)
         {
-            process.WaitForExit();
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // hack! to allow time for standard outputs to be received
+                Thread.Sleep(10);
+            }
         }
 
         if (!completed)
         {
             var message =
-                $"ProcessCli.Run command timed out after {TimeLimitMilliseconds} milliseconds. Command was 'dotnet {commandLineArguments}'.";
+                $"ProcessCli Run timed out after {TimeLimitMilliseconds} milliseconds. Command was 'dotnet {commandLineArguments}'.";
             OnError(errorOut, message);
             process.Kill();
             process.WaitForExit(5000);
@@ -86,7 +93,7 @@ public sealed class ProcessCli : IProcessCli
         var exitCode = process.ExitCode;
         if (exitCode != 0)
         {
-            var message = $"ProcessCli.Run command returned non-zero exit code {exitCode}.";
+            var message = $"ProcessCli Run returned non-zero exit code {exitCode}.";
             OnError(errorOut, message);
         }
 

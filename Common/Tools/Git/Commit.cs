@@ -87,11 +87,3 @@ public class Commit : ICommit
         return versions.OrderByDescending(x => x, new SemverSortOrderComparer()).FirstOrDefault();
     }
 }
-
-internal sealed class SemverSortOrderComparer : IComparer<SemVersion>
-{
-    public int Compare(SemVersion x, SemVersion y)
-    {
-        return x.CompareSortOrderTo(y);
-    }
-}

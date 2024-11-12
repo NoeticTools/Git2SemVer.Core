@@ -1,32 +1,32 @@
 {
   "Rev": 1,
   "Git2SemVerVersionInfo": {
-    "AssemblyVersion": "0.1.0",
+    "AssemblyVersion": "1.2.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "2944",
-    "BuildSystemVersion": "0.1.0-InitialDev.NUC1.2944",
-    "FileVersion": "0.1.0",
+    "BuildNumber": "4297",
+    "BuildSystemVersion": "1.2.1-alpha.NUC1.4297",
+    "FileVersion": "1.2.1",
     "Git": {
       "$type": "GitOutputs",
-      "BranchName": "main",
-      "CommitsSinceLastRelease": 10,
+      "BranchName": "Spike",
+      "CommitsSinceLastRelease": 17,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
+          "Id": "98b42f632958b146cbc5e149ce827345dbe6fb9b",
           "ObfuscatedSha": "0001",
-          "ShortSha": "1ec7dfe"
+          "ShortSha": "98b42f6"
         },
         "ReleasedVersion": null,
-        "Summary": "Initial commit",
+        "Summary": "Testing",
         "MessageBody": "",
-        "Refs": "HEAD -\u003E main, origin/main, origin/HEAD",
+        "Refs": "HEAD -\u003E Spike, origin/Spike",
         "Parents": [
           {
-            "Id": "c06634b116dc7f36cb45ec6acb02af16b76e12b3",
+            "Id": "6b6985b61b937d442c486e4294d081b29cc7798e",
             "ObfuscatedSha": "0002",
-            "ShortSha": "c06634b"
+            "ShortSha": "6b6985b"
           }
         ],
         "Metadata": {
@@ -41,15 +41,66 @@
           "FooterKeyValues": []
         }
       },
-      "LastReleaseCommit": null,
-      "LastReleaseVersion": null
+      "LastReleaseCommit": {
+        "$type": "Commit",
+        "CommitId": {
+          "Id": "01d1b072c360715ae70ee15f210890feae2f8cf5",
+          "ObfuscatedSha": "0017",
+          "ShortSha": "01d1b07"
+        },
+        "ReleasedVersion": {
+          "Major": 1,
+          "Minor": 2,
+          "Patch": 0,
+          "Prerelease": "",
+          "PrereleaseIdentifiers": [],
+          "IsPrerelease": false,
+          "IsRelease": true,
+          "Build": "",
+          "Metadata": "",
+          "MetadataIdentifiers": []
+        },
+        "Summary": "Spike",
+        "MessageBody": "",
+        "Refs": "tag: v1.2.0",
+        "Parents": [
+          {
+            "Id": "6e104e128148478cde184ec80188b8875eab2429",
+            "ObfuscatedSha": "0018",
+            "ShortSha": "6e104e1"
+          }
+        ],
+        "Metadata": {
+          "ApiChangeFlags": {
+            "BreakingChange": false,
+            "Fix": false,
+            "FunctionalityChange": false
+          },
+          "Body": "",
+          "ChangeDescription": "",
+          "ChangeType": 0,
+          "FooterKeyValues": []
+        }
+      },
+      "LastReleaseVersion": {
+        "Major": 1,
+        "Minor": 2,
+        "Patch": 0,
+        "Prerelease": "",
+        "PrereleaseIdentifiers": [],
+        "IsPrerelease": false,
+        "IsRelease": true,
+        "Build": "",
+        "Metadata": "",
+        "MetadataIdentifiers": []
+      }
     },
-    "InformationalVersion": "0.1.0-InitialDev.NUC1.2944\u002Bmain.1ec7dfeeba9c6864bece59d3e7e672558916faf6",
-    "IsInInitialDevelopment": true,
+    "InformationalVersion": "1.2.1-alpha.NUC1.4297\u002BSpike.98b42f632958b146cbc5e149ce827345dbe6fb9b",
+    "IsInInitialDevelopment": false,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "0.1.0-InitialDev.NUC1.2944",
-    "PrereleaseLabel": "InitialDev",
-    "Version": "0.1.0-InitialDev.NUC1.2944"
+    "PackageVersion": "1.2.1-alpha.NUC1.4297",
+    "PrereleaseLabel": "alpha",
+    "Version": "1.2.1-alpha.NUC1.4297"
   }
 }
