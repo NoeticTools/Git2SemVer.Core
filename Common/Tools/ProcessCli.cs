@@ -77,7 +77,7 @@ public sealed class ProcessCli : IProcessCli
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 // hack to allow time for standard outputs to be received
-                Thread.Sleep(300);
+                Thread.Sleep(200);
             }
         }
 
