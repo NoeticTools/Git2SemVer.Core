@@ -1,32 +1,32 @@
 {
   "Rev": 1,
   "Git2SemVerVersionInfo": {
-    "AssemblyVersion": "1.2.1",
+    "AssemblyVersion": "0.1.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "4297",
-    "BuildSystemVersion": "1.2.1-alpha.NUC1.4297",
-    "FileVersion": "1.2.1",
+    "BuildNumber": "4381",
+    "BuildSystemVersion": "0.1.1-beta-InitialDev.NUC1.4381",
+    "FileVersion": "0.1.1",
     "Git": {
       "$type": "GitOutputs",
-      "BranchName": "Spike",
-      "CommitsSinceLastRelease": 17,
+      "BranchName": "feature/cross-targeting",
+      "CommitsSinceLastRelease": 3,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "98b42f632958b146cbc5e149ce827345dbe6fb9b",
+          "Id": "562bc65d77edd22a0c8e8b46f509c3009ec52d4b",
           "ObfuscatedSha": "0001",
-          "ShortSha": "98b42f6"
+          "ShortSha": "562bc65"
         },
         "ReleasedVersion": null,
-        "Summary": "Testing",
+        "Summary": "fix: Improve git command reliability on Linux (#2)",
         "MessageBody": "",
-        "Refs": "HEAD -\u003E Spike, origin/Spike",
+        "Refs": "HEAD -\u003E feature/cross-targeting, origin/feature/cross-targeting",
         "Parents": [
           {
-            "Id": "6b6985b61b937d442c486e4294d081b29cc7798e",
+            "Id": "6e104e128148478cde184ec80188b8875eab2429",
             "ObfuscatedSha": "0002",
-            "ShortSha": "6b6985b"
+            "ShortSha": "6e104e1"
           }
         ],
         "Metadata": {
@@ -44,13 +44,13 @@
       "LastReleaseCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "01d1b072c360715ae70ee15f210890feae2f8cf5",
-          "ObfuscatedSha": "0017",
-          "ShortSha": "01d1b07"
+          "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
+          "ObfuscatedSha": "0003",
+          "ShortSha": "1ec7dfe"
         },
         "ReleasedVersion": {
-          "Major": 1,
-          "Minor": 2,
+          "Major": 0,
+          "Minor": 1,
           "Patch": 0,
           "Prerelease": "",
           "PrereleaseIdentifiers": [],
@@ -60,14 +60,14 @@
           "Metadata": "",
           "MetadataIdentifiers": []
         },
-        "Summary": "Spike",
+        "Summary": "Initial commit",
         "MessageBody": "",
-        "Refs": "tag: v1.2.0",
+        "Refs": "tag: v0.1.0",
         "Parents": [
           {
-            "Id": "6e104e128148478cde184ec80188b8875eab2429",
-            "ObfuscatedSha": "0018",
-            "ShortSha": "6e104e1"
+            "Id": "c06634b116dc7f36cb45ec6acb02af16b76e12b3",
+            "ObfuscatedSha": "0004",
+            "ShortSha": "c06634b"
           }
         ],
         "Metadata": {
@@ -83,8 +83,8 @@
         }
       },
       "LastReleaseVersion": {
-        "Major": 1,
-        "Minor": 2,
+        "Major": 0,
+        "Minor": 1,
         "Patch": 0,
         "Prerelease": "",
         "PrereleaseIdentifiers": [],
@@ -95,12 +95,12 @@
         "MetadataIdentifiers": []
       }
     },
-    "InformationalVersion": "1.2.1-alpha.NUC1.4297\u002BSpike.98b42f632958b146cbc5e149ce827345dbe6fb9b",
-    "IsInInitialDevelopment": false,
+    "InformationalVersion": "0.1.1-beta-InitialDev.NUC1.4381\u002Bfeature-cross-targeting.562bc65d77edd22a0c8e8b46f509c3009ec52d4b",
+    "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "1.2.1-alpha.NUC1.4297",
-    "PrereleaseLabel": "alpha",
-    "Version": "1.2.1-alpha.NUC1.4297"
+    "PackageVersion": "0.1.1-beta-InitialDev.NUC1.4381",
+    "PrereleaseLabel": "beta-InitialDev",
+    "Version": "0.1.1-beta-InitialDev.NUC1.4381"
   }
 }

@@ -3,13 +3,13 @@
 
   <PropertyGroup>
 
-      <Version Condition=" '$(Version)' != '' ">1.2.1-alpha.NUC1.4297</Version>
-      <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">1.2.1</VersionPrefix>
-      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">alpha.NUC1.4297</VersionSuffix>
-      <PackageVersion Condition=" '$(PackageVersion)' != '' ">1.2.1-alpha.NUC1.4297</PackageVersion>
-      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">1.2.1-alpha.NUC1.4297+Spike.98b42f632958b146cbc5e149ce827345dbe6fb9b</InformationalVersion>
-      <AssemblyVersion Condition=" '$(AssemblyVersion)' != '' ">1.2.1</AssemblyVersion>
-      <FileVersion Condition=" '$(FileVersion)' != '' ">1.2.1</FileVersion>
+      <Version Condition=" '$(Version)' != '' ">0.1.1-beta-InitialDev.NUC1.4381</Version>
+      <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">0.1.1</VersionPrefix>
+      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">beta-InitialDev.NUC1.4381</VersionSuffix>
+      <PackageVersion Condition=" '$(PackageVersion)' != '' ">0.1.1-beta-InitialDev.NUC1.4381</PackageVersion>
+      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">0.1.1-beta-InitialDev.NUC1.4381+feature-cross-targeting.562bc65d77edd22a0c8e8b46f509c3009ec52d4b</InformationalVersion>
+      <AssemblyVersion Condition=" '$(AssemblyVersion)' != '' ">0.1.1</AssemblyVersion>
+      <FileVersion Condition=" '$(FileVersion)' != '' ">0.1.1</FileVersion>
 
   </PropertyGroup>
 
