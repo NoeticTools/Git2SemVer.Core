@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Injectio.Attributes;
 using NoeticTools.Common.Exceptions;
 using NoeticTools.Common.Logging;
@@ -80,7 +81,10 @@ public sealed class ProcessCli : IProcessCli
         if (completed)
         {
             System.Threading.Thread.SpinWait(2);
-            System.Threading.Thread.Sleep(1);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                Thread.Sleep(10);
+            }
             //process.WaitForExit();
         }
 
