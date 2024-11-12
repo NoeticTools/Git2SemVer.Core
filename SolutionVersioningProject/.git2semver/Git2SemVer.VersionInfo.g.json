@@ -3,30 +3,30 @@
   "Git2SemVerVersionInfo": {
     "AssemblyVersion": "1.2.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "3986",
-    "BuildSystemVersion": "1.2.1-alpha.NUC1.3986",
+    "BuildNumber": "4145",
+    "BuildSystemVersion": "1.2.1-alpha.NUC1.4145",
     "FileVersion": "1.2.1",
     "Git": {
       "$type": "GitOutputs",
       "BranchName": "Spike",
-      "CommitsSinceLastRelease": 9,
+      "CommitsSinceLastRelease": 16,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "f3932c89b9ec8a7fee0b42a282de97af7a677c81",
+          "Id": "6b6985b61b937d442c486e4294d081b29cc7798e",
           "ObfuscatedSha": "0001",
-          "ShortSha": "f3932c8"
+          "ShortSha": "6b6985b"
         },
         "ReleasedVersion": null,
-        "Summary": "Tessting",
+        "Summary": "Test",
         "MessageBody": "",
         "Refs": "HEAD -\u003E Spike, origin/Spike",
         "Parents": [
           {
-            "Id": "5c9321c31c614d65e26ced25db4601886ec443e1",
+            "Id": "35cc4df8a8a2ec9dce88c03da0a852a1d2ad6a17",
             "ObfuscatedSha": "0002",
-            "ShortSha": "5c9321c"
+            "ShortSha": "35cc4df"
           }
         ],
         "Metadata": {
@@ -45,7 +45,7 @@
         "$type": "Commit",
         "CommitId": {
           "Id": "01d1b072c360715ae70ee15f210890feae2f8cf5",
-          "ObfuscatedSha": "0009",
+          "ObfuscatedSha": "0016",
           "ShortSha": "01d1b07"
         },
         "ReleasedVersion": {
@@ -66,7 +66,7 @@
         "Parents": [
           {
             "Id": "6e104e128148478cde184ec80188b8875eab2429",
-            "ObfuscatedSha": "0010",
+            "ObfuscatedSha": "0017",
             "ShortSha": "6e104e1"
           }
         ],
@@ -95,12 +95,12 @@
         "MetadataIdentifiers": []
       }
     },
-    "InformationalVersion": "1.2.1-alpha.NUC1.3986\u002BSpike.f3932c89b9ec8a7fee0b42a282de97af7a677c81",
+    "InformationalVersion": "1.2.1-alpha.NUC1.4145\u002BSpike.6b6985b61b937d442c486e4294d081b29cc7798e",
     "IsInInitialDevelopment": false,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "1.2.1-alpha.NUC1.3986",
+    "PackageVersion": "1.2.1-alpha.NUC1.4145",
     "PrereleaseLabel": "alpha",
-    "Version": "1.2.1-alpha.NUC1.3986"
+    "Version": "1.2.1-alpha.NUC1.4145"
   }
 }
