@@ -3,11 +3,11 @@
 
   <PropertyGroup>
 
-      <Version Condition=" '$(Version)' != '' ">0.1.1-beta-InitialDev.NUC1.4401</Version>
+      <Version Condition=" '$(Version)' != '' ">0.1.1-beta-InitialDev.NUC1.4451</Version>
       <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">0.1.1</VersionPrefix>
-      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">beta-InitialDev.NUC1.4401</VersionSuffix>
-      <PackageVersion Condition=" '$(PackageVersion)' != '' ">0.1.1-beta-InitialDev.NUC1.4401</PackageVersion>
-      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">0.1.1-beta-InitialDev.NUC1.4401+feature-cross-targeting.f6361f2dc1c311f5e476100055aa2fb8965b6152</InformationalVersion>
+      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">beta-InitialDev.NUC1.4451</VersionSuffix>
+      <PackageVersion Condition=" '$(PackageVersion)' != '' ">0.1.1-beta-InitialDev.NUC1.4451</PackageVersion>
+      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">0.1.1-beta-InitialDev.NUC1.4451+feature-cross-targeting.b850ee32694acd5267df8ecbe602f25e1505f88d</InformationalVersion>
       <AssemblyVersion Condition=" '$(AssemblyVersion)' != '' ">0.1.1</AssemblyVersion>
       <FileVersion Condition=" '$(FileVersion)' != '' ">0.1.1</FileVersion>
 

@@ -3,30 +3,30 @@
   "Git2SemVerVersionInfo": {
     "AssemblyVersion": "0.1.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "4401",
-    "BuildSystemVersion": "0.1.1-beta-InitialDev.NUC1.4401",
+    "BuildNumber": "4451",
+    "BuildSystemVersion": "0.1.1-beta-InitialDev.NUC1.4451",
     "FileVersion": "0.1.1",
     "Git": {
       "$type": "GitOutputs",
       "BranchName": "feature/cross-targeting",
-      "CommitsSinceLastRelease": 4,
+      "CommitsSinceLastRelease": 5,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "f6361f2dc1c311f5e476100055aa2fb8965b6152",
-          "ObfuscatedSha": "0001",
-          "ShortSha": "f6361f2"
+          "Id": "b850ee32694acd5267df8ecbe602f25e1505f88d",
+          "ObfuscatedSha": "0002",
+          "ShortSha": "b850ee3"
         },
         "ReleasedVersion": null,
-        "Summary": "build: fix GitHub workflow package name",
+        "Summary": "build: trigger GitHub build on feature branch push",
         "MessageBody": "",
         "Refs": "HEAD -\u003E feature/cross-targeting, origin/feature/cross-targeting",
         "Parents": [
           {
-            "Id": "562bc65d77edd22a0c8e8b46f509c3009ec52d4b",
-            "ObfuscatedSha": "0002",
-            "ShortSha": "562bc65"
+            "Id": "f6361f2dc1c311f5e476100055aa2fb8965b6152",
+            "ObfuscatedSha": "0003",
+            "ShortSha": "f6361f2"
           }
         ],
         "Metadata": {
@@ -36,7 +36,7 @@
             "FunctionalityChange": false
           },
           "Body": "",
-          "ChangeDescription": "fix GitHub workflow package name",
+          "ChangeDescription": "trigger GitHub build on feature branch push",
           "ChangeType": 3,
           "FooterKeyValues": []
         }
@@ -45,7 +45,7 @@
         "$type": "Commit",
         "CommitId": {
           "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
-          "ObfuscatedSha": "0004",
+          "ObfuscatedSha": "0006",
           "ShortSha": "1ec7dfe"
         },
         "ReleasedVersion": {
@@ -66,7 +66,7 @@
         "Parents": [
           {
             "Id": "c06634b116dc7f36cb45ec6acb02af16b76e12b3",
-            "ObfuscatedSha": "0005",
+            "ObfuscatedSha": "0007",
             "ShortSha": "c06634b"
           }
         ],
@@ -95,12 +95,12 @@
         "MetadataIdentifiers": []
       }
     },
-    "InformationalVersion": "0.1.1-beta-InitialDev.NUC1.4401\u002Bfeature-cross-targeting.f6361f2dc1c311f5e476100055aa2fb8965b6152",
+    "InformationalVersion": "0.1.1-beta-InitialDev.NUC1.4451\u002Bfeature-cross-targeting.b850ee32694acd5267df8ecbe602f25e1505f88d",
     "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "0.1.1-beta-InitialDev.NUC1.4401",
+    "PackageVersion": "0.1.1-beta-InitialDev.NUC1.4451",
     "PrereleaseLabel": "beta-InitialDev",
-    "Version": "0.1.1-beta-InitialDev.NUC1.4401"
+    "Version": "0.1.1-beta-InitialDev.NUC1.4451"
   }
 }
