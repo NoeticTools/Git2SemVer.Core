@@ -3,20 +3,20 @@
   "Git2SemVerVersionInfo": {
     "AssemblyVersion": "1.2.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "3911",
-    "BuildSystemVersion": "1.2.1-alpha.NUC1.3911",
+    "BuildNumber": "3933",
+    "BuildSystemVersion": "1.2.1-alpha.NUC1.3933",
     "FileVersion": "1.2.1",
     "Git": {
       "$type": "GitOutputs",
       "BranchName": "Spike",
-      "CommitsSinceLastRelease": 3,
+      "CommitsSinceLastRelease": 4,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "93f19b681e64f732135ca398faf95c6e053e50db",
-          "ObfuscatedSha": "0002",
-          "ShortSha": "93f19b6"
+          "Id": "9c14b0275f354e964f05a60f1dcfe22625cc8179",
+          "ObfuscatedSha": "0001",
+          "ShortSha": "9c14b02"
         },
         "ReleasedVersion": null,
         "Summary": "Testing",
@@ -24,9 +24,9 @@
         "Refs": "HEAD -\u003E Spike, origin/Spike",
         "Parents": [
           {
-            "Id": "4073c6e69390b7c17182039737968349ba9c2cbf",
-            "ObfuscatedSha": "0003",
-            "ShortSha": "4073c6e"
+            "Id": "93f19b681e64f732135ca398faf95c6e053e50db",
+            "ObfuscatedSha": "0002",
+            "ShortSha": "93f19b6"
           }
         ],
         "Metadata": {
@@ -95,12 +95,12 @@
         "MetadataIdentifiers": []
       }
     },
-    "InformationalVersion": "1.2.1-alpha.NUC1.3911\u002BSpike.93f19b681e64f732135ca398faf95c6e053e50db",
+    "InformationalVersion": "1.2.1-alpha.NUC1.3933\u002BSpike.9c14b0275f354e964f05a60f1dcfe22625cc8179",
     "IsInInitialDevelopment": false,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "1.2.1-alpha.NUC1.3911",
+    "PackageVersion": "1.2.1-alpha.NUC1.3933",
     "PrereleaseLabel": "alpha",
-    "Version": "1.2.1-alpha.NUC1.3911"
+    "Version": "1.2.1-alpha.NUC1.3933"
   }
 }
