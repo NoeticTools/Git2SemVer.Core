@@ -3,30 +3,30 @@
   "Git2SemVerVersionInfo": {
     "AssemblyVersion": "0.1.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "4451",
-    "BuildSystemVersion": "0.1.1-beta-InitialDev.NUC1.4451",
+    "BuildNumber": "4462",
+    "BuildSystemVersion": "0.1.1-beta-InitialDev.NUC1.4462",
     "FileVersion": "0.1.1",
     "Git": {
       "$type": "GitOutputs",
       "BranchName": "feature/cross-targeting",
-      "CommitsSinceLastRelease": 5,
+      "CommitsSinceLastRelease": 6,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "b850ee32694acd5267df8ecbe602f25e1505f88d",
-          "ObfuscatedSha": "0002",
-          "ShortSha": "b850ee3"
+          "Id": "218ccf1db4a29e6fc3805937763a46b5417bfec1",
+          "ObfuscatedSha": "0001",
+          "ShortSha": "218ccf1"
         },
         "ReleasedVersion": null,
-        "Summary": "build: trigger GitHub build on feature branch push",
+        "Summary": "build: Nuget package update",
         "MessageBody": "",
         "Refs": "HEAD -\u003E feature/cross-targeting, origin/feature/cross-targeting",
         "Parents": [
           {
-            "Id": "f6361f2dc1c311f5e476100055aa2fb8965b6152",
-            "ObfuscatedSha": "0003",
-            "ShortSha": "f6361f2"
+            "Id": "b850ee32694acd5267df8ecbe602f25e1505f88d",
+            "ObfuscatedSha": "0002",
+            "ShortSha": "b850ee3"
           }
         ],
         "Metadata": {
@@ -36,7 +36,7 @@
             "FunctionalityChange": false
           },
           "Body": "",
-          "ChangeDescription": "trigger GitHub build on feature branch push",
+          "ChangeDescription": "Nuget package update",
           "ChangeType": 3,
           "FooterKeyValues": []
         }
@@ -95,12 +95,12 @@
         "MetadataIdentifiers": []
       }
     },
-    "InformationalVersion": "0.1.1-beta-InitialDev.NUC1.4451\u002Bfeature-cross-targeting.b850ee32694acd5267df8ecbe602f25e1505f88d",
+    "InformationalVersion": "0.1.1-beta-InitialDev.NUC1.4462\u002Bfeature-cross-targeting.218ccf1db4a29e6fc3805937763a46b5417bfec1",
     "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "0.1.1-beta-InitialDev.NUC1.4451",
+    "PackageVersion": "0.1.1-beta-InitialDev.NUC1.4462",
     "PrereleaseLabel": "beta-InitialDev",
-    "Version": "0.1.1-beta-InitialDev.NUC1.4451"
+    "Version": "0.1.1-beta-InitialDev.NUC1.4462"
   }
 }

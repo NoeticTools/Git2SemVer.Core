@@ -51,7 +51,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Git2SemVer.Common.nupkg (github run ${{ github.run_number }}.${{ github.run_attempt }})
-        path: Git2SemVer.Common/nupkg/*.nupkg
+        path: Common/nupkg/*.nupkg
         compression-level: 0
         if-no-files-found: error
 
