@@ -3,11 +3,11 @@
 
   <PropertyGroup>
 
-      <Version Condition=" '$(Version)' != '' ">1.2.1-alpha.NUC1.3876</Version>
+      <Version Condition=" '$(Version)' != '' ">1.2.1-alpha.NUC1.3911</Version>
       <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">1.2.1</VersionPrefix>
-      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">alpha.NUC1.3876</VersionSuffix>
-      <PackageVersion Condition=" '$(PackageVersion)' != '' ">1.2.1-alpha.NUC1.3876</PackageVersion>
-      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">1.2.1-alpha.NUC1.3876+Spike.4073c6e69390b7c17182039737968349ba9c2cbf</InformationalVersion>
+      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">alpha.NUC1.3911</VersionSuffix>
+      <PackageVersion Condition=" '$(PackageVersion)' != '' ">1.2.1-alpha.NUC1.3911</PackageVersion>
+      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">1.2.1-alpha.NUC1.3911+Spike.93f19b681e64f732135ca398faf95c6e053e50db</InformationalVersion>
       <AssemblyVersion Condition=" '$(AssemblyVersion)' != '' ">1.2.1</AssemblyVersion>
       <FileVersion Condition=" '$(FileVersion)' != '' ">1.2.1</FileVersion>
 
