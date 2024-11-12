@@ -3,30 +3,30 @@
   "Git2SemVerVersionInfo": {
     "AssemblyVersion": "0.1.0",
     "BuildContext": "NUC1",
-    "BuildNumber": "3654",
-    "BuildSystemVersion": "0.1.0-alpha-InitialDev.NUC1.3654",
+    "BuildNumber": "3865",
+    "BuildSystemVersion": "0.1.0-alpha-InitialDev.NUC1.3865",
     "FileVersion": "0.1.0",
     "Git": {
       "$type": "GitOutputs",
       "BranchName": "Spike",
-      "CommitsSinceLastRelease": 11,
+      "CommitsSinceLastRelease": 12,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "6e104e128148478cde184ec80188b8875eab2429",
+          "Id": "01d1b072c360715ae70ee15f210890feae2f8cf5",
           "ObfuscatedSha": "0001",
-          "ShortSha": "6e104e1"
+          "ShortSha": "01d1b07"
         },
         "ReleasedVersion": null,
-        "Summary": "refactor: remove orphaned code",
+        "Summary": "Spike",
         "MessageBody": "",
-        "Refs": "HEAD -\u003E Spike, origin/main, origin/HEAD, main",
+        "Refs": "HEAD -\u003E Spike, origin/Spike",
         "Parents": [
           {
-            "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
+            "Id": "6e104e128148478cde184ec80188b8875eab2429",
             "ObfuscatedSha": "0002",
-            "ShortSha": "1ec7dfe"
+            "ShortSha": "6e104e1"
           }
         ],
         "Metadata": {
@@ -36,20 +36,20 @@
             "FunctionalityChange": false
           },
           "Body": "",
-          "ChangeDescription": "remove orphaned code",
-          "ChangeType": 8,
+          "ChangeDescription": "",
+          "ChangeType": 0,
           "FooterKeyValues": []
         }
       },
       "LastReleaseCommit": null,
       "LastReleaseVersion": null
     },
-    "InformationalVersion": "0.1.0-alpha-InitialDev.NUC1.3654\u002BSpike.6e104e128148478cde184ec80188b8875eab2429",
+    "InformationalVersion": "0.1.0-alpha-InitialDev.NUC1.3865\u002BSpike.01d1b072c360715ae70ee15f210890feae2f8cf5",
     "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "0.1.0-alpha-InitialDev.NUC1.3654",
+    "PackageVersion": "0.1.0-alpha-InitialDev.NUC1.3865",
     "PrereleaseLabel": "alpha-InitialDev",
-    "Version": "0.1.0-alpha-InitialDev.NUC1.3654"
+    "Version": "0.1.0-alpha-InitialDev.NUC1.3865"
   }
 }
