@@ -80,12 +80,11 @@ public sealed class ProcessCli : IProcessCli
         var completed = process.WaitForExit(TimeLimitMilliseconds);
         if (completed)
         {
-            System.Threading.Thread.SpinWait(2);
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                Thread.Sleep(10);
+                // hack to allow time for standard outputs to be received
+                Thread.Sleep(1);
             }
-            //process.WaitForExit();
         }
 
         //var completed = _eventHandled.Task.Wait(TimeLimitMilliseconds);
