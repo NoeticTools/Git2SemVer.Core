@@ -80,6 +80,7 @@ public sealed class ProcessCli : IProcessCli
         if (completed)
         {
             System.Threading.Thread.SpinWait(2);
+            System.Threading.Thread.Sleep(300);
             //process.WaitForExit();
         }
 

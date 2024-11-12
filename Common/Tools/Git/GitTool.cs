@@ -40,12 +40,14 @@ public class GitTool : IGitTool
         _logger = logger;
         _inner = new GitProcessCli(logger);
         _conventionalCommitParser = new ConventionalCommitsParser();
+
         var gitVersion = GetVersion();
         if (gitVersion != null &&
             gitVersion.ComparePrecedenceTo(_assumedLowestGitVersion) < 0)
         {
             _logger.LogError($"Git must be version {_assumedLowestGitVersion} or later.");
         }
+
         BranchName = GetBranchName();
         HasLocalChanges = GetHasLocalChanges();
     }
