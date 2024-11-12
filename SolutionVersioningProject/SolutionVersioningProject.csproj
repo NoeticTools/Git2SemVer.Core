@@ -7,4 +7,8 @@
     <Git2SemVer_UpdateHostBuildLabel>true</Git2SemVer_UpdateHostBuildLabel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="1.1.0-alpha.349" />
+  </ItemGroup>
+
 </Project>
