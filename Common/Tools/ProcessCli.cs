@@ -11,8 +11,6 @@ namespace NoeticTools.Common.Tools;
 [RegisterTransient]
 public sealed class ProcessCli : IProcessCli
 {
-    //private TaskCompletionSource<bool> _eventHandled = null!;
-
     public ProcessCli(ILogger logger)
     {
         WorkingDirectory = Environment.CurrentDirectory;
@@ -49,8 +47,6 @@ public sealed class ProcessCli : IProcessCli
     {
         Logger.LogTrace($"Running '{application} {commandLineArguments}'.");
 
-        //_eventHandled = new TaskCompletionSource<bool>();
-
         using var process = new Process();
         process.StartInfo.FileName = application;
         process.StartInfo.Arguments = commandLineArguments;
@@ -58,8 +54,6 @@ public sealed class ProcessCli : IProcessCli
         process.StartInfo.UseShellExecute = false;
         process.StartInfo.RedirectStandardOutput = true;
         process.StartInfo.RedirectStandardError = true;
-        //process.EnableRaisingEvents = true;
-        //process.Exited += new EventHandler(myProcess_Exited);
 
         if (WorkingDirectory.Length > 0)
         {
@@ -87,8 +81,6 @@ public sealed class ProcessCli : IProcessCli
             }
         }
 
-        //var completed = _eventHandled.Task.Wait(TimeLimitMilliseconds);
-
         if (!completed)
         {
             var message =
@@ -109,11 +101,6 @@ public sealed class ProcessCli : IProcessCli
 
         return exitCode;
     }
-
-    //private void myProcess_Exited(object sender, System.EventArgs e)
-    //{
-    //    _eventHandled.TrySetResult(true);
-    //}
 
     private void OnError(TextWriter? errorOut, string message)
     {

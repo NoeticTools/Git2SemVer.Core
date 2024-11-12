@@ -23,7 +23,21 @@
     <RepositoryUrl>https://github.com/NoeticTools/Common</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'" />
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\Documentation\Images\Git2SemVer_icon_32x32.png" Link="Git2SemVer_icon_32x32.png" Pack="True" PackagePath="\" />
@@ -44,20 +58,5 @@
       <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
     </AssemblyAttribute>
   </ItemGroup>
-
-  <Target Name="xxxxxxxxxxxx" BeforeTargets="Build;CoreCompile;">
-
-    <PropertyGroup>
-
-      <CrossTargetingOuterBuild>$(IsCrossTargetingBuild)</CrossTargetingOuterBuild>
-      <CrossTargetingOuterBuild Condition="'$(CrossTargetingOuterBuild)' == ''">false</CrossTargetingOuterBuild>
-
-      <CrossTargetingInnerBuild Condition="'$(IsCrossTargetingBuild)' == 'false' And '$(TargetFramework)' != '$(TargetFrameworks)' ">true</CrossTargetingInnerBuild>
-      <CrossTargetingInnerBuild Condition="'$(CrossTargetingInnerBuild)' == '' ">true</CrossTargetingInnerBuild>
-
-    </PropertyGroup>
-
-    <Message Importance="high" Text="CrossTargetingInnerBuild = $(CrossTargetingInnerBuild) | CrossTargetingOuterBuild = $(CrossTargetingOuterBuild) | TargetFramework = $(TargetFramework) | TargetFrameworks = $(TargetFrameworks) | IsCrossTargetingBuild = $(IsCrossTargetingBuild)"/>
-  </Target>
 
 </Project>
