@@ -74,6 +74,10 @@ public sealed class ProcessCli : IProcessCli
         var completed = process.WaitForExit(TimeLimitMilliseconds);
         if (completed)
         {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                process.WaitForExit();
+            }
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 // hack! to allow time for standard outputs to be received

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 
 namespace NoeticTools.Common;
@@ -7,10 +8,15 @@ public static class AssemblyExtensions
 {
     public static string GetResourceFileContent(this Assembly assembly, string filename)
     {
+        var resourcePath = assembly.GetManifestResourceNames()
+                                   .SingleOrDefault(str => str.EndsWith(filename));
+        if (resourcePath == null)
+        {
+            throw new Exception($"Resource file {filename} not found.");
+        }
+
         try
         {
-            var resourcePath = assembly.GetManifestResourceNames()
-                                       .Single(str => str.EndsWith(filename));
             using var stream = assembly.GetManifestResourceStream(resourcePath);
             using var reader = new StreamReader(stream!);
             return reader.ReadToEnd();
