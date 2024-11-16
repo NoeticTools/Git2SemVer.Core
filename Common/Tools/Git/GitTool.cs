@@ -103,9 +103,19 @@ public class GitTool : IGitTool
 
         var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
-        var commit = line.Contains($"{CharacterConstants.US}.|")
+        var hasCommitMetadata = line.Contains($"{CharacterConstants.US}.|");
+        if (hasCommitMetadata)
+        {
+            if (sha.Length == 0)
+            {
+                throw new Git2SemVerGitLogParsingException($"Unable to read SHA from line: '{line}'");
+            }
+        }
+
+        var commit = hasCommitMetadata
             ? new Commit(sha, parents, summary, body, refs, commitMetadata)
             : null;
+
         if (commit != null)
         {
             commits.Add(commit);

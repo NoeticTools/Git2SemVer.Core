@@ -3,15 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{D4D4960E-5CE2-4058-8E3D-5A00A84EFFF9}"
-	ProjectSection(SolutionItems) = preProject
-		.gitignore = .gitignore
-		Directory.Build.props = Directory.Build.props
-		Directory.Versioning.Build.props = Directory.Versioning.Build.props
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{3E909B24-393B-4075-9536-FD93CAA62D3A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97D8-62B8-4C47-9AA3-C6A893117175}"
@@ -24,7 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonTests", "CommonTests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolutionVersioningProject", "SolutionVersioningProject\SolutionVersioningProject.csproj", "{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{4F0C3DC1-3D7A-4C11-8504-A3A2F7797B5D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8B662BBB-EF8A-4499-81C0-6D6A390BF171}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		ChangeLog.md = ChangeLog.md
+		Directory.Versioning.Build.props = Directory.Versioning.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,12 +50,6 @@ Global
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F0C3DC1-3D7A-4C11-8504-A3A2F7797B5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F0C3DC1-3D7A-4C11-8504-A3A2F7797B5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F0C3DC1-3D7A-4C11-8504-A3A2F7797B5D}.DebugPack|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F0C3DC1-3D7A-4C11-8504-A3A2F7797B5D}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
-		{4F0C3DC1-3D7A-4C11-8504-A3A2F7797B5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F0C3DC1-3D7A-4C11-8504-A3A2F7797B5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

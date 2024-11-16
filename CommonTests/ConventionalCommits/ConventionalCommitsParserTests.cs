@@ -185,6 +185,7 @@ internal class ConventionalCommitsParserTests
     }
 
     [TestCase("feat: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", false)]
+    [TestCase("feat: Added a real nice feature (#24)", CommitChangeTypeId.Feature, "Added a real nice feature (#24)", false)]
     [TestCase("feat!: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", true)]
     [TestCase("fix: Fixed nasty bug", CommitChangeTypeId.Fix, "Fixed nasty bug", false)]
     [TestCase("build: Build work", CommitChangeTypeId.Build, "Build work", false)]

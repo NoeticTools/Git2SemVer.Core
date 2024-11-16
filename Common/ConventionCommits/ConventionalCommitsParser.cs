@@ -41,7 +41,7 @@ public sealed class ConventionalCommitsParser
     private readonly Regex _summaryRegex = new("""
                                                \A
                                                  (?<ChangeType>(fix|feat|build|chore|ci|docs|style|refactor|perf|test))
-                                                   (\((?<scope>[\w\-\.]+)\))?(?<breakFlag>!)?: \s+(?<desc>\w+[^(\n|\r\n)]*)
+                                                   (\((?<scope>[\w\-\.]+)\))?(?<breakFlag>!)?: \s+(?<desc>\S.*?)
                                                \Z
                                                """,
                                                RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);
