@@ -1,31 +1,72 @@
 {
   "Rev": 1,
   "Git2SemVerVersionInfo": {
-    "AssemblyVersion": "0.1.0",
+    "AssemblyVersion": "0.1.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "2944",
-    "BuildSystemVersion": "0.1.0-InitialDev.NUC1.2944",
-    "FileVersion": "0.1.0",
+    "BuildNumber": "5314",
+    "BuildSystemVersion": "0.1.1-alpha-InitialDev.NUC1.5314",
+    "FileVersion": "0.1.1",
     "Git": {
       "$type": "GitOutputs",
-      "BranchName": "main",
-      "CommitsSinceLastRelease": 10,
+      "BranchName": "Fix-convential-commit-with-brackets",
+      "CommitsSinceLastRelease": 3,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
+          "Id": "9c6107ecbd8391c313588b06b3ac1318ec2ea255",
           "ObfuscatedSha": "0001",
-          "ShortSha": "1ec7dfe"
+          "ShortSha": "9c6107e"
         },
         "ReleasedVersion": null,
+        "Summary": "fix: Conventional commit summary with round brackets  are not parsed correctly",
+        "MessageBody": "issue: #1\r\n| ",
+        "Refs": "HEAD -\u003E Fix-convential-commit-with-brackets, origin/main, origin/HEAD, main",
+        "Parents": [
+          {
+            "Id": "6e104e128148478cde184ec80188b8875eab2429",
+            "ObfuscatedSha": "0002",
+            "ShortSha": "6e104e1"
+          }
+        ],
+        "Metadata": {
+          "ApiChangeFlags": {
+            "BreakingChange": false,
+            "Fix": true,
+            "FunctionalityChange": false
+          },
+          "Body": "issue: #1\r\n| ",
+          "ChangeDescription": "Conventional commit summary with round brackets  are not parsed correctly",
+          "ChangeType": 2,
+          "FooterKeyValues": []
+        }
+      },
+      "LastReleaseCommit": {
+        "$type": "Commit",
+        "CommitId": {
+          "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
+          "ObfuscatedSha": "0003",
+          "ShortSha": "1ec7dfe"
+        },
+        "ReleasedVersion": {
+          "Major": 0,
+          "Minor": 1,
+          "Patch": 0,
+          "Prerelease": "",
+          "PrereleaseIdentifiers": [],
+          "IsPrerelease": false,
+          "IsRelease": true,
+          "Build": "",
+          "Metadata": "",
+          "MetadataIdentifiers": []
+        },
         "Summary": "Initial commit",
         "MessageBody": "",
-        "Refs": "HEAD -\u003E main, origin/main, origin/HEAD",
+        "Refs": "tag: v0.1.0",
         "Parents": [
           {
             "Id": "c06634b116dc7f36cb45ec6acb02af16b76e12b3",
-            "ObfuscatedSha": "0002",
+            "ObfuscatedSha": "0004",
             "ShortSha": "c06634b"
           }
         ],
@@ -41,15 +82,25 @@
           "FooterKeyValues": []
         }
       },
-      "LastReleaseCommit": null,
-      "LastReleaseVersion": null
+      "LastReleaseVersion": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0,
+        "Prerelease": "",
+        "PrereleaseIdentifiers": [],
+        "IsPrerelease": false,
+        "IsRelease": true,
+        "Build": "",
+        "Metadata": "",
+        "MetadataIdentifiers": []
+      }
     },
-    "InformationalVersion": "0.1.0-InitialDev.NUC1.2944\u002Bmain.1ec7dfeeba9c6864bece59d3e7e672558916faf6",
+    "InformationalVersion": "0.1.1-alpha-InitialDev.NUC1.5314\u002BFix-convential-commit-with-brackets.9c6107ecbd8391c313588b06b3ac1318ec2ea255",
     "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "0.1.0-InitialDev.NUC1.2944",
-    "PrereleaseLabel": "InitialDev",
-    "Version": "0.1.0-InitialDev.NUC1.2944"
+    "PackageVersion": "0.1.1-alpha-InitialDev.NUC1.5314",
+    "PrereleaseLabel": "alpha-InitialDev",
+    "Version": "0.1.1-alpha-InitialDev.NUC1.5314"
   }
 }
