@@ -3,30 +3,30 @@
   "Git2SemVerVersionInfo": {
     "AssemblyVersion": "0.1.1",
     "BuildContext": "NUC1",
-    "BuildNumber": "5314",
-    "BuildSystemVersion": "0.1.1-alpha-InitialDev.NUC1.5314",
+    "BuildNumber": "5378",
+    "BuildSystemVersion": "0.1.1-alpha-InitialDev.NUC1.5378",
     "FileVersion": "0.1.1",
     "Git": {
       "$type": "GitOutputs",
       "BranchName": "Fix-convential-commit-with-brackets",
-      "CommitsSinceLastRelease": 3,
+      "CommitsSinceLastRelease": 4,
       "HasLocalChanges": true,
       "HeadCommit": {
         "$type": "Commit",
         "CommitId": {
-          "Id": "9c6107ecbd8391c313588b06b3ac1318ec2ea255",
+          "Id": "60b5c0f49386b22b1507bfdf602757c0c5fc3ee2",
           "ObfuscatedSha": "0001",
-          "ShortSha": "9c6107e"
+          "ShortSha": "60b5c0f"
         },
         "ReleasedVersion": null,
         "Summary": "fix: Conventional commit summary with round brackets  are not parsed correctly",
         "MessageBody": "issue: #1\r\n| ",
-        "Refs": "HEAD -\u003E Fix-convential-commit-with-brackets, origin/main, origin/HEAD, main",
+        "Refs": "HEAD -\u003E Fix-convential-commit-with-brackets, origin/Fix-convential-commit-with-brackets",
         "Parents": [
           {
-            "Id": "6e104e128148478cde184ec80188b8875eab2429",
+            "Id": "9c6107ecbd8391c313588b06b3ac1318ec2ea255",
             "ObfuscatedSha": "0002",
-            "ShortSha": "6e104e1"
+            "ShortSha": "9c6107e"
           }
         ],
         "Metadata": {
@@ -45,7 +45,7 @@
         "$type": "Commit",
         "CommitId": {
           "Id": "1ec7dfeeba9c6864bece59d3e7e672558916faf6",
-          "ObfuscatedSha": "0003",
+          "ObfuscatedSha": "0004",
           "ShortSha": "1ec7dfe"
         },
         "ReleasedVersion": {
@@ -66,7 +66,7 @@
         "Parents": [
           {
             "Id": "c06634b116dc7f36cb45ec6acb02af16b76e12b3",
-            "ObfuscatedSha": "0004",
+            "ObfuscatedSha": "0005",
             "ShortSha": "c06634b"
           }
         ],
@@ -95,12 +95,12 @@
         "MetadataIdentifiers": []
       }
     },
-    "InformationalVersion": "0.1.1-alpha-InitialDev.NUC1.5314\u002BFix-convential-commit-with-brackets.9c6107ecbd8391c313588b06b3ac1318ec2ea255",
+    "InformationalVersion": "0.1.1-alpha-InitialDev.NUC1.5378\u002BFix-convential-commit-with-brackets.60b5c0f49386b22b1507bfdf602757c0c5fc3ee2",
     "IsInInitialDevelopment": true,
     "Output1": "",
     "Output2": "",
-    "PackageVersion": "0.1.1-alpha-InitialDev.NUC1.5314",
+    "PackageVersion": "0.1.1-alpha-InitialDev.NUC1.5378",
     "PrereleaseLabel": "alpha-InitialDev",
-    "Version": "0.1.1-alpha-InitialDev.NUC1.5314"
+    "Version": "0.1.1-alpha-InitialDev.NUC1.5378"
   }
 }
