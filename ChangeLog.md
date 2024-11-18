@@ -7,4 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
-Currently in initial development. Changelog is not updated until first release (1.0.0).
+## 1.0.0 - _November 7, 2024_
+
+First release.
+
+A library used by other Git2SemVer projects.
+Not intended for general use.
