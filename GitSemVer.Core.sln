@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Common\Core.csproj", "{3E909B24-393B-4075-9536-FD93CAA62D3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.Core", "Common\Git2SemVer.Core.csproj", "{3E909B24-393B-4075-9536-FD93CAA62D3A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0} = {C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}
 	EndProjectSection
@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreTests", "CommonTests\CoreTests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.CoreTests", "CommonTests\Git2SemVer.CoreTests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolutionVersioningProject", "SolutionVersioningProject\SolutionVersioningProject.csproj", "{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}"
 EndProject
