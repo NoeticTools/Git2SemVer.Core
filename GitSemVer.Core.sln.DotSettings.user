@@ -1,0 +1,25 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=df1401e3_002Daba6_002D4caa_002D941d_002Ded8635476f98/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Not&gt;&#xD;
+      &lt;TestAncestor&gt;&#xD;
+        &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests&lt;/TestId&gt;&#xD;
+      &lt;/TestAncestor&gt;&#xD;
+    &lt;/Not&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("feat: Added a real nice feature",Feature,"Added a real nice feature",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("feat!: Added a real nice feature",Feature,"Added a real nice feature",True)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("fix: Fixed nasty bug",Fix,"Fixed nasty bug",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("build: Build work",Build,"Build work",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("chore: Did something",Chore,"Did something",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("ci: Did something",ContinuousIntegration,"Did something",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("docs: Did something",Documentation,"Did something",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("style: Did something",Style,"Did something",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("refactor: Did something",Refactoring,"Did something",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("perf: Did something\n",Performance,"Did something",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests.SubjectWithConventionalCommitInfoTest("test: Did something\n\n",Testing,"Did something",False)&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;NUnit3x::B968388D-5D60-4320-9038-E48A5D37AF75::net8.0::NoeticTools.CommonTests.ConventionalCommits.ConventionalCommitsParserTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
