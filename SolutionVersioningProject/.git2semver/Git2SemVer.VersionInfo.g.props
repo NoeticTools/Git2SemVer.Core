@@ -3,11 +3,11 @@
 
   <PropertyGroup>
 
-      <Version Condition=" '$(Version)' != '' ">1.0.0-alpha.NUC1.5499</Version>
+      <Version Condition=" '$(Version)' != '' ">1.0.0</Version>
       <VersionPrefix Condition=" '$(VersionPrefix)' != '' ">1.0.0</VersionPrefix>
-      <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">alpha.NUC1.5499</VersionSuffix>
-      <PackageVersion Condition=" '$(PackageVersion)' != '' ">1.0.0-alpha.NUC1.5499</PackageVersion>
-      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">1.0.0-alpha.NUC1.5499+Update-packages.ca0ecd30fd97cb0faf5195961598bddeade19c2f</InformationalVersion>
+      <VersionSuffix Condition=" '$(VersionSuffix)' != '' "></VersionSuffix>
+      <PackageVersion Condition=" '$(PackageVersion)' != '' ">1.0.0</PackageVersion>
+      <InformationalVersion Condition=" '$(InformationalVersion)' != '' ">1.0.0+NUC1.5471.main.5ab432112dad39b6df5f986461efe375577d7c6f</InformationalVersion>
       <AssemblyVersion Condition=" '$(AssemblyVersion)' != '' ">1.0.0</AssemblyVersion>
       <FileVersion Condition=" '$(FileVersion)' != '' ">1.0.0</FileVersion>
 
