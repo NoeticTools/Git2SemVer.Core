@@ -36,4 +36,14 @@ public interface IDotNetSolutionCommands
 
     (int returnCode, string stdOutput) RemoveProject(string projectName);
     (int returnCode, string stdOutput) RemoveProject(string solutionName, string projectName);
+
+    /// <summary>
+    /// Create a new solution (sln) with the same name as the folder.
+    /// </summary>
+    (int returnCode, string stdOutput) New();
+
+    /// <summary>
+    /// Create a new solution (sln) with the given name.
+    /// </summary>
+    (int returnCode, string stdOutput) New(string solutionName);
 }

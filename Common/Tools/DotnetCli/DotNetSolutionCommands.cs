@@ -9,6 +9,19 @@ public sealed class DotNetSolutionCommands : IDotNetSolutionCommands
         _inner = inner;
     }
 
+    /// <summary>
+    /// Create a new solution (sln) with the given name.
+    /// </summary>
+    public (int returnCode, string stdOutput) New(string solutionName)
+    {
+        return _inner.Run($"new sln --name '{solutionName}'");
+    }
+
+    public (int returnCode, string stdOutput) New()
+    {
+        return _inner.Run($"new sln");
+    }
+
     public (int returnCode, string stdOutput) AddProject(string projectName)
     {
         return _inner.Run($"sln add {projectName}");
