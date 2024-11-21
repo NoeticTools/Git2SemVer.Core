@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
+﻿using Moq;
 using NoeticTools.Common.ConventionCommits;
 using NoeticTools.Common.Tools.Git;
+
+
 #pragma warning disable NUnit2045
 
 
-namespace NoeticTools.CommonTests.Tools.Git
+namespace NoeticTools.Git2SemVer.CoreTests.Tools.Git
 {
     [Parallelizable]
     internal class CommitRepositoryTests

@@ -3,8 +3,9 @@
 
 #pragma warning disable NUnit2045
 
-namespace NoeticTools.CommonTests.ConventionalCommits;
+namespace NoeticTools.Git2SemVer.CoreTests.ConventionalCommits;
 
+[TestFixture, Parallelizable(ParallelScope.Fixtures)]
 internal class ConventionalCommitsParserTests
 {
     private ConventionalCommitsParser _target;

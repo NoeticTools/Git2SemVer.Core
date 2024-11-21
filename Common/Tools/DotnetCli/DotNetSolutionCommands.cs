@@ -11,7 +11,7 @@ public sealed class DotNetSolutionCommands : IDotNetSolutionCommands
 
     public (int returnCode, string stdOutput) New(string solutionName)
     {
-        return _inner.Run($"new sln --name '{solutionName}'");
+        return _inner.Run($"new sln --name \"{solutionName}\"");
     }
 
     public (int returnCode, string stdOutput) New()

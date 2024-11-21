@@ -1,7 +1,7 @@
 using NoeticTools.Common.Tools;
 
 
-namespace NoeticTools.CommonTests.Tools;
+namespace NoeticTools.Git2SemVer.CoreTests.Tools;
 
 public class ContentEditorTests
 {

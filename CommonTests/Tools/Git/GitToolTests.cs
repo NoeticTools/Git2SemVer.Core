@@ -1,7 +1,7 @@
 ﻿using NoeticTools.Common.Tools.Git;
 
 
-namespace NoeticTools.CommonTests.Tools.Git;
+namespace NoeticTools.Git2SemVer.CoreTests.Tools.Git;
 
 [TestFixture]
 internal class GitToolTests

@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Core.IntegrationTests", "Git2SemVer.Core.IntegratonTests\Git2SemVer.Core.IntegrationTests.csproj", "{16E42D5D-0399-4661-B6A6-89B2696A8840}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,12 @@ Global
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16E42D5D-0399-4661-B6A6-89B2696A8840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E42D5D-0399-4661-B6A6-89B2696A8840}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16E42D5D-0399-4661-B6A6-89B2696A8840}.DebugPack|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E42D5D-0399-4661-B6A6-89B2696A8840}.DebugPack|Any CPU.Build.0 = Debug|Any CPU
+		{16E42D5D-0399-4661-B6A6-89B2696A8840}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16E42D5D-0399-4661-B6A6-89B2696A8840}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
