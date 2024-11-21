@@ -11,3 +11,4 @@ nupkg
 # Generated version properties file
 .git2semver/Git2SemVer.VersionInfo.g.json
 /SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.json
+/SolutionVersioningProject/.git2semver/Git2SemVer.VersionInfo.g.props
