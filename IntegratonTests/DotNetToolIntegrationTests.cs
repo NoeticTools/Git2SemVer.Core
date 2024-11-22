@@ -1,21 +1,21 @@
-using NUnit.Framework.Interfaces;
-
-
 namespace NoeticTools.Git2SemVer.Core.IntegrationTests;
 
-[TestFixture, Parallelizable(ParallelScope.All)]
+[TestFixture]
+[Parallelizable(ParallelScope.All)]
 public class DotNetToolIntegrationTests
 {
     [Test]
-    public void NewSolutionTest()
+    public void NewClasslibProjectInSolutionTest()
     {
         using var context = new DotNetToolIntegrationTestContext();
-
         context.DotNetCli.Solution.New();
-
         var solutionFiles = context.TestDirectory.GetFiles();
         Assert.That(solutionFiles.Length, Is.EqualTo(1));
-        Assert.That(solutionFiles[0].Name, Is.EqualTo(context.TestFolderName + ".sln"));
+
+        context.DotNetCli.Projects.NewClassLib("Project1");
+
+        var expectedProjectPath = Path.Combine(context.TestDirectory.FullName, "Project1", "Project1.csproj");
+        Assert.That(expectedProjectPath, Does.Exist);
     }
 
     [Test]
@@ -45,16 +45,14 @@ public class DotNetToolIntegrationTests
     }
 
     [Test]
-    public void NewClasslibProjectInSolutionTest()
+    public void NewSolutionTest()
     {
         using var context = new DotNetToolIntegrationTestContext();
+
         context.DotNetCli.Solution.New();
+
         var solutionFiles = context.TestDirectory.GetFiles();
         Assert.That(solutionFiles.Length, Is.EqualTo(1));
-
-        context.DotNetCli.Projects.NewClassLib("Project1");
-
-        var expectedProjectPath = Path.Combine(context.TestDirectory.FullName, "Project1", "Project1.csproj");
-        Assert.That(expectedProjectPath, Does.Exist);
+        Assert.That(solutionFiles[0].Name, Is.EqualTo(context.TestFolderName + ".sln"));
     }
 }

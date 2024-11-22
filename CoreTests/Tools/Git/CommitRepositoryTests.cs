@@ -6,7 +6,7 @@ using NoeticTools.Common.Tools.Git;
 #pragma warning disable NUnit2045
 
 
-namespace NoeticTools.Git2SemVer.CoreTests.Tools.Git
+namespace NoeticTools.Git2SemVer.Core.Tests.Tools.Git
 {
     [Parallelizable]
     internal class CommitRepositoryTests
