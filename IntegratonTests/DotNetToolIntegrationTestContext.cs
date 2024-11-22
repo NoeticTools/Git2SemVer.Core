@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using NoeticTools.Common.Tools;
 using NoeticTools.Common.Tools.DotnetCli;
@@ -10,7 +11,7 @@ internal sealed class DotNetToolIntegrationTestContext : IDisposable
 {
     private const int ConcurrentContextsLimit = 100;
     private static int _nextContextId = 1;
-    private static readonly Dictionary<TestExecutionContext, DirectoryInfo> TestDirectories = [];
+    private static readonly ConcurrentDictionary<TestExecutionContext, DirectoryInfo> TestDirectories = [];
 
     public DotNetToolIntegrationTestContext()
     {
@@ -32,12 +33,10 @@ internal sealed class DotNetToolIntegrationTestContext : IDisposable
     private static void ReleaseTestDirectory()
     {
         var currentContext = TestExecutionContext.CurrentContext;
-        if (!TestDirectories.TryGetValue(currentContext, out var directory))
+        if (!TestDirectories.Remove(currentContext, out var directory))
         {
-            Assert.Fail("Attempt to release a test directory for a context that does not have one.");
+            Assert.Fail("Context does not have a test directory to release.");
         }
-
-        TestDirectories.Remove(currentContext);
         directory!.Delete(true);
         if (!WaitUntil(() => !directory.Exists))
         {
@@ -86,7 +85,10 @@ internal sealed class DotNetToolIntegrationTestContext : IDisposable
         directory = Directory.CreateDirectory(testFolderPath);
 
         Logger.LogInfo("Created test directory {0}.", directory.FullName);
-        TestDirectories.Add(currentContext, directory);
+        if (!TestDirectories.TryAdd(currentContext, directory))
+        {
+            Assert.Fail("The context already has an assigned test directory.");
+        }
         return directory;
     }
 

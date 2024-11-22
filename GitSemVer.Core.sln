@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35208.52
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.Core", "Common\Git2SemVer.Core.csproj", "{3E909B24-393B-4075-9536-FD93CAA62D3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.Core", "Core\Git2SemVer.Core.csproj", "{3E909B24-393B-4075-9536-FD93CAA62D3A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0} = {C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}
 	EndProjectSection
@@ -14,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{25FC97
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.CoreTests", "CommonTests\Git2SemVer.CoreTests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Git2SemVer.Core.Tests", "CoreTests\Git2SemVer.Core.Tests.csproj", "{B968388D-5D60-4320-9038-E48A5D37AF75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolutionVersioningProject", "SolutionVersioningProject\SolutionVersioningProject.csproj", "{C1EB7E64-7126-4F1D-A5CF-E07B11C563B0}"
 EndProject
@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Core.IntegrationTests", "Git2SemVer.Core.IntegratonTests\Git2SemVer.Core.IntegrationTests.csproj", "{16E42D5D-0399-4661-B6A6-89B2696A8840}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Git2SemVer.Core.IntegrationTests", "IntegratonTests\Git2SemVer.Core.IntegrationTests.csproj", "{16E42D5D-0399-4661-B6A6-89B2696A8840}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
