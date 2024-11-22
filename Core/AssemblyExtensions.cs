@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO.Compression;
 using System.Reflection;
+using NoeticTools.Common.Exceptions;
+// ReSharper disable MemberCanBePrivate.Global
 
 
 namespace NoeticTools.Common;
 
 public static class AssemblyExtensions
 {
-    public static string GetResourceFileContent(this Assembly assembly, string filename)
+    public static Stream GetResourceStream(this Assembly assembly, string filename)
     {
         var resourcePath = assembly.GetManifestResourceNames()
                                    .SingleOrDefault(str => str.EndsWith(filename));
@@ -17,7 +21,24 @@ public static class AssemblyExtensions
 
         try
         {
-            using var stream = assembly.GetManifestResourceStream(resourcePath);
+            var stream = assembly.GetManifestResourceStream(resourcePath);
+            if (stream == null)
+            {
+                throw new Git2SemVerOperationException("Unable to open stream resource.");
+            }
+            return stream;
+        }
+        catch (Exception exception)
+        {
+            throw new Exception($"Unable to get resource file {filename}.", exception);
+        }
+    }
+
+    public static string GetResourceFileContent(this Assembly assembly, string filename)
+    {
+        try
+        {
+            using var stream = assembly.GetResourceStream(filename);
             using var reader = new StreamReader(stream!);
             return reader.ReadToEnd();
         }
