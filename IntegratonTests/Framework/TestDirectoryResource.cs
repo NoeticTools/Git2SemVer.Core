@@ -3,9 +3,9 @@ using System.Diagnostics;
 using NUnit.Framework.Internal;
 
 
-namespace NoeticTools.Git2SemVer.Core.IntegrationTests;
+namespace NoeticTools.Git2SemVer.Core.IntegrationTests.Framework;
 
-public static class TestContextDirectoryResource
+public static class TestDirectoryResource
 {
     private static readonly ConcurrentDictionary<TestExecutionContext, DirectoryInfo> ResourceByTestContext = [];
     private static int _nextContextId;

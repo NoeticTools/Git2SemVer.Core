@@ -9,6 +9,11 @@ public sealed class DotNetProjectCommands : IDotNetProjectCommands
         _inner = inner;
     }
 
+    public void NewConsole(string projectPath, string language = "C#")
+    {
+        New("console", projectPath, language);
+    }
+
     public void NewClassLib(string projectPath, string language = "C#")
     {
         New("classlib", projectPath, language);

@@ -16,12 +16,11 @@ internal sealed class DotNetToolIntegrationTestContext : IDisposable
         {
             Assert.Fail($"Exceeded number of active contexts limit of {ConcurrentContextsLimit}.");
         }
-
         _activeContexts++;
 
         Logger = new NUnitLogger(false);
 
-        TestDirectory = TestContextDirectoryResource.Get();
+        TestDirectory = TestDirectoryResource.Get();
         TestFolderName = TestDirectory.Name;
         Logger.LogInfo("Created test directory {0}.", TestDirectory.FullName);
 
@@ -40,6 +39,6 @@ internal sealed class DotNetToolIntegrationTestContext : IDisposable
     public void Dispose()
     {
         _activeContexts--;
-        TestContextDirectoryResource.Release();
+        TestDirectoryResource.Release();
     }
 }
