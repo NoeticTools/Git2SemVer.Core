@@ -81,7 +81,7 @@ public sealed class ProcessCli : IProcessCli
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 // hack! to allow time for standard outputs to be received
-                Thread.Sleep(10);
+                Thread.Sleep(25);
             }
         }
 
@@ -91,7 +91,7 @@ public sealed class ProcessCli : IProcessCli
                 $"ProcessCli Run timed out after {TimeLimitMilliseconds} milliseconds. Command was 'dotnet {commandLineArguments}'.";
             OnError(errorOut, message);
             process.Kill();
-            process.WaitForExit(5000);
+            process.WaitForExit(30000);
         }
 
         var exitCode = process.ExitCode;
