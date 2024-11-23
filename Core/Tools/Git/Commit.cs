@@ -16,9 +16,11 @@ public class Commit : ICommit
     private const string TagVersionPrefix = "v";
     private readonly Regex _tagVersionRegex = new(@$"tag: {TagVersionPrefix}(?<version>\d+\.\d+\.\d+)", RegexOptions.IgnoreCase);
 
-    public Commit(string sha, string[] parents, string summary, string messageBody, string refs, CommitMessageMetadata metadata)
+    public Commit(string sha, string[] parents, string summary, string messageBody, string refs, 
+                  CommitMessageMetadata metadata,
+                  ICommitObfuscator obfuscator)
     {
-        CommitId = new CommitId(sha);
+        CommitId = new CommitId(sha, obfuscator);
 
         if (parents.Length == 1 && parents[0].Length == 0)
         {
@@ -26,7 +28,7 @@ public class Commit : ICommit
         }
         else
         {
-            Parents = parents.Select(x => new CommitId(x)).ToArray();
+            Parents = parents.Select(x => new CommitId(x, obfuscator)).ToArray();
         }
 
         Refs = refs;
@@ -50,7 +52,7 @@ public class Commit : ICommit
     public CommitMessageMetadata Metadata { get; }
 
     [JsonIgnore]
-    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata());
+    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata(), new CommitObfuscator());
 
     [JsonPropertyOrder(31)]
     public CommitId[] Parents { get; }

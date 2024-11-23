@@ -7,13 +7,25 @@ using NoeticTools.Common.ConventionCommits;
 namespace NoeticTools.Common.Tools.Git;
 
 #pragma warning disable CS1591
-public static class CommitObfuscator
+public sealed class CommitObfuscator : ICommitObfuscator
 {
-    private static readonly Dictionary<string, string> ObfuscatedCommitShaLookup = new();
+    private readonly Dictionary<string, string> _obfuscatedShaLookup = new();
 
-    public static void Clear()
+    public void Clear()
     {
-        ObfuscatedCommitShaLookup.Clear();
+        _obfuscatedShaLookup.Clear();
+    }
+
+    public string GetObfuscatedSha(string sha)
+    {
+        if (_obfuscatedShaLookup.TryGetValue(sha, out var value))
+        {
+            return value;
+        }
+
+        var newValue = sha.Length > 6 ? (_obfuscatedShaLookup.Count + 1).ToString("D").PadLeft(4, '0') : sha;
+        _obfuscatedShaLookup.Add(sha, newValue);
+        return newValue;
     }
 
     /// <summary>
@@ -28,7 +40,7 @@ public static class CommitObfuscator
     ///         The resulting log can be copy and pasted to build automatic tests.
     ///     </para>
     /// </remarks>
-    public static string GetObfuscatedLogLine(string graph, Commit? commit)
+    public string GetObfuscatedLogLine(string graph, Commit? commit)
     {
         if (commit == null)
         {
@@ -59,7 +71,7 @@ public static class CommitObfuscator
         return $"{priorGraphLines}{graphLine,-15} \u001f.|{sha}|{parentShas}|\u0002{summary}\u0003|\u0002{footer}\u0003|{redactedRefs2}|";
     }
 
-    private static string GetRedactedConventionalCommitSummary(Commit commit)
+    private string GetRedactedConventionalCommitSummary(Commit commit)
     {
         if (commit.Metadata.ChangeType == CommitChangeTypeId.Unknown)
         {
@@ -69,17 +81,5 @@ public static class CommitObfuscator
         var colonPrefix = commit.Summary.IndexOf(':');
         var prefix = commit.Summary.Substring(0, colonPrefix + 1);
         return prefix + " REDACTED";
-    }
-
-    public static string GetObfuscatedSha(string sha)
-    {
-        if (ObfuscatedCommitShaLookup.TryGetValue(sha, out var value))
-        {
-            return value;
-        }
-
-        var newValue = sha.Length > 6 ? (ObfuscatedCommitShaLookup.Count + 1).ToString("D").PadLeft(4, '0') : sha;
-        ObfuscatedCommitShaLookup.Add(sha, newValue);
-        return newValue;
     }
 }

@@ -33,6 +33,7 @@ public class GitTool : IGitTool
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
     private readonly SemVersion _assumedLowestGitVersion = new(2,0,0); // Tested with 2.41.0. Do not expect compatibility below 2.0.0.
+    private readonly ICommitObfuscator _obfuscator;
 
     public GitTool(ILogger logger)
     {
@@ -40,6 +41,7 @@ public class GitTool : IGitTool
         _logger = logger;
         _inner = new GitProcessCli(logger);
         _conventionalCommitParser = new ConventionalCommitsParser();
+        _obfuscator = new CommitObfuscator();
 
         var gitVersion = GetVersion();
         if (gitVersion != null &&
@@ -113,7 +115,7 @@ public class GitTool : IGitTool
         }
 
         var commit = hasCommitMetadata
-            ? new Commit(sha, parents, summary, body, refs, commitMetadata)
+            ? new Commit(sha, parents, summary, body, refs, commitMetadata, _obfuscator)
             : null;
 
         if (commit != null)
@@ -121,7 +123,7 @@ public class GitTool : IGitTool
             commits.Add(commit);
         }
 
-        obfuscatedGitLog.Add(CommitObfuscator.GetObfuscatedLogLine(graph, commit));
+        obfuscatedGitLog.Add(_obfuscator.GetObfuscatedLogLine(graph, commit));
     }
 
     public static string ParseStatusResponseBranchName(string stdOutput)

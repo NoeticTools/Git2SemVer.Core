@@ -11,7 +11,7 @@ internal class CommitObfuscatorTests
     [Test]
     public void FirstShaIs0001Test()
     {
-        var result = CommitObfuscator.GetObfuscatedSha("1234567");
+        var result = new CommitObfuscator().GetObfuscatedSha("1234567");
 
         Assert.That(result, Is.EqualTo("0001"));
     }
@@ -20,9 +20,9 @@ internal class CommitObfuscatorTests
     public void NoConventionalCommitInfoLogLineTest()
     {
         const string expected = "*               \u001f.|0001|0002 0003|\u0002REDACTED\u0003|\u0002\u0003||";
-        var commit = new Commit("commitSha", ["parent1", "parent2"], "Summary line", "", "", new CommitMessageMetadata());
+        var commit = new Commit("commitSha", ["parent1", "parent2"], "Summary line", "", "", new CommitMessageMetadata(), new CommitObfuscator());
 
-        var result = CommitObfuscator.GetObfuscatedLogLine("* ", commit);
+        var result = new CommitObfuscator().GetObfuscatedLogLine("* ", commit);
 
         Assert.That(result, Is.EqualTo(expected));
     }
@@ -34,11 +34,13 @@ internal class CommitObfuscatorTests
         const string sha2 = "fa340bd213c0002";
         const string sha3 = "fa340bd213c0003";
 
-        var result11 = CommitObfuscator.GetObfuscatedSha(sha1);
-        var result12 = CommitObfuscator.GetObfuscatedSha(sha1);
-        var result21 = CommitObfuscator.GetObfuscatedSha(sha2);
-        var result31 = CommitObfuscator.GetObfuscatedSha(sha3);
-        var result22 = CommitObfuscator.GetObfuscatedSha(sha2);
+        var obfuscator = new CommitObfuscator();
+
+        var result11 = obfuscator.GetObfuscatedSha(sha1);
+        var result12 = obfuscator.GetObfuscatedSha(sha1);
+        var result21 = obfuscator.GetObfuscatedSha(sha2);
+        var result31 = obfuscator.GetObfuscatedSha(sha3);
+        var result22 = obfuscator.GetObfuscatedSha(sha2);
 
         Assert.That(result11, Is.EqualTo(result12));
         Assert.That(result21, Is.EqualTo(result22));
@@ -49,14 +51,13 @@ internal class CommitObfuscatorTests
     [SetUp]
     public void SetUp()
     {
-        CommitObfuscator.Clear();
     }
 
     [TestCase("0099")]
     [TestCase("123456")]
     public void ShortShaIsReturnedSameTest(string sha)
     {
-        var result = CommitObfuscator.GetObfuscatedSha(sha);
+        var result = new CommitObfuscator().GetObfuscatedSha(sha);
 
         Assert.That(result, Is.EqualTo(sha));
     }
@@ -69,9 +70,10 @@ internal class CommitObfuscatorTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",
-                                new CommitMessageMetadata("feat", true, "Big red feature\nRecommended", "", []));
+                                new CommitMessageMetadata("feat", true, "Big red feature\nRecommended", "", []),
+                                new CommitObfuscator());
 
-        var result = CommitObfuscator.GetObfuscatedLogLine(@"|\  ", commit);
+        var result = new CommitObfuscator().GetObfuscatedLogLine(@"|\  ", commit);
 
         Assert.That(result, Is.EqualTo(expected));
     }
@@ -91,9 +93,10 @@ internal class CommitObfuscatorTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",
-                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues));
+                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues), 
+                                new CommitObfuscator());
 
-        var result = CommitObfuscator.GetObfuscatedLogLine(@"|\  ", commit);
+        var result = new CommitObfuscator().GetObfuscatedLogLine(@"|\  ", commit);
 
         Assert.That(result, Is.EqualTo(expected));
     }
@@ -108,9 +111,10 @@ internal class CommitObfuscatorTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "HEAD -> REDACTED_BRANCH, origin/main",
-                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues));
+                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues),
+                                new CommitObfuscator());
 
-        var result = CommitObfuscator.GetObfuscatedLogLine(@"|\  ", commit);
+        var result = new CommitObfuscator().GetObfuscatedLogLine(@"|\  ", commit);
 
         Assert.That(result, Is.EqualTo(expected));
     }
