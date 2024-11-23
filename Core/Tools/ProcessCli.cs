@@ -19,7 +19,7 @@ public sealed class ProcessCli : IProcessCli
 
     public ILogger Logger { get; }
 
-    public int TimeLimitMilliseconds { get; set; } = 30000;
+    public int TimeLimitMilliseconds { get; set; } = 60000;
 
     public string WorkingDirectory { get; set; }
 
