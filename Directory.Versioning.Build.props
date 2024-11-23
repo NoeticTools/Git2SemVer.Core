@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <!-- 
   This file was added by the Git2SemVer dotnet tool to configure the solution automated project versioning.
 -->
@@ -38,10 +39,10 @@
         <WarningsAsErrors>$(WarningsAsErrors);NU1504</WarningsAsErrors>
       </PropertyGroup>
       <ItemGroup>
-        <PackageReference Include="NoeticTools.Git2SemVer.MSBuild" 
-                          Version="1.0.0" 
+        <PackageReference Include="NoeticTools.Git2SemVer.MSBuild"
+                          Version="1.0.0"
                           Condition="'$(Git2SemVer_NuGetLoad_Disable)' != 'true'"
-                          PrivateAssets="all"/>
+                          PrivateAssets="all" />
       </ItemGroup>
     </When>
   </Choose>

@@ -1,8 +1,8 @@
 ﻿using Injectio.Attributes;
-using NoeticTools.Common.Logging;
+using NoeticTools.Git2SemVer.Core.Logging;
 
 
-namespace NoeticTools.Common.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 [RegisterTransient]
 public class GitProcessCli : IGitProcessCli

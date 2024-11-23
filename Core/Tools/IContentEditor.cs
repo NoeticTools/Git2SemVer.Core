@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Common.Tools;
+﻿namespace NoeticTools.Git2SemVer.Core.Tools;
 
 public interface IContentEditor
 {

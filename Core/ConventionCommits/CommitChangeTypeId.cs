@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Common.ConventionCommits;
+﻿namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 public enum CommitChangeTypeId
 {

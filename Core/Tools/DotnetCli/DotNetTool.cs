@@ -1,8 +1,8 @@
 ﻿using Injectio.Attributes;
-using NoeticTools.Common.Logging;
+using NoeticTools.Git2SemVer.Core.Logging;
 
 
-namespace NoeticTools.Common.Tools.DotnetCli;
+namespace NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
 
 /// <summary>
 ///     Help for executing dotnet cli commands.

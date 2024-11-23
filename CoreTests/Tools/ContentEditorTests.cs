@@ -1,4 +1,4 @@
-using NoeticTools.Common.Tools;
+using NoeticTools.Git2SemVer.Core.Tools;
 
 
 namespace NoeticTools.Git2SemVer.Core.Tests.Tools;

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Injectio.Attributes;
-using NoeticTools.Common.ConventionCommits;
-using NoeticTools.Common.Exceptions;
-using NoeticTools.Common.Logging;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
+using NoeticTools.Git2SemVer.Core.Exceptions;
+using NoeticTools.Git2SemVer.Core.Logging;
 using Semver;
 
 
 #pragma warning disable SYSLIB1045
 
-namespace NoeticTools.Common.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 #pragma warning disable CS1591
 [RegisterTransient]
@@ -28,11 +27,11 @@ public class GitTool : IGitTool
         """;
 
     private const char RecordSeparator = CharacterConstants.RS;
+    private readonly SemVersion _assumedLowestGitVersion = new(2, 0, 0); // Tested with 2.41.0. Do not expect compatibility below 2.0.0.
     private readonly ConventionalCommitsParser _conventionalCommitParser;
     private readonly string _gitLogFormat;
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
-    private readonly SemVersion _assumedLowestGitVersion = new(2,0,0); // Tested with 2.41.0. Do not expect compatibility below 2.0.0.
     private readonly ICommitObfuscator _obfuscator;
 
     public GitTool(ILogger logger)
@@ -74,10 +73,7 @@ public class GitTool : IGitTool
         var lines = result.stdOutput.Split(RecordSeparator); // todo - inadequate
 
         _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
-        foreach (var line in lines)
-        {
-            ParseLogLine(line, obfuscatedGitLog, commits);
-        }
+        foreach (var line in lines) ParseLogLine(line, obfuscatedGitLog, commits);
 
         _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
         _logger.LogTrace("Partially obfuscated git log ({0} skipped):\n\n                .|Commit|Parents|Summary|Body|Refs|\n{1}", skipCount,

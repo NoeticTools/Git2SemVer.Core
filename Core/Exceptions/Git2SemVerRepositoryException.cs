@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Common.Exceptions;
+﻿namespace NoeticTools.Git2SemVer.Core.Exceptions;
 
 public class Git2SemVerRepositoryException : Git2SemverExceptionBase
 {

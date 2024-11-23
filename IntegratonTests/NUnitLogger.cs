@@ -1,7 +1,7 @@
-﻿using NoeticTools.Common.Logging;
+﻿using NoeticTools.Git2SemVer.Core.Logging;
 
 
-namespace NoeticTools.Git2SemVer.Core.IntegrationTests.Framework;
+namespace NoeticTools.Git2SemVer.Core.IntegrationTests;
 
 /// <summary>
 ///     Logger to log to NUnit's TestContext.

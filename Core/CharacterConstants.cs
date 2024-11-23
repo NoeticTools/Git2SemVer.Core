@@ -1,6 +1,6 @@
 ﻿// ReSharper disable InconsistentNaming
 
-namespace NoeticTools.Common;
+namespace NoeticTools.Git2SemVer.Core;
 
 public static class CharacterConstants
 {

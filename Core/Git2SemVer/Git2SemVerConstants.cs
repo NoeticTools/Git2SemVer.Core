@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.Common;
+﻿namespace NoeticTools.Git2SemVer.Core.Git2SemVer;
 
 public static class Git2SemVerConstants
 {

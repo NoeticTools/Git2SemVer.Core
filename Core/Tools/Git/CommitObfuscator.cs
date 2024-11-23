@@ -1,10 +1,10 @@
 ﻿using System.Text.RegularExpressions;
-using NoeticTools.Common.ConventionCommits;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 
 #pragma warning disable SYSLIB1045
 
-namespace NoeticTools.Common.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 #pragma warning disable CS1591
 public sealed class CommitObfuscator : ICommitObfuscator
@@ -14,18 +14,6 @@ public sealed class CommitObfuscator : ICommitObfuscator
     public void Clear()
     {
         _obfuscatedShaLookup.Clear();
-    }
-
-    public string GetObfuscatedSha(string sha)
-    {
-        if (_obfuscatedShaLookup.TryGetValue(sha, out var value))
-        {
-            return value;
-        }
-
-        var newValue = sha.Length > 6 ? (_obfuscatedShaLookup.Count + 1).ToString("D").PadLeft(4, '0') : sha;
-        _obfuscatedShaLookup.Add(sha, newValue);
-        return newValue;
     }
 
     /// <summary>
@@ -52,8 +40,8 @@ public sealed class CommitObfuscator : ICommitObfuscator
         if (graph.Contains("\n"))
         {
             var lastNewLineIndex = graph.LastIndexOf('\n');
-            priorGraphLines = graph.Substring(0, lastNewLineIndex+1);
-            graphLine = graph.Substring(lastNewLineIndex+1);
+            priorGraphLines = graph.Substring(0, lastNewLineIndex + 1);
+            graphLine = graph.Substring(lastNewLineIndex + 1);
         }
 
         var redactedRefs = new Regex(@"HEAD -> \S+?(?=[,\)])").Replace(commit.Refs, "HEAD -> REDACTED_BRANCH");
@@ -69,6 +57,18 @@ public sealed class CommitObfuscator : ICommitObfuscator
         var footer = string.Join("\n", commit.Metadata.FooterKeyValues.SelectMany((kv, _) => kv.Select(value => kv.Key + ": " + value)));
 
         return $"{priorGraphLines}{graphLine,-15} \u001f.|{sha}|{parentShas}|\u0002{summary}\u0003|\u0002{footer}\u0003|{redactedRefs2}|";
+    }
+
+    public string GetObfuscatedSha(string sha)
+    {
+        if (_obfuscatedShaLookup.TryGetValue(sha, out var value))
+        {
+            return value;
+        }
+
+        var newValue = sha.Length > 6 ? (_obfuscatedShaLookup.Count + 1).ToString("D").PadLeft(4, '0') : sha;
+        _obfuscatedShaLookup.Add(sha, newValue);
+        return newValue;
     }
 
     private string GetRedactedConventionalCommitSummary(Commit commit)

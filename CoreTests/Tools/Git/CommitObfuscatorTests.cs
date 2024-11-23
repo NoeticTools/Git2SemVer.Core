@@ -1,13 +1,18 @@
-﻿using NoeticTools.Common.ConventionCommits;
-using NoeticTools.Common.Tools.Git;
+﻿using NoeticTools.Git2SemVer.Core.ConventionCommits;
+using NoeticTools.Git2SemVer.Core.Tools.Git;
 
 
 namespace NoeticTools.Git2SemVer.Core.Tests.Tools.Git;
 
-
-[TestFixture, NonParallelizable]
+[TestFixture]
+[NonParallelizable]
 internal class CommitObfuscatorTests
 {
+    [SetUp]
+    public void SetUp()
+    {
+    }
+
     [Test]
     public void FirstShaIs0001Test()
     {
@@ -48,11 +53,6 @@ internal class CommitObfuscatorTests
         Assert.That(result21, Is.Not.EqualTo(result31));
     }
 
-    [SetUp]
-    public void SetUp()
-    {
-    }
-
     [TestCase("0099")]
     [TestCase("123456")]
     public void ShortShaIsReturnedSameTest(string sha)
@@ -89,11 +89,11 @@ internal class CommitObfuscatorTests
             ("refs", "#0002")
         };
         var expected =
-            $"|\\              \u001f.|0001|0002 0003|\u0002fix: REDACTED\u0003|\u0002BREAKING CHANGE: Oops my bad\nrefs: #0001\nrefs: #0002\u0003||";
+            "|\\              \u001f.|0001|0002 0003|\u0002fix: REDACTED\u0003|\u0002BREAKING CHANGE: Oops my bad\nrefs: #0001\nrefs: #0002\u0003||";
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",
-                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues), 
+                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues),
                                 new CommitObfuscator());
 
         var result = new CommitObfuscator().GetObfuscatedLogLine(@"|\  ", commit);
@@ -107,7 +107,7 @@ internal class CommitObfuscatorTests
         const string summary = "fix: Fixed";
         var footerKeyValues = new List<(string key, string value)>();
         var expected =
-            $"|\\              \u001f.|0001|0002 0003|\u0002fix: REDACTED\u0003|\u0002\u0003| (HEAD -> REDACTED_BRANCH, origin/main)|";
+            "|\\              \u001f.|0001|0002 0003|\u0002fix: REDACTED\u0003|\u0002\u0003| (HEAD -> REDACTED_BRANCH, origin/main)|";
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "HEAD -> REDACTED_BRANCH, origin/main",

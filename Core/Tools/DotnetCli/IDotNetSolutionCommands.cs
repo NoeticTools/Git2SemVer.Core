@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Common.Tools.DotnetCli;
+﻿namespace NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
 
 public interface IDotNetSolutionCommands
 {
@@ -34,9 +34,6 @@ public interface IDotNetSolutionCommands
     /// </remarks>
     (int returnCode, IReadOnlyList<string> projects) GetProjects(string solutionName);
 
-    (int returnCode, string stdOutput) RemoveProject(string projectName);
-    (int returnCode, string stdOutput) RemoveProject(string solutionName, string projectName);
-
     /// <summary>
     ///     Create a new solution (sln) with the same name as the folder.
     /// </summary>
@@ -46,7 +43,15 @@ public interface IDotNetSolutionCommands
     ///     Create a new solution (sln) with the given name.
     /// </summary>
     /// <remarks>
-    ///     Equivalent to <see href="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-sln#create-a-solution-file">dotnet CLI create a solution file</see>.
+    ///     Equivalent to
+    ///     <see href="https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-sln#create-a-solution-file">
+    ///         dotnet CLI create
+    ///         a solution file
+    ///     </see>
+    ///     .
     /// </remarks>
     (int returnCode, string stdOutput) New(string solutionName);
+
+    (int returnCode, string stdOutput) RemoveProject(string projectName);
+    (int returnCode, string stdOutput) RemoveProject(string solutionName, string projectName);
 }

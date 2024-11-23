@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Common.Logging;
+﻿namespace NoeticTools.Git2SemVer.Core.Logging;
 
 /// <summary>
 ///     An internally used interface.

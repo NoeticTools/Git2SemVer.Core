@@ -2,7 +2,7 @@
 using Injectio.Attributes;
 
 
-namespace NoeticTools.Common.Tools;
+namespace NoeticTools.Git2SemVer.Core.Tools;
 
 [RegisterSingleton]
 public sealed class ContentEditor : IContentEditor

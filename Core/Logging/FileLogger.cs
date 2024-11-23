@@ -2,7 +2,7 @@
 using Injectio.Attributes;
 
 
-namespace NoeticTools.Common.Logging;
+namespace NoeticTools.Git2SemVer.Core.Logging;
 
 [RegisterTransient]
 public class FileLogger : ILogger
@@ -15,7 +15,6 @@ public class FileLogger : ILogger
     {
         var stopwatch = Stopwatch.StartNew();
         while (true)
-        {
             try
             {
                 _stream = new StreamWriter(filePath, false) { AutoFlush = true };
@@ -32,7 +31,6 @@ public class FileLogger : ILogger
                     throw;
                 }
             }
-        }
     }
 
     public string Errors => string.Join("\n", _errorMessages);

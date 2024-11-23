@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-using NoeticTools.Common.ConventionCommits;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using Semver;
 
 
@@ -8,7 +8,7 @@ using Semver;
 
 // ReSharper disable MergeIntoPattern
 
-namespace NoeticTools.Common.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 #pragma warning disable CS1591
 public class Commit : ICommit
@@ -16,7 +16,7 @@ public class Commit : ICommit
     private const string TagVersionPrefix = "v";
     private readonly Regex _tagVersionRegex = new(@$"tag: {TagVersionPrefix}(?<version>\d+\.\d+\.\d+)", RegexOptions.IgnoreCase);
 
-    public Commit(string sha, string[] parents, string summary, string messageBody, string refs, 
+    public Commit(string sha, string[] parents, string summary, string messageBody, string refs,
                   CommitMessageMetadata metadata,
                   ICommitObfuscator obfuscator)
     {

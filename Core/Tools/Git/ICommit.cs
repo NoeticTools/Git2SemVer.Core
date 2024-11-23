@@ -2,7 +2,7 @@
 using Semver;
 
 
-namespace NoeticTools.Common.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 [JsonDerivedType(typeof(Commit), "Commit")]
 public interface ICommit

@@ -1,7 +1,7 @@
-﻿using NoeticTools.Common.Logging;
+﻿using NoeticTools.Git2SemVer.Core.Logging;
 
 
-namespace NoeticTools.Common.Tools;
+namespace NoeticTools.Git2SemVer.Core.Tools;
 
 public interface IProcessCli
 {

@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Common.Tools.DotnetCli;
+﻿namespace NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
 
 public interface IDotNetTool
 {

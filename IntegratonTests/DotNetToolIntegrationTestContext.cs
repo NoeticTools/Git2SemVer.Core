@@ -1,6 +1,6 @@
-using NoeticTools.Common.Tools;
-using NoeticTools.Common.Tools.DotnetCli;
 using NoeticTools.Git2SemVer.Core.IntegrationTests.Framework;
+using NoeticTools.Git2SemVer.Core.Tools;
+using NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
 
 
 namespace NoeticTools.Git2SemVer.Core.IntegrationTests;
@@ -16,6 +16,7 @@ internal sealed class DotNetToolIntegrationTestContext : IDisposable
         {
             Assert.Fail($"Exceeded number of active contexts limit of {ConcurrentContextsLimit}.");
         }
+
         _activeContexts++;
 
         Logger = new NUnitLogger(false);

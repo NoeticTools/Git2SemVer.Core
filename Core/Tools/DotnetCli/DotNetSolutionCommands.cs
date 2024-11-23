@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Common.Tools.DotnetCli;
+﻿namespace NoeticTools.Git2SemVer.Core.Tools.DotnetCli;
 
 public sealed class DotNetSolutionCommands : IDotNetSolutionCommands
 {
@@ -7,16 +7,6 @@ public sealed class DotNetSolutionCommands : IDotNetSolutionCommands
     internal DotNetSolutionCommands(DotNetTool inner)
     {
         _inner = inner;
-    }
-
-    public (int returnCode, string stdOutput) New(string solutionName)
-    {
-        return _inner.Run($"new sln --name \"{solutionName}\"");
-    }
-
-    public (int returnCode, string stdOutput) New()
-    {
-        return _inner.Run($"new sln");
     }
 
     public (int returnCode, string stdOutput) AddProject(string projectName)
@@ -39,6 +29,16 @@ public sealed class DotNetSolutionCommands : IDotNetSolutionCommands
     {
         var result = _inner.Run($"sln {solutionName} list");
         return (result.returnCode, result.stdOutput.Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries));
+    }
+
+    public (int returnCode, string stdOutput) New(string solutionName)
+    {
+        return _inner.Run($"new sln --name \"{solutionName}\"");
+    }
+
+    public (int returnCode, string stdOutput) New()
+    {
+        return _inner.Run("new sln");
     }
 
     public (int returnCode, string stdOutput) RemoveProject(string projectName)

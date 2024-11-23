@@ -1,7 +1,7 @@
-﻿using NoeticTools.Common.Exceptions;
+﻿using NoeticTools.Git2SemVer.Core.Exceptions;
 
 
-namespace NoeticTools.Common.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 #pragma warning disable CS1591
 public sealed class CommitsRepository : ICommitsRepository
@@ -40,10 +40,7 @@ public sealed class CommitsRepository : ICommitsRepository
                 throw new Git2SemVerRepositoryException("Unable to read further git commits.");
             }
 
-            foreach (var readCommit in commits)
-            {
-                _commits.Add(readCommit.CommitId, readCommit);
-            }
+            foreach (var readCommit in commits) _commits.Add(readCommit.CommitId, readCommit);
         }
     }
 }

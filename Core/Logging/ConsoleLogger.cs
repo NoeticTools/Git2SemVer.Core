@@ -2,7 +2,7 @@
 using Spectre.Console;
 
 
-namespace NoeticTools.Common.Logging;
+namespace NoeticTools.Git2SemVer.Core.Logging;
 
 [RegisterTransient]
 public class ConsoleLogger : ILogger

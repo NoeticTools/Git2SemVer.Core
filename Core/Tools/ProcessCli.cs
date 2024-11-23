@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Injectio.Attributes;
-using NoeticTools.Common.Exceptions;
-using NoeticTools.Common.Logging;
+using NoeticTools.Git2SemVer.Core.Exceptions;
+using NoeticTools.Git2SemVer.Core.Logging;
 
 
-namespace NoeticTools.Common.Tools;
+namespace NoeticTools.Git2SemVer.Core.Tools;
 
 [RegisterTransient]
 public sealed class ProcessCli : IProcessCli
@@ -78,6 +77,7 @@ public sealed class ProcessCli : IProcessCli
             {
                 process.WaitForExit();
             }
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 // hack! to allow time for standard outputs to be received

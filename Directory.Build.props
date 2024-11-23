@@ -17,6 +17,6 @@
     <NoWarn>NU5100;NU1803;NU5128</NoWarn>
   </PropertyGroup>
 
-  <Import Project="Directory.Versioning.Build.props"/>
+  <Import Project="Directory.Versioning.Build.props" />
 
 </Project>

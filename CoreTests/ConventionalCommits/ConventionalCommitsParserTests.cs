@@ -1,14 +1,21 @@
-﻿using NoeticTools.Common.ConventionCommits;
+﻿using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 
 #pragma warning disable NUnit2045
 
 namespace NoeticTools.Git2SemVer.Core.Tests.ConventionalCommits;
 
-[TestFixture, Parallelizable(ParallelScope.Fixtures)]
+[TestFixture]
+[Parallelizable(ParallelScope.Fixtures)]
 internal class ConventionalCommitsParserTests
 {
     private ConventionalCommitsParser _target;
+
+    [SetUp]
+    public void SetUp()
+    {
+        _target = new ConventionalCommitsParser();
+    }
 
     [TestCase(
                  """
@@ -165,12 +172,6 @@ internal class ConventionalCommitsParserTests
         var result = _target.Parse(commitSubject, "");
 
         Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Unknown));
-    }
-
-    [SetUp]
-    public void SetUp()
-    {
-        _target = new ConventionalCommitsParser();
     }
 
     [TestCase("")]

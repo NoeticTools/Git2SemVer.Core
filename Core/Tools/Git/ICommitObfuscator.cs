@@ -1,9 +1,7 @@
-﻿namespace NoeticTools.Common.Tools.Git;
+﻿namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 public interface ICommitObfuscator
 {
-    string GetObfuscatedSha(string sha);
-
     /// <summary>
     ///     Create a partially obfuscated git log line for the build log.
     /// </summary>
@@ -17,4 +15,6 @@ public interface ICommitObfuscator
     ///     </para>
     /// </remarks>
     string GetObfuscatedLogLine(string graph, Commit? commit);
+
+    string GetObfuscatedSha(string sha);
 }

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
 
-namespace NoeticTools.Common.ConventionCommits;
+namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 public sealed class ConventionalCommitsParser
 {

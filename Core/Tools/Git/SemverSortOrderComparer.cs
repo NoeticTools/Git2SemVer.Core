@@ -1,7 +1,7 @@
 ﻿using Semver;
 
 
-namespace NoeticTools.Common.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 #pragma warning disable CS1591
 internal sealed class SemverSortOrderComparer : IComparer<SemVersion>
@@ -12,10 +12,12 @@ internal sealed class SemverSortOrderComparer : IComparer<SemVersion>
         {
             throw new ArgumentNullException(nameof(x));
         }
+
         if (y == null)
         {
             throw new ArgumentNullException(nameof(y));
         }
+
         return x.CompareSortOrderTo(y);
     }
 }
