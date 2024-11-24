@@ -59,7 +59,7 @@ http://10.1.10.78:8111/guestAuth/app/nuget/feed/_Root/TeamCity/v3/index.json]]><
       </runner>
     </build-runners>
     <vcs-settings>
-      <vcs-entry-ref root-id="Git2SemVerCore_HttpsGithubComNoetictoolsGit2semverCoreRefsHeadsMain" />
+      <vcs-entry-ref root-id="NoeticToolsGit2SemVerCore_HttpsGithubComNoetictoolsGit2semverCoreRefsHeadsMain" />
     </vcs-settings>
     <requirements>
       <exists id="RQ_1" name="DotNetCLI_Path" />
