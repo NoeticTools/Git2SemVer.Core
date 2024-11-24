@@ -1,5 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.approval
+import jetbrains.buildServer.configs.kotlin.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.buildSteps.dotnetNugetPush
@@ -128,6 +129,15 @@ object BuildAndTest : BuildType({
 
     features {
         perfmon {
+        }
+        commitStatusPublisher {
+            vcsRootExtId = "${DslContext.settingsRoot.id}"
+            publisher = github {
+                githubUrl = "https://api.github.com"
+                authType = storedToken {
+                    tokenId = "tc_token_id:CID_3de2c2727993edab40e4371046ac9db7:-1:5bff2d1b-5e00-4af5-9685-97f5e3833cad"
+                }
+            }
         }
     }
 
