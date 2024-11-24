@@ -109,7 +109,7 @@ internal sealed class NUnitLogger : ILogger
     {
         if (Level >= LoggingLevel.Info)
         {
-            TestContext.Out.WriteLine(_infoPrefix + LogPrefix + message); //>>>
+            TestContext.Out.WriteLine(_infoPrefix + LogPrefix + message);
         }
     }
 
