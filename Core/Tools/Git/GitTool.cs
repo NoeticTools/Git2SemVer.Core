@@ -70,7 +70,7 @@ public class GitTool : IGitTool
         var result = Run($"log --graph --skip={skipCount} --max-count={takeCount} --pretty=\"format:{_gitLogFormat}\"");
 
         var obfuscatedGitLog = new List<string>();
-        var lines = result.stdOutput.Split(RecordSeparator); // todo - inadequate
+        var lines = result.stdOutput.Split(RecordSeparator);
 
         _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
         foreach (var line in lines) ParseLogLine(line, obfuscatedGitLog, commits);

@@ -5,4 +5,5 @@ public interface ICommitsRepository
     Commit Head { get; }
 
     Commit Get(CommitId commitId);
+    Commit Get(string commitSha);
 }
