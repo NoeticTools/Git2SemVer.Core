@@ -25,4 +25,8 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Update="NoeticTools.Git2SemVer.MSBuild" Version="1.2.0" />
+  </ItemGroup>
+
 </Project>
