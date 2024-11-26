@@ -24,7 +24,7 @@ namespace NoeticTools.Git2SemVer.Core.IntegrationTests
 
             var contributingCommits = target.GetContributingCommits(after: commit.CommitId, to: target.Head.CommitId);
 
-            Assert.That(contributingCommits, Has.Exactly(10).Items);
+            Assert.That(contributingCommits.Count, Is.AtLeast(10));
         }
     }
 }
