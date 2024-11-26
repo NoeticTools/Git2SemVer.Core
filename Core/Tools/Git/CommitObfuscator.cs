@@ -51,8 +51,8 @@ public sealed class CommitObfuscator : ICommitObfuscator
             redactedRefs2 = $" ({redactedRefs2})";
         }
 
-        var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => x.ObfuscatedSha)) : string.Empty;
-        var sha = commit.CommitId.ObfuscatedSha;
+        var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => GetObfuscatedSha(x.Id))) : string.Empty;
+        var sha = GetObfuscatedSha(commit.CommitId.Id);
         var summary = GetRedactedConventionalCommitSummary(commit);
         var footer = string.Join("\n", commit.Metadata.FooterKeyValues.SelectMany((kv, _) => kv.Select(value => kv.Key + ": " + value)));
 

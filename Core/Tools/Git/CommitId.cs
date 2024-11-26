@@ -9,7 +9,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
 {
     private const int ShortShaLength = 7;
 
-    public CommitId(string sha, ICommitObfuscator commitObfuscator)
+    public CommitId(string sha)
     {
         if (sha.Length == 0)
         {
@@ -18,12 +18,9 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
 
         Id = sha;
         ShortSha = sha.Length < 7 ? sha : sha.Substring(0, ShortShaLength);
-        ObfuscatedSha = commitObfuscator.GetObfuscatedSha(Id);
     }
 
     public string Id { get; }
-
-    public string ObfuscatedSha { get; }
 
     public string ShortSha { get; }
 

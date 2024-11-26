@@ -14,6 +14,8 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 [RegisterTransient]
 public class GitTool : IGitTool
 {
+    private readonly ICommitsRepository _cache;
+
     private const string GitLogParsingPattern =
         """
         ^(?<graph>[^\x1f$]*) 
@@ -33,12 +35,25 @@ public class GitTool : IGitTool
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
     private readonly ICommitObfuscator _obfuscator;
+    private const int NextSetReadMaxCount = 300;
+    private int _commitsReadCountFromHead;
 
-    public GitTool(ILogger logger)
+    public GitTool(ILogger logger) : this(new CommitsRepository(), logger)
+    {
+    }
+
+    public GitTool(ICommitsRepository cache, ILogger logger)
+        : this(cache, new GitProcessCli(logger), logger)
+    {
+
+    }
+
+    public GitTool(ICommitsRepository cache, IGitProcessCli inner, ILogger logger)
     {
         _gitLogFormat = "%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e";
+        _cache = cache;
+        _inner = inner;
         _logger = logger;
-        _inner = new GitProcessCli(logger);
         _conventionalCommitParser = new ConventionalCommitsParser();
         _obfuscator = new CommitObfuscator();
 
@@ -49,8 +64,65 @@ public class GitTool : IGitTool
             _logger.LogError($"Git must be version {_assumedLowestGitVersion} or later.");
         }
 
+        var commits = GetNextSetOfCommits();
+        if (commits.Count == 0)
+        {
+            throw new Git2SemVerGitOperationException("Unable to get commits. Either new repository and no commits or problem accessing git.");
+        }
+
+        Head = commits[0];
+        cache.Add(commits.ToArray());
+
         BranchName = GetBranchName();
         HasLocalChanges = GetHasLocalChanges();
+    }
+
+    public Commit Head { get; }
+
+    public Commit Get(CommitId commitId)
+    {
+        return Get(commitId.Id);
+    }
+
+    public Commit Get(string commitSha)
+    {
+        while (true)
+        {
+            if (_cache.TryGet(commitSha, out var existingCommit))
+            {
+                return existingCommit;
+            }
+
+            // todo - this assumes that commits are read in sequence
+            var commits = GetNextSetOfCommits();
+            if (commits.Count == 0)
+            {
+                throw new Git2SemVerRepositoryException("Unable to read further git commits.");
+            }
+
+            _cache.Add(commits);
+        }
+    }
+
+    /// <summary>
+    ///     Get all commits contributing to code at a commit after a prior commit.
+    /// </summary>
+    public IReadOnlyList<Commit> GetContributingCommits(CommitId after, CommitId to)
+    {
+        var arguments = $"log {after.Id}..{to.Id} --pretty=\"format:%H\"";
+        var result = Run(arguments);
+        if (result.returnCode != 0)
+        {
+            throw new Git2SemVerGitOperationException($"Command 'git {arguments}' returned non zero return code {result.returnCode}.");
+        }
+
+        if (result.stdOutput.Length == 0)
+        {
+            return [];
+        }
+
+        var lines = result.stdOutput.Split('\n').Select(x => x.Trim()).Where(x => x.Length > 0);
+        return lines.Select(hash => Get(hash!.Trim())).ToList();
     }
 
     public string BranchName { get; }
@@ -63,26 +135,42 @@ public class GitTool : IGitTool
         set => _inner.WorkingDirectory = value;
     }
 
-    public IReadOnlyList<Commit> GetCommits(int skipCount, int takeCount)
+    public IReadOnlyList<Commit> GetNextSetOfCommits()
+    {
+        var commits = GetCommits(_commitsReadCountFromHead, NextSetReadMaxCount);
+        _commitsReadCountFromHead += commits.Count;
+        return commits;
+    }
+
+    /// <summary>
+    ///     Get commits working from head downwards (to older commits).
+    /// </summary>
+    internal IReadOnlyList<Commit> GetCommits(int skipCount, int takeCount)
+    {
+        var commits = GetCommitsFromGitLog($"--skip={skipCount}  --max-count={takeCount}");
+        _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
+        return commits;
+    }
+
+    internal IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments)
     {
         var commits = new List<Commit>();
 
-        var result = Run($"log --graph --skip={skipCount} --max-count={takeCount} --pretty=\"format:{_gitLogFormat}\"");
+        var result = Run($"log --graph --pretty=\"format:{_gitLogFormat}\" {scopeArguments}");
 
-        var obfuscatedGitLog = new List<string>();
         var lines = result.stdOutput.Split(RecordSeparator);
 
-        _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
-        foreach (var line in lines) ParseLogLine(line, obfuscatedGitLog, commits);
+        foreach (var line in lines)
+        {
+            ParseGitLogLine(line, commits);
+        }
 
-        _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
-        _logger.LogTrace("Partially obfuscated git log ({0} skipped):\n\n                .|Commit|Parents|Summary|Body|Refs|\n{1}", skipCount,
-                         string.Join("\n", obfuscatedGitLog));
+        _logger.LogTrace($"Read {commits.Count} commits from git history.");
 
         return commits;
     }
 
-    public void ParseLogLine(string line, List<string> obfuscatedGitLog, List<Commit> commits)
+    public void ParseGitLogLine(string line, List<Commit> commits)
     {
         line = line.Trim();
         var regex = new Regex(GitLogParsingPattern, RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
@@ -99,27 +187,28 @@ public class GitTool : IGitTool
         var summary = match.GetGroupValue("summary");
         var body = match.GetGroupValue("body");
 
-        var commitMetadata = _conventionalCommitParser.Parse(summary, body);
-
-        var hasCommitMetadata = line.Contains($"{CharacterConstants.US}.|");
-        if (hasCommitMetadata)
+        if (!_cache.TryGet(sha!, out var commit))
         {
-            if (sha.Length == 0)
+            var hasCommitMetadata = line.Contains($"{CharacterConstants.US}.|");
+            if (hasCommitMetadata)
             {
-                throw new Git2SemVerGitLogParsingException($"Unable to read SHA from line: '{line}'");
+                if (sha.Length == 0)
+                {
+                    throw new Git2SemVerGitLogParsingException($"Unable to read SHA from line: '{line}'");
+                }
+            }
+
+            var commitMetadata = _conventionalCommitParser.Parse(summary, body);
+
+            commit = hasCommitMetadata
+                ? new Commit(sha, parents, summary, body, refs, commitMetadata, _obfuscator)
+                : null;
+
+            if (commit != null)
+            {
+                commits.Add(commit);
             }
         }
-
-        var commit = hasCommitMetadata
-            ? new Commit(sha, parents, summary, body, refs, commitMetadata, _obfuscator)
-            : null;
-
-        if (commit != null)
-        {
-            commits.Add(commit);
-        }
-
-        obfuscatedGitLog.Add(_obfuscator.GetObfuscatedLogLine(graph, commit));
     }
 
     public static string ParseStatusResponseBranchName(string stdOutput)

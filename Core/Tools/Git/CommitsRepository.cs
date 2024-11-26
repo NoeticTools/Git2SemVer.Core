@@ -7,67 +7,31 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 // todo - merge this class into GitTool.
 public sealed class CommitsRepository : ICommitsRepository
 {
-    private const int GitCommitsReadMaxCount = 200;
-    private readonly Dictionary<string, Commit> _commits;
-    private readonly IGitTool _gitTool;
+    private readonly Dictionary<string, Commit> _commitsBySha = [];
 
-    public CommitsRepository(IGitTool gitTool)
+    public bool TryGet(CommitId commitId, out Commit commit)
     {
-        var commits = gitTool.GetCommits(0, GitCommitsReadMaxCount);
-        if (commits.Count == 0)
-        {
-            throw new Git2SemVerGitOperationException("Unable to get commits. Either new repository and no commits or problem accessing git.");
-        }
-
-        Head = commits[0];
-        _commits = commits.ToDictionary(k => k.CommitId.Id, v => v);
-        _gitTool = gitTool;
+        return TryGet(commitId.Id, out commit);
     }
 
-    public Commit Head { get; }
-
-    public Commit Get(CommitId commitId)
+    public bool TryGet(string commitSha, out Commit commit1)
     {
-        return Get(commitId.Id);
+        return _commitsBySha.TryGetValue(commitSha, out commit1);
     }
 
-    public Commit Get(string commitSha)
+    public void Add(params Commit[] commits)
     {
-        while (true)
+        foreach (var commit in commits)
         {
-            if (_commits.TryGetValue(commitSha, out var commit))
+            if (!_commitsBySha.ContainsKey(commit.CommitId.Id))
             {
-                return commit;
+                _commitsBySha.Add(commit.CommitId.Id, commit);
             }
-
-            var commits = _gitTool.GetCommits(_commits.Count, GitCommitsReadMaxCount);
-            if (commits.Count == 0)
-            {
-                throw new Git2SemVerRepositoryException("Unable to read further git commits.");
-            }
-
-            foreach (var readCommit in commits) _commits.Add(readCommit.CommitId.Id, readCommit);
         }
     }
 
-    /// <summary>
-    ///     Get all commits contributing to code at a commit after a prior commit.
-    /// </summary>
-    public IReadOnlyList<Commit> GetContributingCommits(CommitId after, CommitId to)
+    public void Add(IReadOnlyList<Commit> commits)
     {
-        var arguments = $"log {after.Id}..{to.Id} --pretty=\"format:%H\"";
-        var result = _gitTool.Run(arguments);
-        if (result.returnCode != 0)
-        {
-            throw new Git2SemVerGitOperationException($"Command 'git {arguments}' returned non zero return code {result.returnCode}.");
-        }
-
-        if (result.stdOutput.Length == 0)
-        {
-            return [];
-        }
-
-        var lines = result.stdOutput.Split('\n').Select(x => x.Trim()).Where(x => x.Length > 0);
-        return lines.Select(hash => Get(hash!.Trim())).ToList();
+        Add(commits.ToArray());
     }
 }

@@ -20,7 +20,7 @@ public class Commit : ICommit
                   CommitMessageMetadata metadata,
                   ICommitObfuscator obfuscator)
     {
-        CommitId = new CommitId(sha, obfuscator);
+        CommitId = new CommitId(sha);
 
         if (parents.Length == 1 && parents[0].Length == 0)
         {
@@ -28,7 +28,7 @@ public class Commit : ICommit
         }
         else
         {
-            Parents = parents.Select(x => new CommitId(x, obfuscator)).ToArray();
+            Parents = parents.Select(x => new CommitId(x)).ToArray();
         }
 
         Refs = refs;
