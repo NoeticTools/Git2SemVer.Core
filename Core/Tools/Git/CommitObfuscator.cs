@@ -11,11 +11,6 @@ public sealed class CommitObfuscator : ICommitObfuscator
 {
     private readonly Dictionary<string, string> _obfuscatedShaLookup = new();
 
-    public void Clear()
-    {
-        _obfuscatedShaLookup.Clear();
-    }
-
     /// <summary>
     ///     Create a partially obfuscated git log line for the build log.
     /// </summary>
@@ -71,7 +66,7 @@ public sealed class CommitObfuscator : ICommitObfuscator
         return newValue;
     }
 
-    private string GetRedactedConventionalCommitSummary(Commit commit)
+    private static string GetRedactedConventionalCommitSummary(Commit commit)
     {
         if (commit.Metadata.ChangeType == CommitChangeTypeId.Unknown)
         {

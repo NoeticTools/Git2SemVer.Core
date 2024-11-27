@@ -3,7 +3,7 @@
 
 namespace NoeticTools.Git2SemVer.Core.ConventionCommits;
 
-public sealed class ConventionalCommitsParser
+public sealed class ConventionalCommitsParser : IConventionalCommitsParser
 {
     private readonly Regex _bodyRegex = new("""
                                             \A
