@@ -9,6 +9,20 @@ public sealed class CommitsRepository : ICommitsRepository
 {
     private readonly Dictionary<string, Commit> _commitsBySha = [];
 
+    public Commit Get(CommitId commitId)
+    {
+        return Get(commitId.Id);
+    }
+
+    public Commit Get(string commitSha)
+    {
+        if (!TryGet(commitSha, out var commit))
+        {
+            throw new Git2SemVerRepositoryException($"Commit {commitSha} not found in the repository. Did you mean to use 'TryGet'?");
+        }
+        return commit;
+    }
+
     public bool TryGet(CommitId commitId, out Commit commit)
     {
         return TryGet(commitId.Id, out commit);
