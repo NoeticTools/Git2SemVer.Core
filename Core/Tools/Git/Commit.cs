@@ -17,8 +17,7 @@ public class Commit : ICommit
     private readonly Regex _tagVersionRegex = new(@$"tag: {TagVersionPrefix}(?<version>\d+\.\d+\.\d+)", RegexOptions.IgnoreCase);
 
     public Commit(string sha, string[] parents, string summary, string messageBody, string refs,
-                  CommitMessageMetadata metadata,
-                  ICommitObfuscator obfuscator)
+                  CommitMessageMetadata metadata)
     {
         CommitId = new CommitId(sha);
 
@@ -52,7 +51,7 @@ public class Commit : ICommit
     public CommitMessageMetadata Metadata { get; }
 
     [JsonIgnore]
-    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata(), new CommitObfuscator());
+    public static Commit Null => new("00000000", [], "null commit", "", "", new CommitMessageMetadata());
 
     [JsonPropertyOrder(31)]
     public CommitId[] Parents { get; }

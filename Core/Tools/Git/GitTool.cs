@@ -201,7 +201,7 @@ public class GitTool : IGitTool
             var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
             commit = hasCommitMetadata
-                ? new Commit(sha, parents, summary, body, refs, commitMetadata, _obfuscator)
+                ? new Commit(sha, parents, summary, body, refs, commitMetadata)
                 : null;
 
             if (commit != null)

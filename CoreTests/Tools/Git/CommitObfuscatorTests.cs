@@ -26,7 +26,7 @@ internal class CommitObfuscatorTests
     public void NoConventionalCommitInfoLogLineTest()
     {
         const string expected = "*               \u001f.|0001|0002 0003|\u0002REDACTED\u0003|\u0002\u0003||";
-        var commit = new Commit("commitSha", ["parent1", "parent2"], "Summary line", "", "", new CommitMessageMetadata(), new CommitObfuscator());
+        var commit = new Commit("commitSha", ["parent1", "parent2"], "Summary line", "", "", new CommitMessageMetadata());
 
         var result = new CommitObfuscator().GetObfuscatedLogLine("* ", commit);
 
@@ -71,8 +71,7 @@ internal class CommitObfuscatorTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",
-                                new CommitMessageMetadata("feat", true, "Big red feature\nRecommended", "", []),
-                                new CommitObfuscator());
+                                new CommitMessageMetadata("feat", true, "Big red feature\nRecommended", "", []));
 
         var result = new CommitObfuscator().GetObfuscatedLogLine(@"|\  ", commit);
 
@@ -94,8 +93,7 @@ internal class CommitObfuscatorTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",
-                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues),
-                                new CommitObfuscator());
+                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues));
 
         var result = new CommitObfuscator().GetObfuscatedLogLine(@"|\  ", commit);
 
@@ -112,8 +110,7 @@ internal class CommitObfuscatorTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "HEAD -> REDACTED_BRANCH, origin/main",
-                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues),
-                                new CommitObfuscator());
+                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues));
 
         var result = new CommitObfuscator().GetObfuscatedLogLine(@"|\  ", commit);
 
