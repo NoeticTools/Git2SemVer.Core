@@ -48,7 +48,7 @@ public class GitToolIntegrationTests
     {
         var commit = GetCommitAtIndex(_target, 10);
 
-        var contributingCommits = _target.GetContributingCommits(after: commit.CommitId, to: _target.Head.CommitId);
+        var contributingCommits = _target.GetContributingCommits(to: _target.Head.CommitId, after: commit.CommitId);
 
         Assert.That(contributingCommits.Count, Is.AtLeast(10));
     }

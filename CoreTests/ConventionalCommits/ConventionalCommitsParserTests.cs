@@ -171,7 +171,7 @@ internal class ConventionalCommitsParserTests
     {
         var result = _target.Parse(commitSubject, "");
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Unknown));
+        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.None));
     }
 
     [TestCase("")]
@@ -183,7 +183,7 @@ internal class ConventionalCommitsParserTests
     {
         var result = _target.Parse(commitSubject, "");
 
-        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.Unknown));
+        Assert.That(result.ChangeType, Is.EqualTo(CommitChangeTypeId.None));
     }
 
     [TestCase("feat: Added a real nice feature", CommitChangeTypeId.Feature, "Added a real nice feature", false)]

@@ -109,7 +109,7 @@ public class GitTool : IGitTool
         return commits;
     }
 
-    public IReadOnlyList<Commit> GetContributingCommits(CommitId after, CommitId to)
+    public IReadOnlyList<Commit> GetContributingCommits(CommitId to, CommitId after)
     {
         var arguments = $"log {after.Id}..{to.Id} --pretty=\"format:%H\"";
         var stdOutput = Run(arguments);

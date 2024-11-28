@@ -3,6 +3,7 @@
 public enum CommitChangeTypeId
 {
     Unknown = 0,
+    None,
     Feature,
     Fix,
     Build,
@@ -12,5 +13,5 @@ public enum CommitChangeTypeId
     Style,
     Refactoring,
     Performance,
-    Testing
+    Testing,
 }

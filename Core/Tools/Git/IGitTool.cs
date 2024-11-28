@@ -32,7 +32,7 @@ public interface IGitTool
     /// <summary>
     ///     Get all commits contributing to code at a commit after a prior commit.
     /// </summary>
-    IReadOnlyList<Commit> GetContributingCommits(CommitId after, CommitId to);
+    IReadOnlyList<Commit> GetContributingCommits(CommitId to, CommitId after);
 
     /// <summary>
     ///     Get commits starting with given commit SHA and then parent (older) commits.
