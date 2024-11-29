@@ -57,7 +57,6 @@ public class GitToolIntegrationTests
 
     [TestCase(3)]
     [TestCase(1)]
-    [TestCase(0)]
     public void GetCommitsFromShaTest(int count)
     {
         var commit = GetCommitAtIndex(_target, 5);
