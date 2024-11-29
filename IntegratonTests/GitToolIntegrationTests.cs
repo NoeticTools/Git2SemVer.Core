@@ -74,10 +74,10 @@ public class GitToolIntegrationTests
         var headCommitId = _target.Head.CommitId;
 
         var commits = _target.GetCommits(x => x.ReachableFrom(headCommitId)
-                                               .ExcludingReachableFrom(commit.CommitId));
+                                               .NotReachableFrom(commit.CommitId));
 
         var commitsInclusive = _target.GetCommits(x => x.ReachableFrom(headCommitId)
-                                                        .ExcludingReachableFrom(commit.CommitId, includeCommit: true));
+                                                        .NotReachableFrom(commit.CommitId, inclusive: true));
 
         Assert.That(commits, Has.Count.AtLeast(5));
         Assert.That(commits[0].CommitId.ShortSha, Is.SameAs(headCommitId.ShortSha));
@@ -93,7 +93,7 @@ public class GitToolIntegrationTests
         var headCommitId = _target.Head.CommitId;
 
         var commits = _target.GetCommits(x => x.ReachableFromHead()
-                                               .ExcludingReachableFrom(commitIds));
+                                               .NotReachableFrom(commitIds));
 
         Assert.That(commits, Has.Count.AtLeast(5));
         Assert.That(commits[0].CommitId.ShortSha, Is.SameAs(headCommitId.ShortSha));
@@ -107,8 +107,8 @@ public class GitToolIntegrationTests
         var headCommitId = _target.Head.CommitId;
 
         var commits = _target.GetCommits(x => x.ReachableFromHead()
-                                               .ExcludingReachableFrom(commit1)
-                                               .ExcludingReachableFrom(commit2));
+                                               .NotReachableFrom(commit1)
+                                               .NotReachableFrom(commit2));
 
         Assert.That(commits, Has.Count.AtLeast(4));
         Assert.That(commits[0].CommitId.ShortSha, Is.SameAs(headCommitId.ShortSha));

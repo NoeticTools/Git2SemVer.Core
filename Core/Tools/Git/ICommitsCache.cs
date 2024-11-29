@@ -1,6 +1,6 @@
 ﻿namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
-public interface ICommitsRepository
+public interface ICommitsCache
 {
     bool TryGet(CommitId commitId, out Commit commit);
     bool TryGet(string commitSha, out Commit commit1);

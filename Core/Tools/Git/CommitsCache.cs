@@ -4,8 +4,7 @@
 namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 #pragma warning disable CS1591
-// todo - merge this class into GitTool.
-public sealed class CommitsRepository : ICommitsRepository
+public sealed class CommitsCache : ICommitsCache
 {
     private readonly Dictionary<string, Commit> _commitsBySha = [];
 

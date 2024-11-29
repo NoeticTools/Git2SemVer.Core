@@ -4,6 +4,7 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git.FluentApi;
+using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 using Semver;
 
 
@@ -17,29 +18,29 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 public class GitTool : IGitTool
 {
     private const int NextSetReadMaxCount = 300;
-    private readonly SemVersion _assumedLowestGitVersion = new(2, 0, 0); // Tested with 2.41.0. Do not expect compatibility below 2.0.0.
-    private readonly ICommitsRepository _cache;
+    private readonly SemVersion _assumedLowestGitVersion = new(2, 34, 1);
+    private readonly ICommitsCache _cache;
     private readonly IGitLogCommitParser _commitLogParser;
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
     private int _commitsReadCountFromHead;
 
     public GitTool(ILogger logger)
-        : this(new CommitsRepository(), logger)
+        : this(new CommitsCache(), logger)
     {
     }
 
-    public GitTool(ICommitsRepository cache, ILogger logger)
+    public GitTool(ICommitsCache cache, ILogger logger)
         : this(cache, new GitProcessCli(logger), logger)
     {
     }
 
-    public GitTool(ICommitsRepository cache, IGitProcessCli inner, ILogger logger)
+    public GitTool(ICommitsCache cache, IGitProcessCli inner, ILogger logger)
         : this(cache, inner, new GitLogCommitParser(cache, new ConventionalCommitsParser()), logger)
     {
     }
 
-    public GitTool(ICommitsRepository cache, IGitProcessCli inner, IGitLogCommitParser commitLogParser, ILogger logger)
+    public GitTool(ICommitsCache cache, IGitProcessCli inner, IGitLogCommitParser commitLogParser, ILogger logger)
     {
         _cache = cache;
         _inner = inner;
@@ -96,57 +97,30 @@ public class GitTool : IGitTool
 
     public IReadOnlyList<Commit> GetCommits(string commitSha, int? takeCount = null)
     {
-        takeCount ??= NextSetReadMaxCount;
-        var commits = GetCommitsFromGitLog($"{commitSha}  --max-count={takeCount}");
-        _logger.LogTrace($"Read {commits.Count} commits from git history starting at '{commitSha}'.");
+        var commits = GetCommits(x => x.ReachableFrom(commitSha)
+                                       .Take(takeCount ?? NextSetReadMaxCount));
         return commits;
     }
 
     public IReadOnlyList<Commit> GetCommits(int skipCount, int takeCount)
     {
-        var commits = GetCommitsFromGitLog($"--skip={skipCount}  --max-count={takeCount}");
-        _logger.LogTrace($"Read {commits.Count} commits from git history. Skipped {skipCount}.");
+        var commits = GetCommits(x => x.ReachableFromHead()
+                                       .Skip(skipCount)
+                                       .Take(takeCount));
         return commits;
     }
 
-    //public IReadOnlyList<Commit> GetCommitsInRange(CommitId head, params CommitId[] startingCommits)
-    //{
-    //    var commitSpecs = new List<string> {head.Sha};
-    //    commitSpecs.AddRange(startingCommits.Select(x => $"\"^{x.Sha}^@\""));
-    //    return GetCommitsInRange(commitSpecs.ToArray());
-    //}
-
-    public IReadOnlyList<Commit> GetCommits(Action<ICommitsRangeBuilder> rangeBuilderAction)
+    public IReadOnlyList<Commit> GetCommits(Action<IGitRevisionsBuilder> rangeBuilderAction)
     {
-        var rangeBuilder = new CommitsRangeBuilder();
+        var rangeBuilder = new GitRevisionsBuilder();
         rangeBuilderAction(rangeBuilder);
-        return GetCommitsInRange(rangeBuilder.ToArgs());
-    }
-
-    public IReadOnlyList<Commit> GetCommitsInRange(params string[] commitRanges)
-    {
-        var commitsRangeArgs = commitRanges.Aggregate("", (current, commitRange) => current + $" {commitRange}");
-        var arguments = $"log {commitsRangeArgs} --pretty=\"format:%H\"";
-        var stdOutput = Run(arguments);
-        return GetCommitsFromCommitShaList(stdOutput);
+        return GetCommitsFromGitLog(rangeBuilder.GetArgs());
     }
 
     public IReadOnlyList<Commit> GetContributingCommits(CommitId head, CommitId prior)
     {
-        var arguments = $"log {head.Sha} \"^{prior.Sha}\" --pretty=\"format:%H\"";
-        var stdOutput = Run(arguments);
-        return GetCommitsFromCommitShaList(stdOutput);
-    }
-
-    private IReadOnlyList<Commit> GetCommitsFromCommitShaList(string stdOutput)
-    {
-        if (stdOutput.Length == 0)
-        {
-            return [];
-        }
-
-        var lines = stdOutput.Split('\n').Select(x => x.Trim()).Where(x => x.Length > 0);
-        return lines.Select(hash => Get(hash!.Trim())).ToList();
+        return GetCommits(x => x.ReachableFrom(head)
+                                .NotReachableFrom(prior));
     }
 
     public string Run(string arguments)
@@ -187,11 +161,12 @@ public class GitTool : IGitTool
         return commits;
     }
 
-    private IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments = "")
+    private IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments = "", IGitLogCommitParser? customParser = null)
     {
-        var stdOutput = Run($"log {_commitLogParser.FormatArgs} {scopeArguments}");
-        var lines = stdOutput.Split(_commitLogParser.RecordSeparator);
-        var commits = lines.Select(line => _commitLogParser.Parse(line)).OfType<Commit>().ToList();
+        var parser = customParser ?? _commitLogParser;
+        var stdOutput = Run($"log {parser.FormatArgs} {scopeArguments}");
+        var lines = stdOutput.Split(parser.RecordSeparator);
+        var commits = lines.Select(line => parser.Parse(line)).OfType<Commit>().ToList();
         _logger.LogTrace("Read {0} commits from git history.", commits.Count);
         return commits;
     }

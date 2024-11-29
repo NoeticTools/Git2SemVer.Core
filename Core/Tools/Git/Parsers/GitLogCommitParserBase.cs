@@ -3,12 +3,14 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 
 
-namespace NoeticTools.Git2SemVer.Core.Tools.Git;
+namespace NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
-public class GitLogCommitParserBase(ICommitsRepository cache, 
-                                    IConventionalCommitsParser conventionalCommitParser)
+public abstract class GitLogCommitParserBase
 {
-    internal const string GitLogParsingPattern =
+    private readonly ICommitsCache _cache;
+    private readonly IConventionalCommitsParser _conventionalCommitParser;
+
+    private const string GitLogParsingPattern =
         """
         ^(?<graph>[^\x1f$]*) 
           (\x1f\.\|
@@ -19,6 +21,18 @@ public class GitLogCommitParserBase(ICommitsRepository cache,
             (\s\((?<refs>.*?)\))?
            \|$)?
         """;
+
+    protected GitLogCommitParserBase(ICommitsCache cache,
+                                     IConventionalCommitsParser conventionalCommitParser)
+    {
+        _cache = cache;
+        _conventionalCommitParser = conventionalCommitParser;
+        FormatArgs = "--graph --pretty=\"format:%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e\"";
+    }
+
+    public char RecordSeparator => CharacterConstants.RS;
+
+    public string FormatArgs { get; }
 
     protected (Commit? commit, string graph) ParseCommitAndGraph(string line)
     {
@@ -37,7 +51,7 @@ public class GitLogCommitParserBase(ICommitsRepository cache,
         var summary = match.GetGroupValue("summary");
         var body = match.GetGroupValue("body");
 
-        if (cache.TryGet(sha!, out var commit))
+        if (_cache.TryGet(sha!, out var commit))
         {
             return (commit, graph);
         }
@@ -51,7 +65,7 @@ public class GitLogCommitParserBase(ICommitsRepository cache,
             }
         }
 
-        var commitMetadata = conventionalCommitParser.Parse(summary, body);
+        var commitMetadata = _conventionalCommitParser.Parse(summary, body);
 
         commit = hasCommitMetadata
             ? new Commit(sha, parents, summary, body, refs, commitMetadata)

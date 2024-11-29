@@ -1,4 +1,4 @@
-﻿namespace NoeticTools.Git2SemVer.Core.Tools.Git;
+﻿namespace NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
 public interface IGitLogCommitParser
 {
@@ -14,6 +14,4 @@ public interface IGitLogCommitParser
     string FormatArgs { get; }
 
     char RecordSeparator { get; }
-
-    string ParseToLogLineWithGraph(string line);
 }
