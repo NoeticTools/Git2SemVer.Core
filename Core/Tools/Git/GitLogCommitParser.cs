@@ -14,6 +14,8 @@ public class GitLogCommitParser : GitLogCommitParserBase, IGitLogCommitParser
         FormatArgs = "--graph --pretty=\"format:%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e\"";
     }
 
+    public char RecordSeparator => CharacterConstants.RS;
+
     public string FormatArgs { get; }
 
     public string ParseToLogLineWithGraph(string line)

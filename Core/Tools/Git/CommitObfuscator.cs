@@ -14,36 +14,14 @@ public sealed class CommitObfuscator : GitLogCommitParserBase, ICommitObfuscator
     private readonly IGitTool _gitTool;
     private readonly Dictionary<string, string> _obfuscatedShaLookup = new();
 
+    public CommitObfuscator(IGitTool gitTool, ICommitsRepository cache)
+        : this (gitTool, cache, new ConventionalCommitsParser())
+    {}
+
     public CommitObfuscator(IGitTool gitTool, ICommitsRepository cache, IConventionalCommitsParser conventionalCommitParser)
         : base(cache, conventionalCommitParser)
     {
         _gitTool = gitTool;
-    }
-
-    //public string GetContributingCommitsLog(CommitId firstCommit, CommitId headCommit)
-    //{
-    //    //xxx // break out a git command arguments generator from GitTool so we can use it here
-    //}
-
-    public string ConvertLog(string gitLog)
-    {
-        var lines = gitLog.Split(GitTool.RecordSeparator);
-        var stringBuilder = new StringBuilder();
-        foreach (var line in lines)
-        {
-            var logLine = ConvertLogLine(line.Trim());
-            if (logLine != null)
-            {
-                stringBuilder.AppendLine(logLine);
-            }
-        }
-        return stringBuilder.ToString();
-    }
-
-    private string? ConvertLogLine(string line)
-    {
-        var (commit, graph) = ParseCommitAndGraph(line);
-        return commit == null ? null : GetLogLine(graph, commit);
     }
 
     public string GetLogLine(string graph, Commit? commit)
@@ -57,6 +35,7 @@ public sealed class CommitObfuscator : GitLogCommitParserBase, ICommitObfuscator
         var graphLine = graph;
         if (graph.Contains("\n"))
         {
+            // todo - is this still needed?
             var lastNewLineIndex = graph.LastIndexOf('\n');
             priorGraphLines = graph.Substring(0, lastNewLineIndex + 1);
             graphLine = graph.Substring(lastNewLineIndex + 1);
@@ -69,8 +48,8 @@ public sealed class CommitObfuscator : GitLogCommitParserBase, ICommitObfuscator
             redactedRefs2 = $" ({redactedRefs2})";
         }
 
-        var sha = GetObfuscatedSha(commit.CommitId.Id);
-        var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => GetObfuscatedSha(x.Id))) : string.Empty;
+        var sha = GetObfuscatedSha(commit.CommitId.Sha);
+        var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => GetObfuscatedSha(x.Sha))) : string.Empty;
         var summary = GetCommitSummary(commit);
         var footer = string.Join("\n", commit.Metadata.FooterKeyValues.SelectMany((kv, _) => kv.Select(value => kv.Key + ": " + value)));
 

@@ -13,5 +13,7 @@ public interface IGitLogCommitParser
     /// </summary>
     string FormatArgs { get; }
 
+    char RecordSeparator { get; }
+
     string ParseToLogLineWithGraph(string line);
 }

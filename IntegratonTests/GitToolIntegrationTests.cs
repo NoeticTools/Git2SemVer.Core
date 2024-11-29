@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
+using NoeticTools.Git2SemVer.Core.Tools.Git.FluentApi;
+#pragma warning disable NUnit2045
 
 
 namespace NoeticTools.Git2SemVer.Core.IntegrationTests;
@@ -50,17 +52,7 @@ public class GitToolIntegrationTests
 
         var contributingCommits = _target.GetContributingCommits(head: _target.Head.CommitId, prior: commit.CommitId);
 
-        Assert.That(contributingCommits.Count, Is.AtLeast(10));
-    }
-
-    [Test]
-    public void GetCommitsInRangeTest()
-    {
-        var commit = GetCommitAtIndex(_target, 10);
-
-        var contributingCommits = _target.GetCommitsInRange(head: _target.Head.CommitId, commit.CommitId);
-
-        Assert.That(contributingCommits.Count, Is.AtLeast(10));
+        Assert.That(contributingCommits, Has.Count.AtLeast(10));
     }
 
     [TestCase(3)]
@@ -70,21 +62,34 @@ public class GitToolIntegrationTests
     {
         var commit = GetCommitAtIndex(_target, 5);
 
-        var commits = _target.GetCommits(commit.CommitId.Id, count);
+        var commits = _target.GetCommits(commit.CommitId.Sha, count);
 
-        Assert.That(commits.Count, Is.EqualTo(count));
-        if (commits.Count > 0)
-        {
-            Assert.That(commits[0], Is.SameAs(commit));
-        }
+        Assert.That(commits, Has.Count.EqualTo(count));
+        Assert.That(commits[0], Is.SameAs(commit));
     }
 
-    private static Commit GetCommitAtIndex(GitTool _target, int index)
+    [Test]
+    public void GetCommitsInRangeUsingFluentApi()
     {
-        var commit = _target.Head!;
+        var commit = GetCommitAtIndex(_target, 5);
+        var headCommitId = _target.Head.CommitId;
+
+        var commits = _target.GetCommits(x => x.ReachableFrom(headCommitId)
+                                               .ExcludingReachableFrom(commit.CommitId));
+        var commitsInclusive = _target.GetCommits(x => x.ReachableFrom(headCommitId)
+                                                        .ExcludingReachableFrom(commit.CommitId, includeCommit: true));
+
+        Assert.That(commits, Has.Count.AtLeast(5));
+        Assert.That(commits[0].CommitId.ShortSha, Is.SameAs(headCommitId.ShortSha));
+        Assert.That(commitsInclusive, Has.Count.EqualTo(commits.Count + 1));
+    }
+
+    private static Commit GetCommitAtIndex(GitTool target, int index)
+    {
+        var commit = target.Head!;
         for (var count = 0; count < index; count++)
         {
-            commit = _target.Get(commit.Parents[0]);
+            commit = target.Get(commit.Parents[0]);
         }
         return commit;
     }

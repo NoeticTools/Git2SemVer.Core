@@ -16,11 +16,11 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
             throw new Git2SemVerGitLogParsingException("Empty commit SHA.");
         }
 
-        Id = sha;
+        Sha = sha;
         ShortSha = sha.Length < 7 ? sha : sha.Substring(0, ShortShaLength);
     }
 
-    public string Id { get; }
+    public string Sha { get; }
 
     public string ShortSha { get; }
 
@@ -31,7 +31,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
             return false;
         }
 
-        return Id.Equals(other);
+        return Sha.Equals(other);
     }
 
     public bool Equals(CommitId? other)
@@ -46,7 +46,7 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
             return true;
         }
 
-        return Id == other.Id;
+        return Sha == other.Sha;
     }
 
     public override bool Equals(object? obj)
@@ -56,6 +56,6 @@ public sealed class CommitId : IEquatable<CommitId>, IEquatable<string>
 
     public override int GetHashCode()
     {
-        return Id.GetHashCode();
+        return Sha.GetHashCode();
     }
 }

@@ -3,6 +3,7 @@ using Injectio.Attributes;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
+using NoeticTools.Git2SemVer.Core.Tools.Git.FluentApi;
 using Semver;
 
 
@@ -16,7 +17,6 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 public class GitTool : IGitTool
 {
     private const int NextSetReadMaxCount = 300;
-    public const char RecordSeparator = CharacterConstants.RS;
     private readonly SemVersion _assumedLowestGitVersion = new(2, 0, 0); // Tested with 2.41.0. Do not expect compatibility below 2.0.0.
     private readonly ICommitsRepository _cache;
     private readonly IGitLogCommitParser _commitLogParser;
@@ -74,7 +74,7 @@ public class GitTool : IGitTool
 
     public Commit Get(CommitId commitId)
     {
-        return Get(commitId.Id);
+        return Get(commitId.Sha);
     }
 
     public Commit Get(string commitSha)
@@ -94,10 +94,10 @@ public class GitTool : IGitTool
         return _cache.Get(commitSha);
     }
 
-    public IReadOnlyList<Commit> GetCommits(string commitSha, int? maxCount = null)
+    public IReadOnlyList<Commit> GetCommits(string commitSha, int? takeCount = null)
     {
-        maxCount ??= NextSetReadMaxCount;
-        var commits = GetCommitsFromGitLog($"{commitSha}  --max-count={maxCount}");
+        takeCount ??= NextSetReadMaxCount;
+        var commits = GetCommitsFromGitLog($"{commitSha}  --max-count={takeCount}");
         _logger.LogTrace($"Read {commits.Count} commits from git history starting at '{commitSha}'.");
         return commits;
     }
@@ -109,22 +109,31 @@ public class GitTool : IGitTool
         return commits;
     }
 
-    public IReadOnlyList<Commit> GetCommitsInRange(CommitId head, params CommitId[] startingCommits)
+    //public IReadOnlyList<Commit> GetCommitsInRange(CommitId head, params CommitId[] startingCommits)
+    //{
+    //    var commitSpecs = new List<string> {head.Sha};
+    //    commitSpecs.AddRange(startingCommits.Select(x => $"\"^{x.Sha}^@\""));
+    //    return GetCommitsInRange(commitSpecs.ToArray());
+    //}
+
+    public IReadOnlyList<Commit> GetCommits(Action<ICommitsRangeBuilder> rangeBuilderAction)
     {
-        return GetCommitsInRange(head.Id, startingCommits.Select(x => x.Id).ToArray());
+        var rangeBuilder = new CommitsRangeBuilder();
+        rangeBuilderAction(rangeBuilder);
+        return GetCommitsInRange(rangeBuilder.ToArgs());
     }
 
-    public IReadOnlyList<Commit> GetCommitsInRange(string head, params string[] startingCommits)
+    public IReadOnlyList<Commit> GetCommitsInRange(params string[] commitRanges)
     {
-        var commitsRange = startingCommits.Aggregate($"{head}", (current, startingCommit) => current + $" \"^{startingCommit}^@\"");
-        var arguments = $"log {commitsRange} --pretty=\"format:%H\"";
+        var commitsRangeArgs = commitRanges.Aggregate("", (current, commitRange) => current + $" {commitRange}");
+        var arguments = $"log {commitsRangeArgs} --pretty=\"format:%H\"";
         var stdOutput = Run(arguments);
         return GetCommitsFromCommitShaList(stdOutput);
     }
 
     public IReadOnlyList<Commit> GetContributingCommits(CommitId head, CommitId prior)
     {
-        var arguments = $"log {head.Id} \"^{prior.Id}\" --pretty=\"format:%H\"";
+        var arguments = $"log {head.Sha} \"^{prior.Sha}\" --pretty=\"format:%H\"";
         var stdOutput = Run(arguments);
         return GetCommitsFromCommitShaList(stdOutput);
     }
@@ -181,7 +190,7 @@ public class GitTool : IGitTool
     private IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments = "")
     {
         var stdOutput = Run($"log {_commitLogParser.FormatArgs} {scopeArguments}");
-        var lines = stdOutput.Split(RecordSeparator);
+        var lines = stdOutput.Split(_commitLogParser.RecordSeparator);
         var commits = lines.Select(line => _commitLogParser.Parse(line)).OfType<Commit>().ToList();
         _logger.LogTrace("Read {0} commits from git history.", commits.Count);
         return commits;

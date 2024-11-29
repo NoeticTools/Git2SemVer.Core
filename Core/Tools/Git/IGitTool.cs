@@ -1,4 +1,7 @@
-﻿namespace NoeticTools.Git2SemVer.Core.Tools.Git;
+﻿using NoeticTools.Git2SemVer.Core.Tools.Git.FluentApi;
+
+
+namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 public interface IGitTool
 {
@@ -37,7 +40,7 @@ public interface IGitTool
     /// <summary>
     ///     Get commits starting with given commit SHA and then parent (older) commits.
     /// </summary>
-    IReadOnlyList<Commit> GetCommits(string commitSha, int? maxCount=null);
+    IReadOnlyList<Commit> GetCommits(string commitSha, int? takeCount=null);
 
     /// <summary>
     ///     Get commits working from head downwards (to older commits).
@@ -45,14 +48,12 @@ public interface IGitTool
     IReadOnlyList<Commit> GetCommits(int skipCount, int takeCount);
 
     /// <summary>
-    ///     Get commits reachable from head commit but not reachable from any given starting commit.
-    ///     Inclusive, both the head commit and each starting commit are included (if reachable from the head commit).
+    ///     Get commits in range given by range builder.
     /// </summary>
-    IReadOnlyList<Commit> GetCommitsInRange(CommitId head, params CommitId[] startingCommits);
+    IReadOnlyList<Commit> GetCommits(Action<ICommitsRangeBuilder> rangeBuilder);
 
     /// <summary>
-    ///     Get commits reachable from head commit but not reachable from any given starting commit.
-    ///     Inclusive, both the head commit and each starting commit are included (if reachable from the head commit).
+    ///     Get commits in range given by given commit ranges.
     /// </summary>
-    IReadOnlyList<Commit> GetCommitsInRange(string head, params string[] startingCommits);
+    IReadOnlyList<Commit> GetCommitsInRange(params string[] commitRanges);
 }

@@ -11,7 +11,7 @@ public sealed class CommitsRepository : ICommitsRepository
 
     public Commit Get(CommitId commitId)
     {
-        return Get(commitId.Id);
+        return Get(commitId.Sha);
     }
 
     public Commit Get(string commitSha)
@@ -25,7 +25,7 @@ public sealed class CommitsRepository : ICommitsRepository
 
     public bool TryGet(CommitId commitId, out Commit commit)
     {
-        return TryGet(commitId.Id, out commit);
+        return TryGet(commitId.Sha, out commit);
     }
 
     public bool TryGet(string commitSha, out Commit commit1)
@@ -37,9 +37,9 @@ public sealed class CommitsRepository : ICommitsRepository
     {
         foreach (var commit in commits)
         {
-            if (!_commitsBySha.ContainsKey(commit.CommitId.Id))
+            if (!_commitsBySha.ContainsKey(commit.CommitId.Sha))
             {
-                _commitsBySha.Add(commit.CommitId.Id, commit);
+                _commitsBySha.Add(commit.CommitId.Sha, commit);
             }
         }
     }
