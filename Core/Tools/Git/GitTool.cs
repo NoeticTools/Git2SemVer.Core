@@ -16,7 +16,7 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 public class GitTool : IGitTool
 {
     private const int NextSetReadMaxCount = 300;
-    private const char RecordSeparator = CharacterConstants.RS;
+    public const char RecordSeparator = CharacterConstants.RS;
     private readonly SemVersion _assumedLowestGitVersion = new(2, 0, 0); // Tested with 2.41.0. Do not expect compatibility below 2.0.0.
     private readonly ICommitsRepository _cache;
     private readonly IGitLogCommitParser _commitLogParser;
@@ -109,11 +109,32 @@ public class GitTool : IGitTool
         return commits;
     }
 
-    public IReadOnlyList<Commit> GetContributingCommits(CommitId to, CommitId after)
+    public IReadOnlyList<Commit> GetCommitsInRange(CommitId head, params CommitId[] startingCommits)
     {
-        var arguments = $"log {after.Id}..{to.Id} --pretty=\"format:%H\"";
-        var stdOutput = Run(arguments);
+        return GetCommitsInRange(head.Id, startingCommits.Select(x => x.Id).ToArray());
+    }
 
+    public IReadOnlyList<Commit> GetCommitsInRange(string head, params string[] startingCommits)
+    {
+        var commitsRange = $"{head}";
+        foreach (var startingCommit in startingCommits)
+        {
+            commitsRange += $" \"^{startingCommit}^@\"";
+        }
+        var arguments = $"log {commitsRange} --pretty=\"format:%H\"";
+        var stdOutput = Run(arguments);
+        return GetCommitsFromCommitShaList(stdOutput);
+    }
+
+    public IReadOnlyList<Commit> GetContributingCommits(CommitId head, CommitId prior)
+    {
+        var arguments = $"log {head.Id} \"^{prior.Id}\" --pretty=\"format:%H\"";
+        var stdOutput = Run(arguments);
+        return GetCommitsFromCommitShaList(stdOutput);
+    }
+
+    private IReadOnlyList<Commit> GetCommitsFromCommitShaList(string stdOutput)
+    {
         if (stdOutput.Length == 0)
         {
             return [];

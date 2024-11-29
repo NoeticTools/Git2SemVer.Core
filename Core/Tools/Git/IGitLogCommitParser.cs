@@ -12,4 +12,6 @@ public interface IGitLogCommitParser
     ///     The format arguments for the git log command to use like: `git log &lt;Format>`.
     /// </summary>
     string FormatArgs { get; }
+
+    string ParseToLogLineWithGraph(string line);
 }

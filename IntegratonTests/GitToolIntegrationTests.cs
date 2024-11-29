@@ -48,7 +48,17 @@ public class GitToolIntegrationTests
     {
         var commit = GetCommitAtIndex(_target, 10);
 
-        var contributingCommits = _target.GetContributingCommits(to: _target.Head.CommitId, after: commit.CommitId);
+        var contributingCommits = _target.GetContributingCommits(head: _target.Head.CommitId, prior: commit.CommitId);
+
+        Assert.That(contributingCommits.Count, Is.AtLeast(10));
+    }
+
+    [Test]
+    public void GetCommitsInRangeTest()
+    {
+        var commit = GetCommitAtIndex(_target, 10);
+
+        var contributingCommits = _target.GetCommitsInRange(head: _target.Head.CommitId, commit.CommitId);
 
         Assert.That(contributingCommits.Count, Is.AtLeast(10));
     }

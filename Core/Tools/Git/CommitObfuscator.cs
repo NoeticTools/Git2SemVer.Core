@@ -1,5 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
+using NoeticTools.Git2SemVer.Core.Exceptions;
 
 
 #pragma warning disable SYSLIB1045
@@ -7,23 +9,44 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 
 #pragma warning disable CS1591
-public sealed class CommitObfuscator : ICommitObfuscator
+public sealed class CommitObfuscator : GitLogCommitParserBase, ICommitObfuscator
 {
+    private readonly IGitTool _gitTool;
     private readonly Dictionary<string, string> _obfuscatedShaLookup = new();
 
-    /// <summary>
-    ///     Create a partially obfuscated git log line for the build log.
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         Creates build log git log line that is more suitable for public viewing to diagnose faults.
-    ///         Obfuscates some information such as commit ID, most git message summary test, and most git message body text.
-    ///     </para>
-    ///     <para>
-    ///         The resulting log can be copy and pasted to build automatic tests.
-    ///     </para>
-    /// </remarks>
-    public string GetObfuscatedLogLine(string graph, Commit? commit)
+    public CommitObfuscator(IGitTool gitTool, ICommitsRepository cache, IConventionalCommitsParser conventionalCommitParser)
+        : base(cache, conventionalCommitParser)
+    {
+        _gitTool = gitTool;
+    }
+
+    //public string GetContributingCommitsLog(CommitId firstCommit, CommitId headCommit)
+    //{
+    //    //xxx // break out a git command arguments generator from GitTool so we can use it here
+    //}
+
+    public string ConvertLog(string gitLog)
+    {
+        var lines = gitLog.Split(GitTool.RecordSeparator);
+        var stringBuilder = new StringBuilder();
+        foreach (var line in lines)
+        {
+            var logLine = ConvertLogLine(line.Trim());
+            if (logLine != null)
+            {
+                stringBuilder.AppendLine(logLine);
+            }
+        }
+        return stringBuilder.ToString();
+    }
+
+    private string? ConvertLogLine(string line)
+    {
+        var (commit, graph) = ParseCommitAndGraph(line);
+        return commit == null ? null : GetLogLine(graph, commit);
+    }
+
+    public string GetLogLine(string graph, Commit? commit)
     {
         if (commit == null)
         {
@@ -46,9 +69,9 @@ public sealed class CommitObfuscator : ICommitObfuscator
             redactedRefs2 = $" ({redactedRefs2})";
         }
 
-        var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => GetObfuscatedSha(x.Id))) : string.Empty;
         var sha = GetObfuscatedSha(commit.CommitId.Id);
-        var summary = GetRedactedConventionalCommitSummary(commit);
+        var parentShas = commit.Parents.Length > 0 ? string.Join(" ", commit.Parents.Select(x => GetObfuscatedSha(x.Id))) : string.Empty;
+        var summary = GetCommitSummary(commit);
         var footer = string.Join("\n", commit.Metadata.FooterKeyValues.SelectMany((kv, _) => kv.Select(value => kv.Key + ": " + value)));
 
         return $"{priorGraphLines}{graphLine,-15} \u001f.|{sha}|{parentShas}|\u0002{summary}\u0003|\u0002{footer}\u0003|{redactedRefs2}|";
@@ -66,9 +89,14 @@ public sealed class CommitObfuscator : ICommitObfuscator
         return newValue;
     }
 
-    private static string GetRedactedConventionalCommitSummary(Commit commit)
+    private static string GetCommitSummary(Commit commit)
     {
         if (commit.Metadata.ChangeType == CommitChangeTypeId.Unknown)
+        {
+            return "UNKNOWN";
+        }
+
+        if (commit.Metadata.ChangeType == CommitChangeTypeId.None)
         {
             return "REDACTED";
         }
