@@ -75,12 +75,43 @@ public class GitToolIntegrationTests
 
         var commits = _target.GetCommits(x => x.ReachableFrom(headCommitId)
                                                .ExcludingReachableFrom(commit.CommitId));
+
         var commitsInclusive = _target.GetCommits(x => x.ReachableFrom(headCommitId)
                                                         .ExcludingReachableFrom(commit.CommitId, includeCommit: true));
 
         Assert.That(commits, Has.Count.AtLeast(5));
         Assert.That(commits[0].CommitId.ShortSha, Is.SameAs(headCommitId.ShortSha));
         Assert.That(commitsInclusive, Has.Count.EqualTo(commits.Count + 1));
+    }
+
+    [Test]
+    public void GetCommitsWithMultipleExcludesUsingFluentApi()
+    {
+        var commit1 = GetCommitAtIndex(_target, 5).CommitId;
+        var commit2 = GetCommitAtIndex(_target, 6).CommitId;
+        CommitId[] commitIds = [commit1, commit2];
+        var headCommitId = _target.Head.CommitId;
+
+        var commits = _target.GetCommits(x => x.ReachableFromHead()
+                                               .ExcludingReachableFrom(commitIds));
+
+        Assert.That(commits, Has.Count.AtLeast(5));
+        Assert.That(commits[0].CommitId.ShortSha, Is.SameAs(headCommitId.ShortSha));
+    }
+
+    [Test]
+    public void GetCommitsWithMultipleExcludingCallsUsingFluentApi()
+    {
+        var commit1 = GetCommitAtIndex(_target, 4).CommitId;
+        var commit2 = GetCommitAtIndex(_target, 6).CommitId;
+        var headCommitId = _target.Head.CommitId;
+
+        var commits = _target.GetCommits(x => x.ReachableFromHead()
+                                               .ExcludingReachableFrom(commit1)
+                                               .ExcludingReachableFrom(commit2));
+
+        Assert.That(commits, Has.Count.AtLeast(4));
+        Assert.That(commits[0].CommitId.ShortSha, Is.SameAs(headCommitId.ShortSha));
     }
 
     private static Commit GetCommitAtIndex(GitTool target, int index)

@@ -2,8 +2,11 @@
 
 public interface ICommitsRangeBuilder
 {
-    CommitsRangeBuilder ReachableFrom(CommitId commitId);
-    CommitsRangeBuilder ReachableFrom(string commitSha);
-    CommitsRangeBuilder ExcludingReachableFrom(CommitId commitId, bool includeCommit = false);
-    CommitsRangeBuilder ExcludingReachableFrom(string commitSha, bool includeCommit = false);
+    ICommitsRangeBuilder ReachableFrom(CommitId commitId);
+    ICommitsRangeBuilder ReachableFrom(string commitSha);
+    ICommitsRangeBuilder ExcludingReachableFrom(CommitId commitId, bool includeCommit = false);
+    ICommitsRangeBuilder ExcludingReachableFrom(string commitSha, bool includeCommit = false);
+    ICommitsRangeBuilder ExcludingReachableFrom(CommitId[] commitIds, bool includeCommit = false);
+    ICommitsRangeBuilder ExcludingReachableFrom(string[] commitShas, bool includeCommit = false);
+    ICommitsRangeBuilder ReachableFromHead();
 }

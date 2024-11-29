@@ -5,25 +5,46 @@ public class CommitsRangeBuilder : ICommitsRangeBuilder
 {
     private readonly List<string> _commitRangeShas = [];
 
-    public CommitsRangeBuilder ReachableFrom(CommitId commitId)
+    public ICommitsRangeBuilder ExcludingReachableFrom(CommitId commitId, bool includeCommit = false)
+    {
+        return ExcludingReachableFrom(commitId.Sha, includeCommit);
+    }
+
+    public ICommitsRangeBuilder ExcludingReachableFrom(string commitSha, bool includeCommit = false)
+    {
+        _commitRangeShas.Add($"\"^{commitSha}{(includeCommit ? "^@" : "")}\"");
+        return this;
+    }
+
+    public ICommitsRangeBuilder ExcludingReachableFrom(CommitId[] commitIds, bool includeCommit = false)
+    {
+        return ExcludingReachableFrom(commitIds.Select(x => x.Sha).ToArray(), includeCommit);
+    }
+
+    public ICommitsRangeBuilder ExcludingReachableFrom(string[] commitShas, bool includeCommit = false)
+    {
+        foreach (var sha in commitShas)
+        {
+            ExcludingReachableFrom(sha, includeCommit);
+        }
+
+        return this;
+    }
+
+    public ICommitsRangeBuilder ReachableFrom(CommitId commitId)
     {
         return ReachableFrom(commitId.Sha);
     }
 
-    public CommitsRangeBuilder ReachableFrom(string commitSha)
+    public ICommitsRangeBuilder ReachableFrom(string commitSha)
     {
         _commitRangeShas.Add(commitSha);
         return this;
     }
 
-    public CommitsRangeBuilder ExcludingReachableFrom(CommitId commitId, bool includeCommit = false)
+    public ICommitsRangeBuilder ReachableFromHead()
     {
-        return ExcludingReachableFrom(commitId.Sha, includeCommit);
-    }
-
-    public CommitsRangeBuilder ExcludingReachableFrom(string commitSha, bool includeCommit = false)
-    {
-        _commitRangeShas.Add($"\"^{commitSha}{(includeCommit ? "^@" : "")}\"");
+        _commitRangeShas.Add("HEAD");
         return this;
     }
 
