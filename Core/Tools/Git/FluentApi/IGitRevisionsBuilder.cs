@@ -1,4 +1,7 @@
-﻿namespace NoeticTools.Git2SemVer.Core.Tools.Git.FluentApi;
+﻿using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
+
+
+namespace NoeticTools.Git2SemVer.Core.Tools.Git.FluentApi;
 
 /// <summary>
 ///     Build git <see href="https://git-scm.com/docs/gitrevisions">revision range arguments</see>.
@@ -16,4 +19,5 @@ public interface IGitRevisionsBuilder
     IGitRevisionsBuilder Take(int takeCount);
     IGitRevisionsBuilder ReachableFrom(CommitId[] commitIds);
     IGitRevisionsBuilder ReachableFrom(string[] commitShas);
+    IGitRevisionsBuilder With(IGitLogCommitParser customParser);
 }
