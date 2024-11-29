@@ -18,7 +18,7 @@ internal class CommitObfuscatorTests
     {
         var cache = new CommitsCache();
         var gitTool = new Mock<IGitTool>();
-        _target = new CommitObfuscator(gitTool.Object, cache, new ConventionalCommitsParser());
+        _target = new CommitObfuscator();
     }
 
     [Test]

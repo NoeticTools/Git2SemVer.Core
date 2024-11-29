@@ -9,20 +9,9 @@ using NoeticTools.Git2SemVer.Core.Exceptions;
 namespace NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
 #pragma warning disable CS1591
-    public sealed class CommitObfuscator : GitLogCommitParserBase, ICommitObfuscator
+    public sealed class CommitObfuscator : ICommitObfuscator
 {
-    private readonly IGitTool _gitTool;
     private readonly Dictionary<string, string> _obfuscatedShaLookup = new();
-
-    public CommitObfuscator(IGitTool gitTool, ICommitsCache cache)
-        : this(gitTool, cache, new ConventionalCommitsParser())
-    { }
-
-    public CommitObfuscator(IGitTool gitTool, ICommitsCache cache, IConventionalCommitsParser conventionalCommitParser)
-        : base(cache, conventionalCommitParser)
-    {
-        _gitTool = gitTool;
-    }
 
     public string GetObfuscatedSha(string sha)
     {
