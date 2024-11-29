@@ -9,17 +9,15 @@ using Semver;
 
 
 #pragma warning disable SYSLIB1045
+#pragma warning disable CS1591
 
 namespace NoeticTools.Git2SemVer.Core.Tools.Git;
-
-#pragma warning disable CS1591
 
 [RegisterTransient]
 public class GitTool : IGitTool
 {
-    private const int NextSetReadMaxCount = 300;
+    private const int DefaultTakeLimit = 300;
     private readonly SemVersion _assumedLowestGitVersion = new(2, 34, 1);
-    private readonly ICommitsCache _cache;
     private readonly IGitLogCommitParser _commitLogParser;
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
@@ -42,7 +40,7 @@ public class GitTool : IGitTool
 
     public GitTool(ICommitsCache cache, IGitProcessCli inner, IGitLogCommitParser commitLogParser, ILogger logger)
     {
-        _cache = cache;
+        Cache = cache;
         _inner = inner;
         _commitLogParser = commitLogParser;
         _logger = logger;
@@ -69,6 +67,8 @@ public class GitTool : IGitTool
 
     public string BranchName { get; }
 
+    public ICommitsCache Cache { get; }
+
     public bool HasLocalChanges { get; }
 
     public Commit Head { get; }
@@ -80,7 +80,7 @@ public class GitTool : IGitTool
 
     public Commit Get(string commitSha)
     {
-        if (_cache.TryGet(commitSha, out var existingCommit))
+        if (Cache.TryGet(commitSha, out var existingCommit))
         {
             return existingCommit;
         }
@@ -91,23 +91,21 @@ public class GitTool : IGitTool
             throw new Git2SemVerRepositoryException($"Unable to find git commit '{commitSha}' in the repository.");
         }
 
-        _cache.Add(commits);
-        return _cache.Get(commitSha);
+        Cache.Add(commits);
+        return Cache.Get(commitSha);
     }
 
     public IReadOnlyList<Commit> GetCommits(string commitSha, int? takeCount = null)
     {
-        var commits = GetCommits(x => x.ReachableFrom(commitSha)
-                                       .Take(takeCount ?? NextSetReadMaxCount));
-        return commits;
+        return GetCommits(x => x.ReachableFrom(commitSha)
+                                .Take(takeCount ?? DefaultTakeLimit));
     }
 
     public IReadOnlyList<Commit> GetCommits(int skipCount, int takeCount)
     {
-        var commits = GetCommits(x => x.ReachableFromHead()
-                                       .Skip(skipCount)
-                                       .Take(takeCount));
-        return commits;
+        return GetCommits(x => x.ReachableFromHead()
+                                .Skip(skipCount)
+                                .Take(takeCount));
     }
 
     public IReadOnlyList<Commit> GetCommits(Action<IGitRevisionsBuilder> rangeBuilderAction)
@@ -156,7 +154,7 @@ public class GitTool : IGitTool
     /// </summary>
     private IReadOnlyList<Commit> GetCommits()
     {
-        var commits = GetCommits(_commitsReadCountFromHead, NextSetReadMaxCount);
+        var commits = GetCommits(_commitsReadCountFromHead, DefaultTakeLimit);
         _commitsReadCountFromHead += commits.Count;
         return commits;
     }

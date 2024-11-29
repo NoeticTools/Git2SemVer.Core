@@ -22,6 +22,8 @@ public interface IGitTool
 
     Commit Head { get; }
 
+    ICommitsCache Cache { get; }
+
     Commit Get(CommitId commitId);
 
     Commit Get(string commitSha);

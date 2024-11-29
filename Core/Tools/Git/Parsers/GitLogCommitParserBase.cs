@@ -23,10 +23,10 @@ public abstract class GitLogCommitParserBase
         """;
 
     protected GitLogCommitParserBase(ICommitsCache cache,
-                                     IConventionalCommitsParser conventionalCommitParser)
+                                     IConventionalCommitsParser? conventionalCommitParser = null)
     {
         _cache = cache;
-        _conventionalCommitParser = conventionalCommitParser;
+        _conventionalCommitParser = conventionalCommitParser ?? new ConventionalCommitsParser();
         FormatArgs = "--graph --pretty=\"format:%x1f.|%H|%P|%x02%s%x03|%x02%b%x03|%d|%x1e\"";
     }
 

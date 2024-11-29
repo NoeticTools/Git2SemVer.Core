@@ -9,14 +9,14 @@ namespace NoeticTools.Git2SemVer.Core.Tests.Tools.Git;
 [TestFixture]
 internal class LoggingGitLogCommitParserIntegrationTests
 {
-    private LoggingGitLogCommitParserIntegration _target;
+    private LoggingGitLogCommitParser _target;
 
     [SetUp]
     public void SetUp()
     {
         var cache = new CommitsCache();
         var gitTool = new Mock<IGitTool>();
-        _target = new LoggingGitLogCommitParserIntegration(cache, new ConventionalCommitsParser(), new CommitObfuscator());
+        _target = new LoggingGitLogCommitParser(cache, new CommitObfuscator(), new ConventionalCommitsParser());
     }
 
     [Test]

@@ -1,35 +1,67 @@
-﻿using NoeticTools.Git2SemVer.Core.ConventionCommits;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using NoeticTools.Git2SemVer.Core.ConventionCommits;
 
 
 namespace NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
-public sealed class LoggingGitLogCommitParserIntegration
+public sealed class LoggingGitLogCommitParser
     : GitLogCommitParserBase, IGitLogCommitParser
 {
-    public LoggingGitLogCommitParserIntegration(ICommitsCache cache,
-                                                IConventionalCommitsParser conventionalCommitParser,
-                                                ICommitObfuscator? obfuscator = null)
+    private readonly List<string> _logLines = [];
+    private readonly ICommitObfuscator? _obfuscator;
+
+    public LoggingGitLogCommitParser(IGitTool gitTool)
+        : this(gitTool.Cache, null, null)
+    {
+    }
+
+    public LoggingGitLogCommitParser(ICommitsCache cache,
+                                     ICommitObfuscator? obfuscator = null,
+                                     IConventionalCommitsParser? conventionalCommitParser = null)
         : base(cache, conventionalCommitParser)
     {
         _obfuscator = obfuscator;
     }
 
-    private readonly List<string> _logLines = [];
-    private readonly ICommitObfuscator? _obfuscator;
-
-    public void Clear()
+    public string GetLog()
     {
+        var log = _logLines.Aggregate("", (current, line) => current + Environment.NewLine + line);
         _logLines.Clear();
+        return log;
     }
-
-    public string Log => _logLines.Aggregate("", (current, line) => current + Environment.NewLine + line);
 
     public Commit? Parse(string line)
     {
         var (commit, graph) = ParseCommitAndGraph(line);
         _logLines.Add(GetLogLine(graph, commit));
         return commit;
+    }
+
+    private string GetCommitSummary(Commit commit)
+    {
+        if (_obfuscator == null)
+        {
+            return commit.Summary;
+        }
+
+        if (commit.Metadata.ChangeType == CommitChangeTypeId.Unknown)
+        {
+            return "UNKNOWN";
+        }
+
+        if (commit.Metadata.ChangeType == CommitChangeTypeId.None)
+        {
+            return "REDACTED";
+        }
+
+        var colonPrefix = commit.Summary.IndexOf(':');
+        var prefix = commit.Summary.Substring(0, colonPrefix + 1);
+        return prefix + " REDACTED";
+    }
+
+    private string GetObfuscatedSha(string sha)
+    {
+        return _obfuscator?.GetObfuscatedSha(sha) ?? sha;
     }
 
     /// <summary>
@@ -74,34 +106,5 @@ public sealed class LoggingGitLogCommitParserIntegration
         var footer = string.Join("\n", commit.Metadata.FooterKeyValues.SelectMany((kv, _) => kv.Select(value => kv.Key + ": " + value)));
 
         return $"{priorGraphLines}{graphLine,-15} \u001f.|{sha}|{parentShas}|\u0002{summary}\u0003|\u0002{footer}\u0003|{redactedRefs2}|";
-    }
-
-    private string GetObfuscatedSha(string sha)
-    {
-        return _obfuscator?.GetObfuscatedSha(sha) ?? sha;
-    }
-
-    private string GetCommitSummary(Commit commit)
-    {
-        if (_obfuscator == null)
-        {
-            return commit.Summary;
-        }
-        else
-        {
-            if (commit.Metadata.ChangeType == CommitChangeTypeId.Unknown)
-            {
-                return "UNKNOWN";
-            }
-
-            if (commit.Metadata.ChangeType == CommitChangeTypeId.None)
-            {
-                return "REDACTED";
-            }
-
-            var colonPrefix = commit.Summary.IndexOf(':');
-            var prefix = commit.Summary.Substring(0, colonPrefix + 1);
-            return prefix + " REDACTED";
-        }
     }
 }
