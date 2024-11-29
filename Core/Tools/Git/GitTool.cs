@@ -116,11 +116,7 @@ public class GitTool : IGitTool
 
     public IReadOnlyList<Commit> GetCommitsInRange(string head, params string[] startingCommits)
     {
-        var commitsRange = $"{head}";
-        foreach (var startingCommit in startingCommits)
-        {
-            commitsRange += $" \"^{startingCommit}^@\"";
-        }
+        var commitsRange = startingCommits.Aggregate($"{head}", (current, startingCommit) => current + $" \"^{startingCommit}^@\"");
         var arguments = $"log {commitsRange} --pretty=\"format:%H\"";
         var stdOutput = Run(arguments);
         return GetCommitsFromCommitShaList(stdOutput);
