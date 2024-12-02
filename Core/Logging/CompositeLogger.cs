@@ -48,69 +48,68 @@ public sealed class CompositeLogger : ILogger
 
     public void Log(LoggingLevel level, string message)
     {
-        if (Level >= level)
+        if (Level < level)
         {
-            _loggers.ForEach(logger => logger.Log(level, message));
+            return;
         }
+
+        _loggers.ForEach(logger => logger.Log(level, message));
     }
 
     public void LogDebug(string message)
     {
-        if (Level >= LoggingLevel.Debug)
+        if (Level < LoggingLevel.Debug)
         {
-            _loggers.ForEach(logger => logger.LogDebug(message));
+            return;
         }
+
+        _loggers.ForEach(logger => logger.LogDebug(message));
     }
 
     public void LogDebug(string message, params object[] messageArgs)
     {
-        if (Level >= LoggingLevel.Debug)
+        if (Level < LoggingLevel.Debug)
         {
-            var formattedMessage = string.Format(message, messageArgs);
-            LogDebug(formattedMessage);
+            return;
         }
+
+        var formattedMessage = string.Format(message, messageArgs);
+        LogDebug(formattedMessage);
     }
 
     public void LogError(string message)
     {
         _errorMessages.Add(message);
-        if (Level >= LoggingLevel.Error)
-        {
-            _loggers.ForEach(logger => logger.LogError(message));
-        }
+        _loggers.ForEach(logger => logger.LogError(message));
     }
 
     public void LogError(string message, params object[] messageArgs)
     {
         var formattedMessage = string.Format(message, messageArgs);
         _errorMessages.Add(formattedMessage);
-        if (Level >= LoggingLevel.Error)
-        {
-            _loggers.ForEach(logger => logger.LogError(formattedMessage));
-        }
+        _loggers.ForEach(logger => logger.LogError(formattedMessage));
     }
 
     public void LogError(Exception exception)
     {
         var message = $"Exception - {exception.Message}\nStack trace: {exception.StackTrace}";
         _errorMessages.Add(message);
-        if (Level >= LoggingLevel.Error)
-        {
-            _loggers.ForEach(logger => logger.LogError(exception));
-        }
+        _loggers.ForEach(logger => logger.LogError(exception));
     }
 
     public void LogInfo(string message)
     {
-        if (Level >= LoggingLevel.Error)
+        if (Level < LoggingLevel.Info)
         {
-            _loggers.ForEach(logger => logger.LogInfo(message));
+            return;
         }
+
+        _loggers.ForEach(logger => logger.LogInfo(message));
     }
 
     public void LogInfo(string message, params object[] messageArgs)
     {
-        if (Level < LoggingLevel.Error)
+        if (Level < LoggingLevel.Info)
         {
             return;
         }
@@ -121,15 +120,17 @@ public sealed class CompositeLogger : ILogger
 
     public void LogTrace(string message)
     {
-        if (Level >= LoggingLevel.Trace)
+        if (Level < LoggingLevel.Trace)
         {
-            _loggers.ForEach(logger => logger.LogTrace(message));
+            return;
         }
+
+        _loggers.ForEach(logger => logger.LogTrace(message));
     }
 
     public void LogTrace(string message, params object[] messageArgs)
     {
-        if (Level < LoggingLevel.Error)
+        if (Level < LoggingLevel.Trace)
         {
             return;
         }
@@ -140,10 +141,12 @@ public sealed class CompositeLogger : ILogger
 
     public void LogWarning(string message)
     {
-        if (Level >= LoggingLevel.Warning)
+        if (Level < LoggingLevel.Warning)
         {
-            _loggers.ForEach(logger => logger.LogWarning(message));
+            return;
         }
+
+        _loggers.ForEach(logger => logger.LogWarning(message));
     }
 
     public void LogWarning(string format, params object[] args)
@@ -159,10 +162,12 @@ public sealed class CompositeLogger : ILogger
 
     public void LogWarning(Exception exception)
     {
-        if (Level >= LoggingLevel.Warning)
+        if (Level < LoggingLevel.Trace)
         {
-            _loggers.ForEach(logger => logger.LogWarning(exception));
+            return;
         }
+
+        _loggers.ForEach(logger => logger.LogWarning(exception));
     }
 
     private static void LeaveLogScope(List<IDisposable> scopes)

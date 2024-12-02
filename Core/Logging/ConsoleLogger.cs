@@ -30,31 +30,40 @@ public class ConsoleLogger : ILogger
 
     public void Log(LoggingLevel level, string message)
     {
-        if (Level <= level)
+        if (Level < level)
         {
-            var lookup = new Dictionary<LoggingLevel, Action<string>>
-            {
-                { LoggingLevel.Trace, LogTrace },
-                { LoggingLevel.Debug, LogDebug },
-                { LoggingLevel.Info, LogInfo },
-                { LoggingLevel.Warning, LogWarning },
-                { LoggingLevel.Error, LogError }
-            };
-
-            lookup[level](message);
+            return;
         }
+
+        var lookup = new Dictionary<LoggingLevel, Action<string>>
+        {
+            { LoggingLevel.Trace, LogTrace },
+            { LoggingLevel.Debug, LogDebug },
+            { LoggingLevel.Info, LogInfo },
+            { LoggingLevel.Warning, LogWarning },
+            { LoggingLevel.Error, LogError }
+        };
+
+        lookup[level](message);
     }
 
     public void LogDebug(string message)
     {
-        if (Level <= LoggingLevel.Debug)
+        if (Level < LoggingLevel.Debug)
         {
-            Console.Out.WriteLine(LogPrefix + message);
+            return;
         }
+
+        Console.Out.WriteLine(LogPrefix + message);
     }
 
     public void LogDebug(string message, params object[] messageArgs)
     {
+        if (Level < LoggingLevel.Debug)
+        {
+            return;
+        }
+
         LogDebug(string.Format(message, messageArgs));
     }
 
@@ -79,45 +88,71 @@ public class ConsoleLogger : ILogger
 
     public void LogInfo(string message)
     {
+        if (Level < LoggingLevel.Info)
+        {
+            return;
+        }
+
         Console.Out.WriteLine(LogPrefix + message);
     }
 
     public void LogInfo(string message, params object[] messageArgs)
     {
+        if (Level < LoggingLevel.Info)
+        {
+            return;
+        }
+
         LogInfo(string.Format(message, messageArgs));
     }
 
     public void LogTrace(string message)
     {
-        if (Level >= LoggingLevel.Trace)
+        if (Level < LoggingLevel.Trace)
         {
-            AnsiConsole.MarkupLine("[grey50]" + message + "[/]");
+            return;
         }
+
+        AnsiConsole.MarkupLine("[grey50]" + message + "[/]");
     }
 
     public void LogTrace(string message, params object[] messageArgs)
     {
-        if (Level >= LoggingLevel.Trace)
+        if (Level < LoggingLevel.Trace)
         {
-            LogTrace(string.Format(message, messageArgs));
+            return;
         }
+
+        LogTrace(string.Format(message, messageArgs));
     }
 
     public void LogWarning(string message)
     {
-        if (Level >= LoggingLevel.Warning)
+        if (Level < LoggingLevel.Warning)
         {
-            AnsiConsole.MarkupLine("[fuchsia]" + message + "[/]");
+            return;
         }
+
+        AnsiConsole.MarkupLine("[fuchsia]" + message + "[/]");
     }
 
     public void LogWarning(string format, params object[] args)
     {
+        if (Level < LoggingLevel.Warning)
+        {
+            return;
+        }
+
         LogWarning(string.Format(format, args));
     }
 
     public void LogWarning(Exception exception)
     {
+        if (Level < LoggingLevel.Warning)
+        {
+            return;
+        }
+
         LogWarning($"Exception - {exception.Message}");
     }
 

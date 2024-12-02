@@ -38,7 +38,21 @@ public abstract class TaskLoggerBase : ILogger
 
     public void Log(LoggingLevel level, string message)
     {
-        throw new NotImplementedException();
+        if (Level < level)
+        {
+            return;
+        }
+
+        var lookup = new Dictionary<LoggingLevel, Action<string>>
+        {
+            { LoggingLevel.Trace, LogTrace },
+            { LoggingLevel.Debug, LogDebug },
+            { LoggingLevel.Info, LogInfo },
+            { LoggingLevel.Warning, LogWarning },
+            { LoggingLevel.Error, LogError }
+        };
+
+        lookup[level](message);
     }
 
     public void LogDebug(string message)

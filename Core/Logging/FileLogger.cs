@@ -109,6 +109,11 @@ public class FileLogger : ILogger
 
     public void LogInfo(string message, params object[] messageArgs)
     {
+        if (Level < LoggingLevel.Info)
+        {
+            return;
+        }
+
         LogInfo(string.Format(message, messageArgs));
     }
 
@@ -119,10 +124,12 @@ public class FileLogger : ILogger
 
     public void LogTrace(string message, params object[] messageArgs)
     {
-        if (Level >= LoggingLevel.Trace)
+        if (Level < LoggingLevel.Trace)
         {
-            LogTrace(string.Format(message, messageArgs));
+            return;
         }
+
+        LogTrace(string.Format(message, messageArgs));
     }
 
     public void LogWarning(string message)
@@ -132,11 +139,21 @@ public class FileLogger : ILogger
 
     public void LogWarning(string format, params object[] args)
     {
+        if (Level < LoggingLevel.Warning)
+        {
+            return;
+        }
+
         LogWarning(string.Format(format, args));
     }
 
     public void LogWarning(Exception exception)
     {
+        if (Level < LoggingLevel.Warning)
+        {
+            return;
+        }
+
         LogWarning($"Exception - {exception.Message}");
     }
 
