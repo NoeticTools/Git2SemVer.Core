@@ -91,7 +91,7 @@ public class ConsoleLogger : ILogger
     {
         if (Level >= LoggingLevel.Trace)
         {
-            Console.Out.WriteLine(LogPrefix + message);
+            AnsiConsole.MarkupLine("[grey50]" + message + "[/]");
         }
     }
 
@@ -107,7 +107,6 @@ public class ConsoleLogger : ILogger
     {
         if (Level >= LoggingLevel.Warning)
         {
-            Console.Out.WriteLine(LogPrefix + message);
             AnsiConsole.MarkupLine("[fuchsia]" + message + "[/]");
         }
     }
