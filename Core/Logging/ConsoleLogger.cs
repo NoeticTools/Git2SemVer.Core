@@ -113,7 +113,7 @@ public class ConsoleLogger : ILogger
             return;
         }
 
-        AnsiConsole.MarkupLine("[grey50]" + message + "[/]");
+        AnsiConsole.MarkupLine(LogPrefix + "[grey50]" + message + "[/]");
     }
 
     public void LogTrace(string message, params object[] messageArgs)
