@@ -162,7 +162,7 @@ public class ConsoleLogger : ILogger
 
     private string IndentLines(string message)
     {
-        message = message.Replace(Environment.NewLine, Environment.NewLine + LogPrefix);
+        message = message.Replace("\n", Environment.NewLine + LogPrefix);
         return LogPrefix + message;
     }
 
