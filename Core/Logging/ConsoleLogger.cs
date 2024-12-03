@@ -54,7 +54,8 @@ public class ConsoleLogger : ILogger
             return;
         }
 
-        Console.Out.WriteLine(LogPrefix + message);
+        message = IndentLines(message);
+        Console.Out.WriteLine(message);
     }
 
     public void LogDebug(string message, params object[] messageArgs)
@@ -93,7 +94,8 @@ public class ConsoleLogger : ILogger
             return;
         }
 
-        Console.Out.WriteLine(LogPrefix + message);
+        message = IndentLines(message);
+        Console.Out.WriteLine(message);
     }
 
     public void LogInfo(string message, params object[] messageArgs)
@@ -113,7 +115,8 @@ public class ConsoleLogger : ILogger
             return;
         }
 
-        AnsiConsole.MarkupLine(LogPrefix + "[grey50]" + message + "[/]");
+        message = IndentLines(message);
+        AnsiConsole.MarkupLine("[grey50]" + message + "[/]");
     }
 
     public void LogTrace(string message, params object[] messageArgs)
@@ -133,6 +136,7 @@ public class ConsoleLogger : ILogger
             return;
         }
 
+        message = IndentLines(message);
         AnsiConsole.MarkupLine("[fuchsia]" + message + "[/]");
     }
 
@@ -154,6 +158,12 @@ public class ConsoleLogger : ILogger
         }
 
         LogWarning($"Exception - {exception.Message}");
+    }
+
+    private string IndentLines(string message)
+    {
+        message = message.Replace(Environment.NewLine, Environment.NewLine + LogPrefix);
+        return LogPrefix + message;
     }
 
     private void LeaveLogScope()
