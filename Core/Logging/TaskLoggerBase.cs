@@ -1,19 +1,13 @@
 ﻿namespace NoeticTools.Git2SemVer.Core.Logging;
 
-public abstract class TaskLoggerBase : ILogger
+public abstract class TaskLoggerBase : LoggerBase, ILogger
 {
-    private const string LogScopeIndent = "  ";
     private readonly ITaskLoggerAdapter _adapter;
-    private readonly List<string> _errorMessages = [];
 
     protected TaskLoggerBase(ITaskLoggerAdapter adapter)
     {
         _adapter = adapter;
     }
-
-    public string Errors => string.Join("\n", _errorMessages);
-
-    public bool HasError { get; private set; }
 
     /// <summary>
     ///     This logger ignores the set log level as the underlying task logger sets the logging level.
@@ -24,16 +18,8 @@ public abstract class TaskLoggerBase : ILogger
         set { }
     }
 
-    public string LogPrefix { get; private set; } = "";
-
     public void Dispose()
     {
-    }
-
-    public IDisposable EnterLogScope()
-    {
-        LogPrefix += LogScopeIndent;
-        return new UsingScope(LeaveLogScope);
     }
 
     public void Log(LoggingLevel level, string message)
@@ -68,7 +54,7 @@ public abstract class TaskLoggerBase : ILogger
     public void LogError(string message)
     {
         HasError = true;
-        _errorMessages.Add(message);
+        ErrorMessages.Add(message);
         _adapter.LogError(message);
     }
 
@@ -80,7 +66,7 @@ public abstract class TaskLoggerBase : ILogger
     public void LogError(Exception exception)
     {
         HasError = true;
-        _errorMessages.Add($"Exception: {exception.Message}\nStack trace: {exception.StackTrace}");
+        ErrorMessages.Add($"Exception: {exception.Message}\nStack trace: {exception.StackTrace}");
         _adapter.LogError(exception);
     }
 
@@ -117,10 +103,5 @@ public abstract class TaskLoggerBase : ILogger
     public void LogWarning(Exception exception)
     {
         _adapter.LogWarning(exception);
-    }
-
-    private void LeaveLogScope()
-    {
-        LogPrefix = LogPrefix.Substring(0, LogPrefix.Length - LogScopeIndent.Length);
     }
 }

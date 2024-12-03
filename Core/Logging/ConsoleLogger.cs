@@ -5,27 +5,12 @@ using Spectre.Console;
 namespace NoeticTools.Git2SemVer.Core.Logging;
 
 [RegisterTransient]
-public class ConsoleLogger : ILogger
+public class ConsoleLogger : LoggerBase, ILogger
 {
-    private const string LogScopeIndent = "  ";
-    private readonly List<string> _errorMessages = [];
-
-    public string Errors => string.Join("\n", _errorMessages);
-
-    public bool HasError { get; private set; }
-
     public LoggingLevel Level { get; set; } = LoggingLevel.Info;
-
-    public string LogPrefix { get; private set; } = "";
 
     public void Dispose()
     {
-    }
-
-    public IDisposable EnterLogScope()
-    {
-        LogPrefix += LogScopeIndent;
-        return new UsingScope(LeaveLogScope);
     }
 
     public void Log(LoggingLevel level, string message)
@@ -71,7 +56,7 @@ public class ConsoleLogger : ILogger
     public void LogError(string message)
     {
         HasError = true;
-        _errorMessages.Add(message);
+        ErrorMessages.Add(message);
         AnsiConsole.MarkupLine("[red]" + message + "[/]");
     }
 
@@ -158,16 +143,5 @@ public class ConsoleLogger : ILogger
         }
 
         LogWarning($"Exception - {exception.Message}");
-    }
-
-    private string IndentLines(string message)
-    {
-        message = message.Replace("\n", Environment.NewLine + LogPrefix);
-        return LogPrefix + message;
-    }
-
-    private void LeaveLogScope()
-    {
-        LogPrefix = LogPrefix.Substring(0, LogPrefix.Length - LogScopeIndent.Length);
     }
 }

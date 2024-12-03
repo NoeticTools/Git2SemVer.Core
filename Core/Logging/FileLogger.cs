@@ -5,10 +5,8 @@ using Injectio.Attributes;
 namespace NoeticTools.Git2SemVer.Core.Logging;
 
 [RegisterTransient]
-public class FileLogger : ILogger
+public class FileLogger : LoggerBase, ILogger
 {
-    private const string LogScopeIndent = "  ";
-    private readonly List<string> _errorMessages = [];
     private readonly StreamWriter _stream;
 
     public FileLogger(string filePath)
@@ -33,25 +31,13 @@ public class FileLogger : ILogger
             }
     }
 
-    public string Errors => string.Join("\n", _errorMessages);
-
-    public bool HasError { get; private set; }
-
     public LoggingLevel Level { get; set; } = LoggingLevel.Trace;
-
-    public string LogPrefix { get; private set; } = "";
 
     public void Dispose()
     {
         _stream.Flush();
         _stream.Close();
         _stream.Dispose();
-    }
-
-    public IDisposable EnterLogScope()
-    {
-        LogPrefix += LogScopeIndent;
-        return new UsingScope(LeaveLogScope);
     }
 
     public void Log(LoggingLevel level, string message)
@@ -86,7 +72,7 @@ public class FileLogger : ILogger
     public void LogError(string message)
     {
         HasError = true;
-        _errorMessages.Add(message);
+        ErrorMessages.Add(message);
         Log(LoggingLevel.Error, message);
     }
 
@@ -155,10 +141,5 @@ public class FileLogger : ILogger
         }
 
         LogWarning($"Exception - {exception.Message}");
-    }
-
-    private void LeaveLogScope()
-    {
-        LogPrefix = LogPrefix.Substring(0, LogPrefix.Length - LogScopeIndent.Length);
     }
 }
