@@ -10,6 +10,8 @@ public abstract class LoggerBase
 
     public string LogPrefix { get; private set; } = "";
 
+    public abstract LoggingLevel Level { get; set; }
+
     public IDisposable EnterLogScope()
     {
         LogPrefix += LogScopeIndent;

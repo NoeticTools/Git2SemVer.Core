@@ -42,6 +42,11 @@ public sealed class NoDisposeLoggerDecorator : ILogger
         _inner.LogDebug(message);
     }
 
+    public void LogDebug(Func<string> messageGenerator)
+    {
+        _inner.LogDebug(messageGenerator());
+    }
+
     public void LogDebug(string message, params object[] messageArgs)
     {
         _inner.LogDebug(message, messageArgs);
@@ -75,6 +80,11 @@ public sealed class NoDisposeLoggerDecorator : ILogger
     public void LogTrace(string message)
     {
         _inner.LogTrace(message);
+    }
+
+    public void LogTrace(Func<string> messageGenerator)
+    {
+        _inner.LogTrace(messageGenerator);
     }
 
     public void LogTrace(string message, params object[] messageArgs)

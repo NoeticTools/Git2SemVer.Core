@@ -7,7 +7,7 @@ namespace NoeticTools.Git2SemVer.Core.Logging;
 [RegisterTransient]
 public class ConsoleLogger : LoggerBase, ILogger
 {
-    public LoggingLevel Level { get; set; } = LoggingLevel.Info;
+    public override LoggingLevel Level { get; set; } = LoggingLevel.Info;
 
     public void Dispose()
     {
@@ -41,6 +41,16 @@ public class ConsoleLogger : LoggerBase, ILogger
 
         message = IndentLines(message);
         Console.Out.WriteLine(message);
+    }
+
+    public void LogDebug(Func<string> messageGenerator)
+    {
+        if (Level < LoggingLevel.Debug)
+        {
+            return;
+        }
+
+        LogDebug(messageGenerator());
     }
 
     public void LogDebug(string message, params object[] messageArgs)
@@ -102,6 +112,16 @@ public class ConsoleLogger : LoggerBase, ILogger
 
         message = IndentLines(message);
         AnsiConsole.MarkupLine("[grey50]" + message + "[/]");
+    }
+
+    public void LogTrace(Func<string> messageGenerator)
+    {
+        if (Level < LoggingLevel.Trace)
+        {
+            return;
+        }
+
+        LogTrace(messageGenerator());
     }
 
     public void LogTrace(string message, params object[] messageArgs)

@@ -31,7 +31,7 @@ public class FileLogger : LoggerBase, ILogger
             }
     }
 
-    public LoggingLevel Level { get; set; } = LoggingLevel.Trace;
+    public override LoggingLevel Level { get; set; } = LoggingLevel.Trace;
 
     public void Dispose()
     {
@@ -62,6 +62,16 @@ public class FileLogger : LoggerBase, ILogger
     public void LogDebug(string message)
     {
         Log(LoggingLevel.Debug, message);
+    }
+
+    public void LogDebug(Func<string> messageGenerator)
+    {
+        if (Level < LoggingLevel.Debug)
+        {
+            return;
+        }
+
+        Log(LoggingLevel.Debug, messageGenerator());
     }
 
     public void LogDebug(string message, params object[] messageArgs)
@@ -106,6 +116,11 @@ public class FileLogger : LoggerBase, ILogger
     public void LogTrace(string message)
     {
         Log(LoggingLevel.Trace, message);
+    }
+
+    public void LogTrace(Func<string> messageGenerator)
+    {
+        throw new NotImplementedException();
     }
 
     public void LogTrace(string message, params object[] messageArgs)

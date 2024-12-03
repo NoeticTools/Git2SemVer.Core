@@ -46,6 +46,8 @@ public interface ILogger : IDisposable
     /// </remarks>
     void LogDebug(string message);
 
+    void LogDebug(Func<string> messageGenerator);
+
     /// <summary>
     ///     Log a message with [normal
     ///     importance](https://learn.microsoft.com/en-us/dotnet/api/microsoft.build.framework.messageimportance?view=msbuild-17-netcore).
@@ -92,6 +94,8 @@ public interface ILogger : IDisposable
     ///     importance](https://learn.microsoft.com/en-us/dotnet/api/microsoft.build.framework.messageimportance?view=msbuild-17-netcore).
     /// </summary>
     void LogTrace(string message);
+
+    void LogTrace(Func<string> messageGenerator);
 
     /// <summary>
     ///     Log a message of [low

@@ -12,7 +12,7 @@ public abstract class TaskLoggerBase : LoggerBase, ILogger
     /// <summary>
     ///     This logger ignores the set log level as the underlying task logger sets the logging level.
     /// </summary>
-    public LoggingLevel Level
+    public override LoggingLevel Level
     {
         get => LoggingLevel.Trace;
         set { }
@@ -44,6 +44,16 @@ public abstract class TaskLoggerBase : LoggerBase, ILogger
     public void LogDebug(string message)
     {
         _adapter.LogDebug(LogPrefix + message);
+    }
+
+    public void LogDebug(Func<string> messageGenerator)
+    {
+        if (Level < LoggingLevel.Debug)
+        {
+            return;
+        }
+
+        LogDebug(messageGenerator());
     }
 
     public void LogDebug(string message, params object[] messageArgs)
@@ -83,6 +93,16 @@ public abstract class TaskLoggerBase : LoggerBase, ILogger
     public void LogTrace(string message)
     {
         _adapter.LogTrace(LogPrefix + message);
+    }
+
+    public void LogTrace(Func<string> messageGenerator)
+    {
+        if (Level < LoggingLevel.Trace)
+        {
+            return;
+        }
+
+        LogTrace(messageGenerator());
     }
 
     public void LogTrace(string message, params object[] messageArgs)

@@ -66,6 +66,16 @@ public sealed class CompositeLogger : ILogger
         _loggers.ForEach(logger => logger.LogDebug(message));
     }
 
+    public void LogDebug(Func<string> messageGenerator)
+    {
+        if (Level < LoggingLevel.Debug)
+        {
+            return;
+        }
+
+        _loggers.ForEach(logger => logger.LogDebug(messageGenerator()));
+    }
+
     public void LogDebug(string message, params object[] messageArgs)
     {
         if (Level < LoggingLevel.Debug)
@@ -126,6 +136,16 @@ public sealed class CompositeLogger : ILogger
         }
 
         _loggers.ForEach(logger => logger.LogTrace(message));
+    }
+
+    public void LogTrace(Func<string> messageGenerator)
+    {
+        if (Level < LoggingLevel.Trace)
+        {
+            return;
+        }
+
+        _loggers.ForEach(logger => logger.LogTrace(messageGenerator()));
     }
 
     public void LogTrace(string message, params object[] messageArgs)
