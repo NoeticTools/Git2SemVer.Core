@@ -25,7 +25,7 @@ public abstract class LoggerBase
 
     protected string IndentLines(string message)
     {
-        message = message.Replace("\n", Environment.NewLine + LogPrefix);
+        message = message.Replace("\n", "\n" + LogPrefix);
         return LogPrefix + message;
     }
 }
