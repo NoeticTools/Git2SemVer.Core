@@ -7,13 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ----
 
-## 1.0.1 - _Feburary 11, 2025_
+## Next Release
 
 ### Fixed
 
 * Fixed parsing Git version response when using Apple Git [NoeticTools/Git2SemVer.MSBuild/issues#35](https://github.com/NoeticTools/Git2SemVer.MSBuild/issues/35).
 
-* 
+ 
 ## 1.0.0 - _November 7, 2024_
 
 First release.
