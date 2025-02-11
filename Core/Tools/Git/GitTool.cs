@@ -18,7 +18,7 @@ public class GitTool : IGitTool
 {
     private const int DefaultTakeLimit = 300;
     private readonly SemVersion _assumedLowestGitVersion = new(2, 34, 1);
-    private readonly IGitLogCommitParser _commitLogParser;
+    private readonly IGitResponseParser _gitResponseParser;
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
     private int _commitsReadCountFromHead;
@@ -34,15 +34,15 @@ public class GitTool : IGitTool
     }
 
     public GitTool(ICommitsCache cache, IGitProcessCli inner, ILogger logger)
-        : this(cache, inner, new GitLogCommitParser(cache, new ConventionalCommitsParser()), logger)
+        : this(cache, inner, new GitResponseParser(cache, new ConventionalCommitsParser(), logger), logger)
     {
     }
 
-    public GitTool(ICommitsCache cache, IGitProcessCli inner, IGitLogCommitParser commitLogParser, ILogger logger)
+    public GitTool(ICommitsCache cache, IGitProcessCli inner, IGitResponseParser gitResponseParser, ILogger logger)
     {
         Cache = cache;
         _inner = inner;
-        _commitLogParser = commitLogParser;
+        _gitResponseParser = gitResponseParser;
         _logger = logger;
 
         var gitVersion = GetVersion();
@@ -146,7 +146,7 @@ public class GitTool : IGitTool
     {
         var stdOutput = Run("status -b -s --porcelain");
 
-        return ParseStatusResponseBranchName(stdOutput);
+        return _gitResponseParser.ParseStatusResponseBranchName(stdOutput);
     }
 
     /// <summary>
@@ -159,12 +159,12 @@ public class GitTool : IGitTool
         return commits;
     }
 
-    private IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments = "", IGitLogCommitParser? customParser = null)
+    private IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments = "", IGitResponseParser? customParser = null)
     {
-        var parser = customParser ?? _commitLogParser;
+        var parser = customParser ?? _gitResponseParser;
         var stdOutput = Run($"log {parser.FormatArgs} {scopeArguments}");
         var lines = stdOutput.Split(parser.RecordSeparator);
-        var commits = lines.Select(line => parser.Parse(line)).OfType<Commit>().ToList();
+        var commits = lines.Select(line => parser.ParseGitLogLine(line)).OfType<Commit>().ToList();
         _logger.LogTrace("Read {0} commits from git history.", commits.Count);
         return commits;
     }
@@ -187,42 +187,6 @@ public class GitTool : IGitTool
             _logger.LogError($"Unable to read git version. Return code was '{returnCode}'. Git may not be executable from current directory.");
         }
 
-        try
-        {
-            var regex = new Regex(@"^git version (?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)\.?(?<metadata>.*?)?$");
-            var match = regex.Match(response.Trim());
-            if (!match.Success)
-            {
-                _logger.LogWarning($"Unable to parse git --version response: '{response}'.");
-                return null;
-            }
-
-            var major = int.Parse(match.Groups["major"].Value);
-            var minor = int.Parse(match.Groups["minor"].Value);
-            var patch = int.Parse(match.Groups["patch"].Value);
-            var version = new SemVersion(major, minor, patch);
-            var metadata = match.Groups["metadata"].Value;
-            version = version.WithMetadataParsedFrom(metadata);
-            _logger.LogDebug("Git version (in Semver format) is '{0}'", version.ToString());
-            return version;
-        }
-        catch (Exception exception)
-        {
-            _logger.LogWarning($"Unable to parse git --version response: '{response}'. Exception: {exception.Message}.");
-            return null;
-        }
-    }
-
-    internal static string ParseStatusResponseBranchName(string stdOutput)
-    {
-        var regex = new Regex(@"^## (?<branchName>[a-zA-Z0-9!$*\._\/-]+?)(\.\.\..*)?\s*?$", RegexOptions.Multiline);
-        var match = regex.Match(stdOutput);
-
-        if (!match.Success)
-        {
-            throw new Git2SemVerGitOperationException($"Unable to read branch name from Git status response '{stdOutput}'.\n");
-        }
-
-        return match.Groups["branchName"].Value;
+        return _gitResponseParser.ParseGitVersionResponse(response);
     }
 }

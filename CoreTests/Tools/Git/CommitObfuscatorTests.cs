@@ -1,6 +1,4 @@
 ﻿using Moq;
-using NoeticTools.Git2SemVer.Core.ConventionCommits;
-using NoeticTools.Git2SemVer.Core.Logging;
 using NoeticTools.Git2SemVer.Core.Tools.Git;
 using NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
@@ -16,8 +14,6 @@ internal class CommitObfuscatorTests
     [SetUp]
     public void SetUp()
     {
-        var cache = new CommitsCache();
-        var gitTool = new Mock<IGitTool>();
         _target = new CommitObfuscator();
     }
 

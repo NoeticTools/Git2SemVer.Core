@@ -37,7 +37,7 @@ public abstract class GitLogCommitParserBase
     protected (Commit? commit, string graph) ParseCommitAndGraph(string line)
     {
         line = line.Trim();
-        var regex = new Regex(GitLogCommitParser.GitLogParsingPattern, RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
+        var regex = new Regex(GitResponseParser.GitLogParsingPattern, RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
         var match = regex.Match(line);
         if (!match.Success)
         {

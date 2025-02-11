@@ -19,5 +19,5 @@ public interface IGitRevisionsBuilder
     IGitRevisionsBuilder Take(int takeCount);
     IGitRevisionsBuilder ReachableFrom(CommitId[] commitIds);
     IGitRevisionsBuilder ReachableFrom(string[] commitShas);
-    IGitRevisionsBuilder With(IGitLogCommitParser customParser);
+    IGitRevisionsBuilder With(IGitResponseParser customParser);
 }

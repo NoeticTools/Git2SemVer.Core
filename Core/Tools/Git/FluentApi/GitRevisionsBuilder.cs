@@ -11,7 +11,7 @@ public sealed class GitRevisionsBuilder : IGitRevisionsBuilder
 {
     private readonly StringBuilder _args = new();
 
-    public IGitLogCommitParser? Parser { get; private set; }
+    public IGitResponseParser? Parser { get; private set; }
 
     public IGitRevisionsBuilder NotReachableFrom(CommitId commitId, bool inclusive = false)
     {
@@ -94,7 +94,7 @@ public sealed class GitRevisionsBuilder : IGitRevisionsBuilder
         return this;
     }
 
-    public IGitRevisionsBuilder With(IGitLogCommitParser customParser)
+    public IGitRevisionsBuilder With(IGitResponseParser customParser)
     {
         Parser = customParser;
         return this;

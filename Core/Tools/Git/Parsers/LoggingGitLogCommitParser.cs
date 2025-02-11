@@ -5,7 +5,7 @@ using NoeticTools.Git2SemVer.Core.ConventionCommits;
 namespace NoeticTools.Git2SemVer.Core.Tools.Git.Parsers;
 
 public sealed class LoggingGitLogCommitParser
-    : GitLogCommitParserBase, IGitLogCommitParser
+    : GitLogCommitParserBase, IGitLogResponseParser
 {
     private readonly List<string> _logLines = [];
     private readonly ICommitObfuscator? _obfuscator;
@@ -30,7 +30,7 @@ public sealed class LoggingGitLogCommitParser
         return log;
     }
 
-    public Commit? Parse(string line)
+    public Commit? ParseGitLogLine(string line)
     {
         var (commit, graph) = ParseCommitAndGraph(line);
         _logLines.Add(GetLogLine(graph, commit));
