@@ -93,6 +93,11 @@ internal class ConventionalCommitsParserTests
         Assert.That(result.Body, Is.EqualTo(expectedBody));
         var keyValuePairs = GetExpectedKeyValuePairs(expectedFooter);
 
+        if (hasBreakingChange)
+        {
+            Assert.That(result.FooterKeyValues.Contains("BREAKING CHANGE"), Is.True);
+        }
+
         Assert.That(result.FooterKeyValues, Is.EquivalentTo(keyValuePairs.ToLookup(k => k.key, v => v.value)));
     }
 
