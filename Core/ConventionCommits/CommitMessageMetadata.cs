@@ -3,7 +3,7 @@
 public class CommitMessageMetadata
 {
     private const string FeatureNoun = "feat";
-    private const string FixNoun = "fix"; 
+    private const string FixNoun = "fix";
 
     public CommitMessageMetadata(string changeNoun, 
                                  string changeScope, 
