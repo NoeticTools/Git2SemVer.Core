@@ -40,8 +40,8 @@ public sealed class ConventionalCommitsParser : IConventionalCommitsParser
 
     private readonly Regex _summaryRegex = new("""
                                                \A
-                                                 (?<ChangeType>(fix|feat|build|chore|ci|docs|style|refactor|perf|test))
-                                                   (\((?<scope>[\w\-\.]+)\))?(?<breakFlag>!)?: \s+(?<desc>\S.*?)
+                                                 (?<changeNoun>(fix|feat|build|chore|ci|docs|style|refactor|perf|test))
+                                                   (\((?<scopeNoun>[\w\-\.]+)\))?(?<breakFlag>!)?: \s+(?<desc>\S.*?)
                                                \Z
                                                """,
                                                RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline);
@@ -54,16 +54,17 @@ public sealed class ConventionalCommitsParser : IConventionalCommitsParser
             return new CommitMessageMetadata();
         }
 
-        var changeType = summaryMatch.GetGroupValue("ChangeType");
+        var changeNoun = summaryMatch.GetGroupValue("changeNoun");
         var breakingChangeFlagged = summaryMatch.GetGroupValue("breakFlag").Length > 0;
         var changeDescription = summaryMatch.GetGroupValue("desc");
+        var changeScope = summaryMatch.GetGroupValue("scopeNoun");
 
         var bodyMatch = _bodyRegex.Match(commitMessageBody);
         var body = bodyMatch.GetGroupValue("body");
         var footerGroup = bodyMatch.Groups["footer"];
         var keyValuePairs = GetFooterKeyValuePairs(footerGroup);
 
-        return new CommitMessageMetadata(changeType, breakingChangeFlagged, changeDescription, body, keyValuePairs);
+        return new CommitMessageMetadata(changeNoun, changeScope, breakingChangeFlagged, changeDescription, body, keyValuePairs);
     }
 
     private static List<(string key, string value)> GetFooterKeyValuePairs(Group footerGroup)

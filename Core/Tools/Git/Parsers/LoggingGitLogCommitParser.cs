@@ -44,12 +44,7 @@ public sealed class LoggingGitLogCommitParser
             return commit.Summary;
         }
 
-        if (commit.Metadata.ChangeType == CommitChangeTypeId.Unknown)
-        {
-            return "UNKNOWN";
-        }
-
-        if (commit.Metadata.ChangeType == CommitChangeTypeId.None)
+        if (commit.Metadata.ApiChangeFlags.None)
         {
             return "REDACTED";
         }

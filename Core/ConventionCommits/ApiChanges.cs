@@ -3,6 +3,11 @@
 public sealed class ApiChanges
 {
     /// <summary>
+    /// No API changes.
+    /// </summary>
+    public bool None => !(BreakingChange || Fix || FunctionalityChange);
+
+    /// <summary>
     ///     A breaking change has been made since last release.
     /// </summary>
     /// <remarks>

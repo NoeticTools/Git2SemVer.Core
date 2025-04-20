@@ -38,7 +38,7 @@ internal class LoggingGitLogCommitParserIntegrationTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",
-                                new CommitMessageMetadata("feat", true, "Big red feature\nRecommended", "", []));
+                                new CommitMessageMetadata("feat", "", true, "Big red feature\nRecommended", "", []));
 
         var result = _target.GetLogLine(@"|\  ", commit);
 
@@ -60,7 +60,7 @@ internal class LoggingGitLogCommitParserIntegrationTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "",
-                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues));
+                                new CommitMessageMetadata("feat", "", true, "Big red feature", "", footerKeyValues));
 
         var result = _target.GetLogLine(@"|\  ", commit);
 
@@ -77,7 +77,7 @@ internal class LoggingGitLogCommitParserIntegrationTests
         var commit = new Commit("commitSha",
                                 ["parent1", "parent2"],
                                 summary, "", "HEAD -> REDACTED_BRANCH, origin/main",
-                                new CommitMessageMetadata("feat", true, "Big red feature", "", footerKeyValues));
+                                new CommitMessageMetadata("feat", "", true, "Big red feature", "", footerKeyValues));
 
         var result = _target.GetLogLine(@"|\  ", commit);
 

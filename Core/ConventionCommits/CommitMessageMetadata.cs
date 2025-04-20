@@ -2,32 +2,26 @@
 
 public class CommitMessageMetadata
 {
-    private readonly Dictionary<string, CommitChangeTypeId> _changeTypeIdLookup = new()
-    {
-        { "feat", CommitChangeTypeId.Feature },
-        { "fix", CommitChangeTypeId.Fix },
-        { "build", CommitChangeTypeId.Build },
-        { "chore", CommitChangeTypeId.Chore },
-        { "ci", CommitChangeTypeId.ContinuousIntegration },
-        { "docs", CommitChangeTypeId.Documentation },
-        { "style", CommitChangeTypeId.Style },
-        { "refactor", CommitChangeTypeId.Refactoring },
-        { "perf", CommitChangeTypeId.Performance },
-        { "test", CommitChangeTypeId.Testing }
-    };
+    private const string FeatureNoun = "feat";
+    private const string FixNoun = "fix";
 
-    public CommitMessageMetadata(string changeType, bool breakingChangeFlagged, string changeDescription, string body,
+    public CommitMessageMetadata(string changeNoun, 
+                                 string changeScope, 
+                                 bool breakingChangeFlagged, 
+                                 string changeDescription, 
+                                 string body,
                                  List<(string key, string value)> footerKeyValues)
     {
-        ChangeType = ToChangeTypeId(changeType.ToLower());
+        ChangeNoun = changeNoun;
+        ChangeScope = changeScope;
         ChangeDescription = changeDescription;
         Body = body;
         FooterKeyValues = footerKeyValues.ToLookup(k => k.key, v => v.value);
 
         var apiChanges = new ApiChanges
         {
-            FunctionalityChange = ChangeType == CommitChangeTypeId.Feature,
-            Fix = ChangeType == CommitChangeTypeId.Fix,
+            FunctionalityChange = FeatureNoun.Equals(changeNoun),
+            Fix = FixNoun.Equals(changeNoun),
             BreakingChange = breakingChangeFlagged ||
                              FooterKeyValues.Contains("BREAKING-CHANGE") ||
                              FooterKeyValues.Contains("BREAKING CHANGE")
@@ -35,7 +29,7 @@ public class CommitMessageMetadata
         ApiChangeFlags = apiChanges;
     }
 
-    public CommitMessageMetadata() : this("", false, "", "", [])
+    public CommitMessageMetadata() : this("", "", false, "", "", [])
     {
     }
 
@@ -43,19 +37,11 @@ public class CommitMessageMetadata
 
     public string Body { get; }
 
+    public string ChangeNoun { get; }
+
+    public string ChangeScope { get; }
+
     public string ChangeDescription { get; }
 
-    public CommitChangeTypeId ChangeType { get; }
-
     public ILookup<string, string> FooterKeyValues { get; }
-
-    private CommitChangeTypeId ToChangeTypeId(string value)
-    {
-        if (_changeTypeIdLookup.TryGetValue(value, out var changeTypeId))
-        {
-            return changeTypeId;
-        }
-
-        return CommitChangeTypeId.None;
-    }
 }
