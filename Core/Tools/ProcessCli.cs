@@ -59,7 +59,7 @@ public sealed class ProcessCli : IProcessCli
             process.StartInfo.WorkingDirectory = WorkingDirectory;
         }
 
-        process.OutputDataReceived += (sender, data) => OnOutputDataReceived(data.Data, standardOut);
+        //process.OutputDataReceived += (sender, data) => OnOutputDataReceived(data.Data, standardOut);
 
         if (errorOut != null)
         {
@@ -67,8 +67,11 @@ public sealed class ProcessCli : IProcessCli
         }
 
         process.Start();
-        process.BeginOutputReadLine();
+
         process.BeginErrorReadLine();
+        standardOut.Write(process.StandardOutput.ReadToEnd());
+        //process.BeginOutputReadLine();
+        //process.BeginErrorReadLine();
 
         var completed = process.WaitForExit(TimeLimitMilliseconds);
         if (completed)
@@ -77,8 +80,7 @@ public sealed class ProcessCli : IProcessCli
             {
                 process.WaitForExit();
             }
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            else
             {
                 // hack! to allow time for standard outputs to be received
                 Thread.Sleep(25);
@@ -102,6 +104,7 @@ public sealed class ProcessCli : IProcessCli
         }
 
         standardOut.Flush();
+        errorOut?.Flush();
 
         return exitCode;
     }
