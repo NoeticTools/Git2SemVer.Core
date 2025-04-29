@@ -40,6 +40,12 @@ public class GitResponseParser : GitLogCommitParserBase, IGitResponseParser
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(response))
+            {
+                _logger.LogError("Unable to parse git --version response: No git response received.");
+                return null;
+            }
+
             var regex = new Regex(@"^git version (?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)((\.(?<metadata>.*?)$)|$|(\s.*$))");
             var match = regex.Match(response.Trim());
             if (!match.Success)
