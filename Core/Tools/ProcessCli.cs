@@ -74,7 +74,7 @@ public sealed class ProcessCli : IProcessCli
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
 
-        Thread.Sleep(10); // >>>
+        Thread.Sleep(25); // >>>
 
         var completed = process.WaitForExit(TimeLimitMilliseconds);
         if (completed)
