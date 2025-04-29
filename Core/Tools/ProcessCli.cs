@@ -158,23 +158,15 @@ public sealed class ProcessCli : IProcessCli
 
         process.BeginErrorReadLine();
 
-        //var standardError = await process.StandardError.ReadToEndAsync();
-        //if (standardError == null)
-        //{
-        //    Logger.LogError($"Unable to read standard error from command '{application} {commandLineArguments}'.");
-        //}
-        ////if (errorOut != null)
-        //{
-        //    await errorOut.WriteAsync(standardError);
-        //}
-
         var standardOutput = await process.StandardOutput.ReadToEndAsync();
         if (standardOutput == null)
         {
             Logger.LogError($"Unable to read standard output from command '{application} {commandLineArguments}'.");
         }
-
-        await standardOut.WriteAsync(standardOutput);
+        else
+        {
+            await standardOut.WriteAsync(standardOutput);
+        }
 
         var completed = process.WaitForExit(TimeLimitMilliseconds);
         if (completed)
