@@ -9,4 +9,7 @@ public interface IGitProcessCli
     /// </summary>
     int Run(string commandLineArguments,
             TextWriter standardOut, TextWriter errorOut);
+
+    Task<int> RunAsync(string commandLineArguments,
+                       TextWriter standardOut, TextWriter errorOut);
 }

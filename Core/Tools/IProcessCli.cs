@@ -24,4 +24,12 @@ public interface IProcessCli
     /// </summary>
     int Run(string application, string commandLineArguments,
             TextWriter standardOut, TextWriter? errorOut = null);
+
+    Task<(int returnCode, string stdOutput)> RunAsync(string application, string commandLineArguments);
+
+    /// <summary>
+    ///     Run dotnet cli with provided command line arguments.
+    /// </summary>
+    Task<int> RunAsync(string application, string commandLineArguments,
+                       TextWriter standardOut, TextWriter? errorOut = null);
 }

@@ -83,4 +83,6 @@ public interface IGitTool
     ///     </code>
     /// </remarks>
     IReadOnlyList<Commit> GetCommits(Action<IGitRevisionsBuilder> rangeBuilder);
+
+    Task<string> RunAsync(string arguments);
 }

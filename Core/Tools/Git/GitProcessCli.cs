@@ -26,6 +26,12 @@ public class GitProcessCli : IGitProcessCli
         set => _inner.WorkingDirectory = value;
     }
 
+    public async Task<int> RunAsync(string commandLineArguments,
+                   TextWriter standardOut, TextWriter errorOut)
+    {
+        return await _inner.RunAsync(_gitPath, commandLineArguments, standardOut, errorOut);
+    }
+
     public int Run(string commandLineArguments,
                    TextWriter standardOut, TextWriter errorOut)
     {
