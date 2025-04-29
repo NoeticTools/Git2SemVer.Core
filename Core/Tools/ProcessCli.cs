@@ -60,7 +60,7 @@ public sealed class ProcessCli : IProcessCli
             process.StartInfo.WorkingDirectory = WorkingDirectory;
         }
 
-        process.OutputDataReceived += (sender, data) => OnOutputDataReceived(data.Data, standardOut);
+        //process.OutputDataReceived += (sender, data) => OnOutputDataReceived(data.Data, standardOut);
 
         if (errorOut != null)
         {
@@ -69,12 +69,12 @@ public sealed class ProcessCli : IProcessCli
 
         process.Start();
 
-        //process.BeginErrorReadLine();
-        //standardOut.Write(process.StandardOutput.ReadToEnd());
-        process.BeginOutputReadLine();
         process.BeginErrorReadLine();
+        standardOut.Write(process.StandardOutput.ReadToEnd());
+        //process.BeginOutputReadLine();
+        //process.BeginErrorReadLine();
 
-        Thread.Sleep(100); // >>>
+        Thread.Sleep(10); // >>>
 
         var completed = process.WaitForExit(TimeLimitMilliseconds);
         if (completed)
