@@ -17,7 +17,7 @@ namespace NoeticTools.Git2SemVer.Core.Tools.Git;
 public class GitTool : IGitTool
 {
     private const int DefaultTakeLimit = 300;
-    //private readonly SemVersion _assumedLowestGitVersion = new(2, 34, 1);
+    private readonly SemVersion _assumedLowestGitVersion = new(2, 34, 1);
     private readonly IGitResponseParser _gitResponseParser;
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
@@ -48,12 +48,6 @@ public class GitTool : IGitTool
         _gitResponseParser = new GitResponseParser(cache, new ConventionalCommitsParser(), logger);
         _logger = logger;
 
-        //var gitVersion = GetVersion();
-        //if (gitVersion != null &&
-        //    gitVersion.ComparePrecedenceTo(_assumedLowestGitVersion) < 0)
-        //{
-        //    _logger.LogError($"Git must be version {_assumedLowestGitVersion} or later.");
-        //}
 
         //Initialise();
     }
@@ -65,6 +59,13 @@ public class GitTool : IGitTool
             return;
         }
         _initialised = true;
+
+        var gitVersion = GetVersion();
+        if (gitVersion != null &&
+            gitVersion.ComparePrecedenceTo(_assumedLowestGitVersion) < 0)
+        {
+            _logger.LogError($"Git must be version {_assumedLowestGitVersion} or later.");
+        }
 
         var task = Task.Run(GetCommitsAsync);
         //task.Wait();
