@@ -139,7 +139,12 @@ public class GitTool : IGitTool
             _logger.LogError($"Git command '{arguments}' returned error: {errorOutput}");
         }
 
-        return outWriter.ToString();
+        var stdOutput = outWriter.ToString();
+        if (string.IsNullOrWhiteSpace(stdOutput))
+        {
+            _logger.LogWarning("No response from git command.");
+        }
+        return stdOutput;
     }
 
     private string GetBranchName()

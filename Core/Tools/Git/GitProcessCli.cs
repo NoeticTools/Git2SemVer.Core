@@ -16,7 +16,8 @@ public class GitProcessCli : IGitProcessCli
 
         var teamCityGitPath = Environment.GetEnvironmentVariable("TEAMCITY_GIT_PATH") ?? "";
         _gitPath = teamCityGitPath.Length > 0 ? teamCityGitPath : "git";
-        logger.LogTrace($"Using git path: '{_gitPath}'");
+        //logger.LogTrace($"Using git path: '{_gitPath}'");
+        logger.LogInfo($"Using git path: '{_gitPath}'");
     }
 
     public string WorkingDirectory
