@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Injectio.Attributes;
+﻿using Injectio.Attributes;
 using NoeticTools.Git2SemVer.Core.ConventionCommits;
 using NoeticTools.Git2SemVer.Core.Exceptions;
 using NoeticTools.Git2SemVer.Core.Logging;
@@ -18,71 +17,26 @@ public class GitTool : IGitTool
 {
     private const int DefaultTakeLimit = 300;
     private readonly SemVersion _assumedLowestGitVersion = new(2, 34, 1);
+    private readonly ICommitsCache? _cache;
     private readonly IGitResponseParser _gitResponseParser;
     private readonly IGitProcessCli _inner;
     private readonly ILogger _logger;
     private int _commitsReadCountFromHead;
     private Commit? _head;
-    private readonly ICommitsCache? _cache;
-    private bool _initialised = false;
+    private bool _initialised;
 
     public GitTool(ILogger logger)
-        : this(new CommitsCache(), new GitProcessCli(logger), logger)
     {
-    }
-
-    //public GitTool(ICommitsCache cache, ILogger logger)
-    //    : this(cache, new GitProcessCli(logger), logger)
-    //{
-    //}
-
-    public GitTool(ICommitsCache cache, IGitProcessCli inner, ILogger logger)
-    //    : this(cache, inner, new GitResponseParser(cache, new ConventionalCommitsParser(), logger), logger)
-    //{
-    //}
-
-    //public GitTool(ICommitsCache cache, IGitProcessCli inner, IGitResponseParser gitResponseParser, ILogger logger)
-    {
-        _cache = cache;
-        _inner = inner;
-        _gitResponseParser = new GitResponseParser(cache, new ConventionalCommitsParser(), logger);
+        _cache = new CommitsCache();
+        _inner = new GitProcessCli(logger);
+        _gitResponseParser = new GitResponseParser(_cache, new ConventionalCommitsParser(), logger);
         _logger = logger;
-
-
-        //Initialise();
     }
 
-    private void Initialise()
+    public string WorkingDirectory
     {
-        if (_initialised)
-        {
-            return;
-        }
-        _initialised = true;
-
-        var gitVersion = GetVersion();
-        if (gitVersion != null &&
-            gitVersion.ComparePrecedenceTo(_assumedLowestGitVersion) < 0)
-        {
-            _logger.LogError($"Git must be version {_assumedLowestGitVersion} or later.");
-        }
-
-        var task = Task.Run(GetCommitsAsync);
-        //task.Wait();
-        //if (task.Status != TaskStatus.RanToCompletion)
-        //{
-        //    _logger.LogError("Unable to initialise git tool.");
-        //    return;
-        //}
-
-        var commits = task.Result;
-        if (commits.Count == 0)
-        {
-            throw new Git2SemVerGitOperationException("Unable to get commits. Either new repository and no commits or problem accessing git.");
-        }
-
-        Head = commits[0];
-        Cache.Add(commits.ToArray());
+        get => _inner.WorkingDirectory;
+        set => _inner.WorkingDirectory = value;
     }
 
     public string BranchName => GetBranchName();
@@ -91,10 +45,11 @@ public class GitTool : IGitTool
     {
         get
         {
-            if (!_initialised)
+            if (_cache == null)
             {
-                Initialise();
+                PrimeCache();
             }
+
             return _cache!;
         }
     }
@@ -105,10 +60,11 @@ public class GitTool : IGitTool
     {
         get
         {
-            if (!_initialised)
+            if (_head == null)
             {
-                Initialise();
+                PrimeCache();
             }
+
             return _head!;
         }
         private set => _head = value;
@@ -116,21 +72,11 @@ public class GitTool : IGitTool
 
     public Commit Get(CommitId commitId)
     {
-        if (!_initialised)
-        {
-            Initialise();
-        }
-
         return Get(commitId.Sha);
     }
 
     public Commit Get(string commitSha)
     {
-        if (!_initialised)
-        {
-            Initialise();
-        }
-
         if (Cache.TryGet(commitSha, out var existingCommit))
         {
             return existingCommit;
@@ -148,32 +94,47 @@ public class GitTool : IGitTool
 
     public IReadOnlyList<Commit> GetCommits(string commitSha, int? takeCount = null)
     {
-        if (!_initialised)
-        {
-            Initialise();
-        }
-
         return GetCommits(x => x.ReachableFrom(commitSha)
                                 .Take(takeCount ?? DefaultTakeLimit));
     }
 
-    public async Task<IReadOnlyList<Commit>> GetCommitsAsync(int skipCount, int takeCount)
-    {
-        return await GetCommitsAsync(x => x.ReachableFromHead()
-                                .Skip(skipCount)
-                                .Take(takeCount));
-    }
-
     public IReadOnlyList<Commit> GetCommits(int skipCount, int takeCount)
     {
-        if (!_initialised)
-        {
-            Initialise();
-        }
-
-        return GetCommits(x => x.ReachableFromHead()
+        var commits = GetCommits(x => x.ReachableFromHead()
                                 .Skip(skipCount)
                                 .Take(takeCount));
+        if (skipCount == 0)
+        {
+            _head = commits[0];
+        }
+
+        return commits;
+    }
+
+    public IReadOnlyList<Commit> GetCommits(Action<IGitRevisionsBuilder> rangeBuilderAction)
+    {
+        var rangeBuilder = new GitRevisionsBuilder();
+        rangeBuilderAction(rangeBuilder);
+        return GetCommitsFromGitLog(rangeBuilder.GetArgs());
+    }
+
+    public async Task<IReadOnlyList<Commit>> GetCommitsAsync(string commitSha, int? takeCount = null)
+    {
+        return await GetCommitsAsync(x => x.ReachableFrom(commitSha)
+                                           .Take(takeCount ?? DefaultTakeLimit));
+    }
+
+    public async Task<IReadOnlyList<Commit>> GetCommitsAsync(int skipCount, int takeCount)
+    {
+        var commits = await GetCommitsAsync(x => x.ReachableFromHead()
+                                           .Skip(skipCount)
+                                           .Take(takeCount));
+        if (skipCount == 0)
+        {
+            _head = commits[0];
+        }
+
+        return commits;
     }
 
     public async Task<IReadOnlyList<Commit>> GetCommitsAsync(Action<IGitRevisionsBuilder> rangeBuilderAction)
@@ -183,34 +144,27 @@ public class GitTool : IGitTool
         return await GetCommitsFromGitLogAsync(rangeBuilder.GetArgs());
     }
 
-    public IReadOnlyList<Commit> GetCommits(Action<IGitRevisionsBuilder> rangeBuilderAction)
+    public IReadOnlyList<Commit> GetContributingCommits(CommitId commit, CommitId prior)
     {
-        if (!_initialised)
-        {
-            Initialise();
-        }
-
-        var rangeBuilder = new GitRevisionsBuilder();
-        rangeBuilderAction(rangeBuilder);
-        return GetCommitsFromGitLog(rangeBuilder.GetArgs());
+        return GetCommits(x => x.ReachableFrom(commit)
+                                .NotReachableFrom(prior));
     }
 
-    public IReadOnlyList<Commit> GetContributingCommits(CommitId head, CommitId prior)
+    public async Task<IReadOnlyList<Commit>> GetContributingCommitsAsync(CommitId commit, CommitId prior)
     {
-        if (!_initialised)
-        {
-            Initialise();
-        }
+        return await GetCommitsAsync(x => x.ReachableFrom(commit)
+                                           .NotReachableFrom(prior));
+    }
 
-        return GetCommits(x => x.ReachableFrom(head)
-                                .NotReachableFrom(prior));
+    public string Run(string arguments)
+    {
+        return Task.Run(() => RunAsync(arguments)).Result;
     }
 
     public async Task<string> RunAsync(string arguments)
     {
         var outWriter = new StringWriter();
         var errorWriter = new StringWriter();
-
         var returnCode = await _inner.RunAsync(arguments, outWriter, errorWriter);
 
         if (returnCode != 0)
@@ -229,46 +183,18 @@ public class GitTool : IGitTool
         {
             _logger.LogWarning("No response from git command.");
         }
+
         return stdOutput;
     }
 
-    public string Run(string arguments)
+    private string GetBranchName()
     {
-        var outWriter = new StringWriter();
-        var errorWriter = new StringWriter();
-
-        var returnCode = _inner.Run(arguments, outWriter, errorWriter);
-
-        if (returnCode != 0)
-        {
-            throw new Git2SemVerGitOperationException($"Command 'git {arguments}' returned non-zero return code: {returnCode}");
-        }
-
-        var errorOutput = errorWriter.ToString();
-        if (!string.IsNullOrWhiteSpace(errorOutput))
-        {
-            _logger.LogError($"Git command '{arguments}' returned error: {errorOutput}");
-        }
-
-        var stdOutput = outWriter.ToString();
-        if (string.IsNullOrWhiteSpace(stdOutput))
-        {
-            _logger.LogWarning("No response from git command.");
-        }
-        return stdOutput;
+        return Task.Run(GetBranchNameAsync).Result;
     }
 
     private async Task<string> GetBranchNameAsync()
     {
         var stdOutput = await RunAsync("status -b -s --porcelain");
-
-        return _gitResponseParser.ParseStatusResponseBranchName(stdOutput);
-    }
-
-    private string GetBranchName()
-    {
-        var stdOutput = Run("status -b -s --porcelain");
-
         return _gitResponseParser.ParseStatusResponseBranchName(stdOutput);
     }
 
@@ -278,18 +204,21 @@ public class GitTool : IGitTool
     private async Task<IReadOnlyList<Commit>> GetCommitsAsync()
     {
         var commits = await GetCommitsAsync(_commitsReadCountFromHead, DefaultTakeLimit);
+        if (_commitsReadCountFromHead == 0)
+        {
+            if (commits.Count == 0)
+            {
+                throw new Git2SemVerGitOperationException("Unable to get commits. Either new repository and no commits or problem accessing git.");
+            }
+            _head = commits[0];
+        }
         _commitsReadCountFromHead += commits.Count;
         return commits;
     }
 
-    /// <summary>
-    ///     Get next set of commits from head.
-    /// </summary>
-    private IReadOnlyList<Commit> GetCommits()
+    private IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments = "", IGitResponseParser? customParser = null)
     {
-        var commits = GetCommits(_commitsReadCountFromHead, DefaultTakeLimit);
-        _commitsReadCountFromHead += commits.Count;
-        return commits;
+        return Task.Run(() => GetCommitsFromGitLogAsync(scopeArguments, customParser)).Result;
     }
 
     private async Task<IReadOnlyList<Commit>> GetCommitsFromGitLogAsync(string scopeArguments = "", IGitResponseParser? customParser = null)
@@ -302,19 +231,14 @@ public class GitTool : IGitTool
         return commits;
     }
 
-    private IReadOnlyList<Commit> GetCommitsFromGitLog(string scopeArguments = "", IGitResponseParser? customParser = null)
-    {
-        var parser = customParser ?? _gitResponseParser;
-        var stdOutput = Run($"log {parser.FormatArgs} {scopeArguments}");
-        var lines = stdOutput.Split(parser.RecordSeparator);
-        var commits = lines.Select(line => parser.ParseGitLogLine(line)).OfType<Commit>().ToList();
-        _logger.LogTrace("Read {0} commits from git history.", commits.Count);
-        return commits;
-    }
-
     private bool GetHasLocalChanges()
     {
-        var stdOutput = Run("status -u -s --porcelain");
+        return Task.Run(GetHasLocalChangesAsync).Result;
+    }
+
+    private async Task<bool> GetHasLocalChangesAsync()
+    {
+        var stdOutput = await RunAsync("status -u -s --porcelain");
         return stdOutput.Length > 0;
     }
 
@@ -323,14 +247,7 @@ public class GitTool : IGitTool
     /// </summary>
     private SemVersion? GetVersion()
     {
-        var process = new ProcessCli(_logger);
-        var (returnCode, response) = process.Run("git", "--version");
-        if (returnCode != 0)
-        {
-            _logger.LogError($"Unable to read git version. Return code was '{returnCode}'. Git may not be executable from current directory.");
-        }
-
-        return _gitResponseParser.ParseGitVersionResponse(response);
+        return Task.Run(GetVersionAsync).Result;
     }
 
     /// <summary>
@@ -346,5 +263,30 @@ public class GitTool : IGitTool
         }
 
         return _gitResponseParser.ParseGitVersionResponse(response);
+    }
+
+    private void PrimeCache()
+    {
+        Task.Run(PrimeCacheAsync).Wait();
+    }
+
+    private async Task PrimeCacheAsync()
+    {
+        if (_initialised)
+        {
+            return;
+        }
+
+        _initialised = true;
+
+        var gitVersion = await GetVersionAsync();
+        if (gitVersion != null &&
+            gitVersion.ComparePrecedenceTo(_assumedLowestGitVersion) < 0)
+        {
+            _logger.LogError($"Git version {_assumedLowestGitVersion} or later is required.");
+        }
+
+        var commits = await GetCommitsAsync();
+        Cache.Add(commits.ToArray());
     }
 }

@@ -50,7 +50,7 @@ public class GitToolIntegrationTests
     {
         var commit = GetCommitAtIndex(_target, 10);
 
-        var contributingCommits = _target.GetContributingCommits(head: _target.Head.CommitId, prior: commit.CommitId);
+        var contributingCommits = _target.GetContributingCommits(commit: _target.Head.CommitId, prior: commit.CommitId);
 
         Assert.That(contributingCommits, Has.Count.AtLeast(10));
     }
@@ -62,6 +62,18 @@ public class GitToolIntegrationTests
         var commit = GetCommitAtIndex(_target, 5);
 
         var commits = _target.GetCommits(commit.CommitId.Sha, count);
+
+        Assert.That(commits, Has.Count.EqualTo(count));
+        Assert.That(commits[0], Is.SameAs(commit));
+    }
+
+    [TestCase(3)]
+    [TestCase(1)]
+    public async Task GetCommitsAsyncFromShaTest(int count)
+    {
+        var commit = GetCommitAtIndex(_target, 5);
+
+        var commits = await _target.GetCommitsAsync(commit.CommitId.Sha, count);
 
         Assert.That(commits, Has.Count.EqualTo(count));
         Assert.That(commits[0], Is.SameAs(commit));
