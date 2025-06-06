@@ -162,7 +162,7 @@ object DeployLocalTeamCityPackage : BuildType({
             name = "Push NuGet package"
             id = "Publish2"
             packages = "NoeticTools.*.nupkg"
-            serverUrl = "http://10.1.10.78:8111/httpAuth/app/nuget/feed/NoeticTools/TeamCity_NoeticTools/v3/index.json"
+            serverUrl = "http://10.1.10.78:8111/httpAuth/app/nuget/feed/NoeticTools/TeamCity/v3/index.json"
             apiKey = "credentialsJSON:bd18b974-1188-423d-9efd-8836806c3669"
         }
     }
